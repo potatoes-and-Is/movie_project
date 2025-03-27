@@ -6,4 +6,10 @@
         *
         FROM users
     </query>
+
+    <query id="addUser">
+        INSERT INTO users (user_nickname, user_password, user_status, user_created_at)
+        VALUES (?, ?, ?, ?)
+    </query>
+
 </queries>

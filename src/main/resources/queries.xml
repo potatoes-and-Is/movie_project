@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 테스트 용 쿼리-->
+<queries>
+    <query id="getAllUsers">
+        SELECT
+        *
+        FROM users
+    </query>
+</queries>

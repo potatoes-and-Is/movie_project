@@ -6,4 +6,13 @@
         *
         FROM users
     </query>
+
+    <query id="getSchedulesBymovieId">
+        SELECT
+        schedules.schedule_id,
+        schedules.schedule_start_time
+        FROM schedules
+        JOIN movie_infos ON schedules.schedule_id = movie_infos.schedule_id
+        WHERE movie_infos.movie_id = ?
+    </query>
 </queries>

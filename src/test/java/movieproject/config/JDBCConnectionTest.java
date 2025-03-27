@@ -9,7 +9,7 @@ import org.movieproject.config.JDBCConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class JDBCConnectionTEst {
+public class JDBCConnectionTest {
 
     @BeforeAll
     static void setUp() {

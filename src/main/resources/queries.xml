@@ -6,4 +6,39 @@
         *
         FROM users
     </query>
+
+    <query id = "cancelTicket">
+        UPDATE
+            tickets
+        SET
+            cancel_status = 'Y'
+        WHERE ticket_id = ?
+    </query>
+
+    <query id = "deleteReservation">
+        DELETE
+        FROM reservations
+        WHERE reservation_id = ?
+    </query>
+
+    <query id = "getTicketsById">
+        SELECT
+            *
+        FROM tickets
+        WHERE ticket_id = ?
+    </query>
+
+    <query id = "getTicketsByUserId">
+        SELECT
+            *
+        FROM tickets
+        WHERE user_id = ?
+    </query>
+
+    <query id = "getReservationsById">
+        SELECT
+            *
+        FROM reservations
+        WHERE reservation_id = ?
+    </query>
 </queries>

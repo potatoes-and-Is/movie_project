@@ -1,7 +1,14 @@
 package org.movieproject;
 
+import org.movieproject.config.JDBCConnection;
+
+import java.sql.Connection;
+import java.util.Scanner;
+
 public class Application {
     public static void main(String[] args) {
-        System.out.println("프로젝트 환경 테스트");
+        Connection connection = JDBCConnection.getConnection();
+        Scanner scanner = new Scanner(System.in);
+
     }
 }

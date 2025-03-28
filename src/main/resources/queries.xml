@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 테스트 용 쿼리-->
 <queries>
-    <query id="getAllUsers">
+    <query id="getFindUser">
+        SELECT * from users
+        where users.user_id;
+    </query>
+
+    <query id="getTicketsByUserId">
+
+    </query>
+
+    <query id="getTicketById">
         SELECT
-        *
-        FROM users
+        "T.ticket_id AS 티켓 아이디, " +
+        "U.user_nickname AS 사용자, " +
+        "M.movie_title AS 영화제목, " +
+        "S.schedule_start_time AS 상영시간, " +
+        "SE.seat_number AS 좌석번호 " +
+        "FROM Tickets T " +
+        "JOIN Users U ON T.user_id = U.user_id " +
+        "JOIN Cinema_Infos CI ON T.cinema_info_id = CI.cinema_info_id" +
+        "JOIN Schedules S ON CI.schedule_id = S.schedule_id" +
+        "JOIN Movies M ON s.movie_id = M.movie_id " +
+        "JOIN Seats SE ON CI.seat_id = SE.seat_id " +
+        "WHERE T.user_id = ?";
     </query>
 </queries>

@@ -17,7 +17,6 @@ public class Application {
             System.out.println("\n===== POI MOIVE SYSTEM =====");
             System.out.println("1. 회원 가입");
             System.out.println("2. 로그인");
-            System.out.println("3. 사용자(User) 관리");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -25,9 +24,8 @@ public class Application {
             scanner.nextLine(); // 개행 문자 처리
 
             switch (choice) {
-                case 1 -> startUserManagement(connection);
-                case 2 -> LogInMovieMenuManagement(connection);
-                case 3 -> startUserManagement(connection);
+                case 1 -> signUpUserManagement(connection);
+                case 2 -> logInMovieMenuManagement(connection);
                 case 0 -> {
                     connection.close();
                     System.out.println("🚀 프로그램을 종료합니다.");
@@ -47,10 +45,18 @@ public class Application {
         userView.showMenu();
     }
 
-    private static void LogInMovieMenuManagement(Connection connection) {
+    private static void logInMovieMenuManagement(Connection connection) {
         MovieView movieView = new MovieView(connection);
-        movieView.loginMenu();
+        movieView.loginUser();
     }
+
+    private static void signUpUserManagement(Connection connection){
+        MovieView movieView = new MovieView(connection);
+        movieView.signUp();
+    }
+
+
+
 
 
 

@@ -79,12 +79,11 @@ public class UsersService {
     public Users login(String userNickname, String userPassword) {
         Users users = usersDao.login(userNickname, userPassword);
         if (users == null){
-            System.out.println("❌ 로그인 실패: 닉네임 또는 비밀번호가 올바르지 않습니다.");
+            System.out.println("로그인 실패: 닉네임 또는 비밀번호가 올바르지 않습니다.");
         }
 
-        return users; // DAO로 위임
+        return users; // DAO로
     }
-
 
 
 }

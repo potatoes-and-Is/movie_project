@@ -30,7 +30,8 @@ public class UsersView {
      */
     public void showMenu() {
         while (true) {
-            System.out.println("\n===== 사용자 관리 시스템 =====");
+            System.out.println("\n관리자 전용 메뉴(root)");
+            System.out.println("===== 사용자 관리 시스템 =====");
             System.out.println("1. 전체 사용자 조회");
             System.out.println("2. 사용자 등록");
             System.out.println("3. 사용자 단일 조회 (ID)");
@@ -45,7 +46,7 @@ public class UsersView {
                 case 2 -> registerUser();
                 case 3 -> getUserById();
                 case 0 -> {
-                    System.out.println("프로그램을 종료합니다.");
+                    System.out.println("관리자 프로그램을 종료합니다.");
                     return;
                 }
                 default -> System.out.println("잘못된 입력입니다. 다시 선택하세요.");
@@ -116,8 +117,5 @@ public class UsersView {
             System.out.println(e.getMessage());
         }
     }
-
-
-
 
 }

@@ -38,6 +38,25 @@ public class UsersService {
     }
 
     /**
+     * 📌 단일 사용자 조회
+     *
+     * 이 메서드는 주어진 사용자 ID를 기반으로 데이터베이스에서 사용자를 조회합니다.
+     *
+     * @param userId 사용자의 고유 식별자(ID)를 전달 받는 매개변수
+     * @return 조회된 사용자 객체를 반환합니다. 사용자가 존재하지 않을 경우, 예외가 발생합니다.
+     * @throws IllegalArgumentException 해당 ID의 사용자가 존재하지 않을 경우 발생합니다.
+     * @throws SQLException 데이터베이스 접근 중 오류가 발생할 경우 발생합니다.
+     */
+    public Users getUserById(int userId) throws SQLException {
+        Users users = usersDao.getUserById(userId);
+
+        if (users == null) {
+            throw new IllegalArgumentException("해당 ID의 사용자를 찾을 수 없습니다.");
+        }
+        return users;
+    }
+
+    /**
      * 📌 사용자 등록 (CREATE)
      * - 이메일 중복 체크 후 추가
      * @param users 사용자 객체를 전달받음

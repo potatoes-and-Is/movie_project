@@ -32,7 +32,7 @@ public class UsersView {
         while (true) {
             System.out.println("\n===== 사용자 관리 시스템 =====");
             System.out.println("1. 전체 사용자 조회");
-            System.out.println("2. 사용자 등록 (회원 가입)");
+            System.out.println("2. 사용자 등록");
             System.out.println("3. 사용자 단일 조회 (ID)");
             System.out.println("0. 종료");
             System.out.print("선택하세요: ");

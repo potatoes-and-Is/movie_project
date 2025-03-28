@@ -67,7 +67,7 @@ public class Users {
     @Override
     public String toString() {
         return "회원정보{" +
-                "ID = " + userId +
+                "회원번호 ID = " + userId +
                 ", 닉네임 = '" + userNickname + '\'' +
                 ", 비밀번호 = '" + userPassword + '\'' +
                 ", 활성상태 = '" + userStatus + '\'' +

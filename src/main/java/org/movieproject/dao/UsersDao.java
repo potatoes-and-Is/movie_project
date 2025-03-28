@@ -73,9 +73,6 @@ public class UsersDao {
         return users;
     }
 
-
-
-
     // 📌 사용자 추가 (CREATE)
     public boolean addUser(Users users) {
         String query = QueryUtil.getQuery("addUser");
@@ -96,6 +93,31 @@ public class UsersDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    public Users login(String userNickname, String userPassword){
+        String query = QueryUtil.getQuery("loginUser");
+        Users users = null;
+        try (PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, userNickname);
+            ps.setString(2, userPassword);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                users = new Users(
+                        rs.getInt("user_id"),
+                        rs.getString("user_nickname"),
+                        rs.getString("user_password"),
+                        rs.getString("user_status"),
+                        rs.getTimestamp("user_created_at").toLocalDateTime()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
 

@@ -1,6 +1,7 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
+import org.movieproject.view.MovieView;
 import org.movieproject.view.UsersView;
 
 import java.sql.Connection;
@@ -13,8 +14,10 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n===== LMS 관리 시스템 =====");
-            System.out.println("1. 사용자(User) 관리");
+            System.out.println("\n===== POI MOIVE SYSTEM =====");
+            System.out.println("1. 회원 가입");
+            System.out.println("2. 로그인");
+            System.out.println("3. 사용자(User) 관리");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -23,6 +26,8 @@ public class Application {
 
             switch (choice) {
                 case 1 -> startUserManagement(connection);
+                case 2 -> LogInMovieMenuManagement(connection);
+                case 3 -> startUserManagement(connection);
                 case 0 -> {
                     connection.close();
                     System.out.println("🚀 프로그램을 종료합니다.");
@@ -41,5 +46,16 @@ public class Application {
         UsersView userView = new UsersView(connection);
         userView.showMenu();
     }
+
+    private static void LogInMovieMenuManagement(Connection connection) {
+        MovieView movieView = new MovieView(connection);
+        movieView.loginMenu();
+    }
+
+
+
+
+
+
 
 }

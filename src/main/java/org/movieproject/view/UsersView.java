@@ -30,9 +30,11 @@ public class UsersView {
      */
     public void showMenu() {
         while (true) {
-            System.out.println("\n===== 사용자 관리 시스템 =====");
+            System.out.println("\n관리자 전용 메뉴(root)");
+            System.out.println("===== 사용자 관리 시스템 =====");
             System.out.println("1. 전체 사용자 조회");
-            System.out.println("2. 사용자 등록 (회원 가입)");
+            System.out.println("2. 사용자 등록");
+            System.out.println("3. 사용자 단일 조회 (ID)");
             System.out.println("0. 종료");
             System.out.print("선택하세요: ");
 
@@ -42,8 +44,9 @@ public class UsersView {
             switch (choice) {
                 case 1 -> getAllUsers();
                 case 2 -> registerUser();
+                case 3 -> getUserById();
                 case 0 -> {
-                    System.out.println("프로그램을 종료합니다.");
+                    System.out.println("관리자 프로그램을 종료합니다.");
                     return;
                 }
                 default -> System.out.println("잘못된 입력입니다. 다시 선택하세요.");
@@ -71,6 +74,26 @@ public class UsersView {
     }
 
     /**
+     * 📌 단일 사용자 조회
+     * - 사용자 ID를 입력받아 해당 사용자의 정보를 출력
+     */
+    private void getUserById() {
+        System.out.print("조회할 사용자 ID를 입력하세요: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine(); // 개행 문자 처리
+
+        try {
+            Users users = usersService.getUserById(userId);
+            System.out.println("\n===== 사용자 정보 =====");
+            System.out.println(users);
+        } catch (SQLException e) {
+            System.out.println("사용자 조회 중 오류가 발생했습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
      * 📌 사용자 등록 (CREATE)
      * - 사용자 정보를 입력받아 새로운 사용자를 등록
      */
@@ -94,8 +117,5 @@ public class UsersView {
             System.out.println(e.getMessage());
         }
     }
-
-
-
 
 }

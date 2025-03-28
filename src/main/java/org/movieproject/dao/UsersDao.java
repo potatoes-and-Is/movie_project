@@ -15,6 +15,12 @@ public class UsersDao {
         this.connection = connection;
     }
 
+/*  user_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '회원 Id(PK)',
+    user_nickname VARCHAR(30) NOT NULL COMMENT '닉네임',
+    user_password VARCHAR(255) NOT NULL COMMENT '비밀번호',
+    user_status CHAR(1) DEFAULT 'Y' NOT NULL COMMENT '상태',
+    user_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '등록일'*/
+
     /**
      * 📌 모든 사용자 조회 (READ)
      * - XML에서 `getAllUsers` 쿼리를 가져와 실행
@@ -41,6 +47,31 @@ public class UsersDao {
         return users;
     }
 
+    /**
+     * 📌 단일 사용자 조회 (READ)
+     */
+    public Users getUserById(int userId) {
+        String query = QueryUtil.getQuery("getUserById");
+        Users users = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                users = new Users(
+                        rs.getInt("user_id"),
+                        rs.getString("user_nickname"),
+                        rs.getString("user_password"),
+                        rs.getString("user_status"),
+                        rs.getTimestamp("user_created_at").toLocalDateTime()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 
     // 📌 사용자 추가 (CREATE)
     public boolean addUser(Users users) {
@@ -62,6 +93,31 @@ public class UsersDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    public Users login(String userNickname, String userPassword){
+        String query = QueryUtil.getQuery("loginUser");
+        Users users = null;
+        try (PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, userNickname);
+            ps.setString(2, userPassword);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                users = new Users(
+                        rs.getInt("user_id"),
+                        rs.getString("user_nickname"),
+                        rs.getString("user_password"),
+                        rs.getString("user_status"),
+                        rs.getTimestamp("user_created_at").toLocalDateTime()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
 

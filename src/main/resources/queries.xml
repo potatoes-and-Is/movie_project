@@ -6,4 +6,9 @@
         *
         FROM users
     </query>
+
+    <query id="payMovie">
+        INSERT INTO payments (payment_method, payment_price)
+        VALUES (?, 19000)
+    </query>
 </queries>

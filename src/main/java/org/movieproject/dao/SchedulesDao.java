@@ -29,7 +29,8 @@ public class SchedulesDao {
             while(rs.next()) {
                 schedules.add(new Schedules(
                         rs.getInt("schedule_id"),
-                        rs.getString("schedule_start_time")
+                        rs.getString("schedule_start_time"),
+                        rs.getInt("movie_id")
                 ));
             }
         } catch (SQLException e) {

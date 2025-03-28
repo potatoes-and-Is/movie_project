@@ -23,7 +23,8 @@ public class SchedulesView {
             System.out.println("\n===== 보고싶은 영화를 선택해주세요. =====");
             System.out.println("1. 어벤져스");
             System.out.println("2. 라푼젤");
-            System.out.println("3. 뒤로 가기");
+            System.out.println("3. About Time");
+            System.out.println("4. 뒤로 가기");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -31,7 +32,8 @@ public class SchedulesView {
             switch (choice) {
                 case 1 -> getScheduleByMovieId(choice);
                 case 2 -> getScheduleByMovieId(choice);
-                case 3 -> {
+                case 3 -> getScheduleByMovieId(choice);
+                case 4 -> {
                     System.out.println("뒤로 가기");
                     return;
                 }
@@ -42,7 +44,7 @@ public class SchedulesView {
     // 사용자가 입력한 영화번호로 상영시간을 가져오는 메서드
     private void getScheduleByMovieId(int choice) {
         List<Schedules> schedules =  new ArrayList<>();
-        System.out.println("\n===== 해당 영화의 상영 정보입니다. 시간을 선택해주세요. =====");
+        System.out.println("\n===== 해당 영화의 상영 정보입니다. 관람 원하시는 시간을 선택해주세요. =====");
         try{
             schedules = schedulesService.getScheduleByMovieId(choice);
         } catch (SQLException e) {

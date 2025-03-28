@@ -9,10 +9,29 @@
 
     <query id="getSchedulesBymovieId">
         SELECT
-        schedules.schedule_id,
-        schedules.schedule_start_time
-        FROM schedules
-        JOIN movie_infos ON schedules.schedule_id = movie_infos.schedule_id
-        WHERE movie_infos.movie_id = ?
+        s.schedule_id,
+        s.schedule_start_time,
+        s.movie_id
+        FROM schedules s
+        JOIN movies m ON s.movie_id = m.movie_id
+        WHERE s.movie_id = ?
     </query>
+
+    <query id="getAllSeats">
+        SELECT
+        *
+        FROM seats
+    </query>
+
+    <query id="getReservedSeatbyTime">
+        SELECT
+        c.seat_id,
+        se.seat_number
+        FROM tickets t
+        JOIN cinema_infos c ON t.cinema_info_id = c.cinema_info_id
+        JOIN schedules s ON s.schedule_id = c.schedule_id
+        JOIN seats se ON se.seat_id = c.seat_id
+        WHERE t.cancel_status = 'N' AND s.schedule_id = ?
+    </query>
+
 </queries>

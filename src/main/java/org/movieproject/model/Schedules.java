@@ -4,10 +4,12 @@ public class Schedules {
 
     private int scheduleId;
     private String scheduleStartTime;
+    private int movieId;
 
-    public Schedules(int scheduleId, String scheduleStartTime) {
+    public Schedules(int scheduleId, String scheduleStartTime, int movieId) {
         this.scheduleId = scheduleId;
         this.scheduleStartTime = scheduleStartTime;
+        this.movieId = movieId;
     }
 
     public int getScheduleId() {
@@ -26,11 +28,20 @@ public class Schedules {
         this.scheduleStartTime = scheduleStartTime;
     }
 
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
     @Override
     public String toString() {
-        return "Schedule{" +
+        return "Schedules{" +
                 "scheduleId=" + scheduleId +
                 ", scheduleStartTime='" + scheduleStartTime + '\'' +
+                ", movieId=" + movieId +
                 '}';
     }
 }

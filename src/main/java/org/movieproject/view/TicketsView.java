@@ -17,6 +17,7 @@ public class TicketsView {
     private final ReservationsService reservationsService;
     private final Scanner scanner;
     int userId = 1;
+    boolean valid = false;
 
     public TicketsView(Connection connection) {
         this.ticketsService = new TicketsService(connection);
@@ -49,24 +50,34 @@ public class TicketsView {
             System.out.print("선택 : ");
         }
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        valid = false;
+        while (!valid) {
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-        switch (choice) {
-            case 1 -> {
-                if (emptyFlag) {
-                    System.out.println("mainPage로 ~");
-                    return;
-                } else {
-                    ticketById = getTicketById(tickets);
-                    cancelTicket(ticketById);
+                switch (choice) {
+                    case 1 -> {
+                        if (emptyFlag) {
+                            System.out.println("mainPage로 ~");
+                            return;
+                        } else {
+                            ticketById = getTicketById(tickets);
+                            cancelTicket(ticketById);
+                        }
+                    } // 1개의 취소할 예매 내역 가져오기
+                    case 2 -> {
+                        System.out.println("mainPage로 ~");
+                        return;
+                    }
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
-            } // 1개의 취소할 예매 내역 가져오기
-            case 2 -> {
-                System.out.println("mainPage로 ~");
-                return;
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 번호를 선택해주세요.");
+                System.out.print("선택 : ");
+                scanner.nextLine();
             }
-            default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
         }
     }
 
@@ -79,9 +90,9 @@ public class TicketsView {
             try {
                 System.out.print("취소할 번호 : ");
                 ticketLine = scanner.nextLine();
-                ticketIndex = Integer.parseInt(ticketLine);
+                ticketIndex = Integer.parseInt(ticketLine) - 1;
                 // 인덱스 오류 잡기
-                if (ticketIndex > 0 && ticketIndex <= tickets.size()) {
+                if (ticketIndex >= 0 && ticketIndex < tickets.size()) {
                     break;
                 } else {
                     System.out.println("취소할 예매 번호가 없습니다. 다시 입력해주세요.");
@@ -90,10 +101,7 @@ public class TicketsView {
                 System.out.println("잘못 입력하셨습니다. 번호로 입력해주세요.");
             }
         }
-        Tickets ticketById = ticketsService.getTicketsById(tickets.get(ticketIndex - 1).getTicketId());
-        System.out.println(ticketById.getTicketId());
-
-        return ticketById;
+        return ticketsService.getTicketsById(tickets.get(ticketIndex).getTicketId());
     }
 
     public void cancelTicket(Tickets ticketById) throws SQLException {
@@ -104,15 +112,25 @@ public class TicketsView {
         System.out.println("2. 아니오.");
         System.out.print("선택 : ");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch (choice) {
-            case 1 -> {
-                ticketsService.cancelTicket(ticketById);
-                System.out.println("\n예매가 취소되었습니다.");
+        valid = false;
+        while (!valid) {
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1 -> {
+                        ticketsService.cancelTicket(ticketById);
+                        System.out.println("\n예매가 취소되었습니다.");
+                    }
+                    case 2 -> showMyPage(userId);
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
+                }
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 번호를 선택해주세요.");
+                System.out.print("선택 : ");
+                scanner.nextLine();
             }
-            case 2 -> showMyPage(userId);
-            default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
         }
     }
 }

@@ -33,7 +33,6 @@ public class TicketsDAO {
                         rs.getInt("ticket_id"),
                         rs.getString("cancel_status").charAt(0),
                         rs.getInt("user_id"),
-                        rs.getInt("payment_id"),
                         rs.getInt("cinema_info_id")
                 );
             }
@@ -57,7 +56,6 @@ public class TicketsDAO {
                         rs.getInt("ticket_id"),
                         rs.getString("cancel_status").charAt(0),
                         rs.getInt("user_id"),
-                        rs.getInt("payment_id"),
                         rs.getInt("cinema_info_id")
                 ));
             }

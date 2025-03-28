@@ -54,14 +54,4 @@ public class Application {
         MovieView movieView = new MovieView(connection);
         movieView.signUp();
     }
-
-
-
-
-
-
-
-
-
-
 }

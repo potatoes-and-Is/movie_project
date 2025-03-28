@@ -20,13 +20,27 @@ public class MovieView {
         this.connection = connection;
     }
 
-    public void showMenu() {
-        System.out.println("로그인 후 화면입니다. 영화 정보 띄우기");
+    public void showMenu(Users loginUser) {
+        while (true) {
+            System.out.println("/n===== 사용자 메뉴=====");
+            System.out.println("1. 영화 목록 보기");
+            System.out.println("0. 로그아웃");
+            System.out.print("원하시는 메뉴를 선택해주세요 : ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-        // 여기에 기능 메뉴 출력 + 입력 받기 등 구현
+            switch (choice){
+                case 1 -> System.out.println("현재 상영 중인 영화 목록입니다.");
+                case 0 ->{
+                    System.out.println("로그아웃 되었습니다. 메인 메뉴로 돌아갑니다.");
+                    return;
+                }
+                default -> System.out.println("잘못된 입력입니다.");
+            }
+        }
     }
 
-    public void loginUser(){
+    public void loginUser() {
         System.out.print("사용자 닉네임: ");
         String nickname = scanner.nextLine();
         System.out.print("비밀번호: ");
@@ -37,9 +51,9 @@ public class MovieView {
             System.out.println("\n로그인 성공! " + loginUser.getUserNickname() + "님 환영합니다!");
             if ("root".equals(loginUser.getUserNickname())) {
                 UsersView usersView = new UsersView(connection);
-                usersView.showMenu();
+                usersView.showMenu(); // 관리자 메뉴 (여기에도 return 있음)
             } else {
-                showMenu(); // 일반 사용자 메뉴로 이동
+                showMenu(loginUser); // 사용자 메뉴 → 내부에서 로그아웃하면 return
             }
         }
     }

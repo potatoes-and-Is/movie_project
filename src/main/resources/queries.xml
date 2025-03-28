@@ -34,4 +34,9 @@
         WHERE t.cancel_status = 'N' AND s.schedule_id = ?
     </query>
 
+    <query id="insertCinemaInfo">
+        INSERT INTO Cinema_Infos(schedule_id, seat_id)
+        values(?, ?);
+    </query>
+
 </queries>

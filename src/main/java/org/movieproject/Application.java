@@ -1,7 +1,6 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
-import org.movieproject.view.SchedulesView;
 import org.movieproject.view.SeatsView;
 
 import java.sql.Connection;
@@ -17,8 +16,7 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
-            System.out.println("번호 선택");
-            System.out.println("1. 좌석 선택하기");
+            System.out.println("1. 좌석 선택하기 구현");
 
             int choice = scanner.nextInt();
             scanner.nextLine();

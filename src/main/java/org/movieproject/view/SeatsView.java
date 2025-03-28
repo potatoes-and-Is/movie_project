@@ -20,7 +20,7 @@ public class SeatsView {
 
     public void showMenu() {
         while(true){
-            System.out.println("\n===== 관람 원하시는 영화를 선택해주세요. =====");
+            System.out.println("\n===== 관람을 원하시는 영화를 선택해주세요. =====");
             System.out.println("1. 10:00 어벤져스");
             System.out.println("2. 12:00 라푼젤");
             System.out.println("3. 14:00 어벤져스");
@@ -30,6 +30,7 @@ public class SeatsView {
             scanner.nextLine();
 
             showSeats(scheduleChoice);
+            break;
         }
     }
 
@@ -54,6 +55,9 @@ public class SeatsView {
             System.out.println("showSeats:"+e.getMessage());
         }
         System.out.println("\n===== 좌석 번호를 선택해주세요. =====");
+        String seatChoice = scanner.nextLine();
+
+        // 해당 좌석 번호를 매개변수로 받아서 Cinema_info 에 insert시 seat_id 로 전달
     }
 
 }

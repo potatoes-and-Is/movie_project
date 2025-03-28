@@ -15,17 +15,18 @@
         WHERE ticket_id = ?
     </query>
 
-    <query id = "deleteReservation">
-        DELETE
-        FROM reservations
-        WHERE reservation_id = ?
-    </query>
+<!--    <query id = "deleteReservation">-->
+<!--        DELETE-->
+<!--        FROM reservations-->
+<!--        WHERE reservation_id = ?-->
+<!--    </query>-->
 
     <query id = "getTicketsById">
         SELECT
             *
         FROM tickets
         WHERE ticket_id = ?
+        AND cancel_status = 'N'
     </query>
 
     <query id = "getTicketsByUserId">
@@ -33,12 +34,13 @@
             *
         FROM tickets
         WHERE user_id = ?
+        AND cancel_status = 'N'
     </query>
 
-    <query id = "getReservationsById">
-        SELECT
-            *
-        FROM reservations
-        WHERE reservation_id = ?
-    </query>
+<!--    <query id = "getReservationsById">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM reservations-->
+<!--        WHERE reservation_id = ?-->
+<!--    </query>-->
 </queries>

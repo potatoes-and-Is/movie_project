@@ -34,7 +34,7 @@ public class TicketsDAO {
                         rs.getString("cancel_status").charAt(0),
                         rs.getInt("user_id"),
                         rs.getInt("payment_id"),
-                        rs.getInt("reservation_id")
+                        rs.getInt("cinema_info_id")
                 );
             }
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class TicketsDAO {
                         rs.getString("cancel_status").charAt(0),
                         rs.getInt("user_id"),
                         rs.getInt("payment_id"),
-                        rs.getInt("reservation_id")
+                        rs.getInt("cinema_info_id")
                 ));
             }
         } catch (SQLException e) {

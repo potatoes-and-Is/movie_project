@@ -12,7 +12,8 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("예매 내역 보러가기");
+        System.out.println("로그인 성공");
+        System.out.println("1. 예매 내역 확인");
         System.out.print("선택 : ");
 
         int choice = scanner.nextInt();
@@ -31,6 +32,6 @@ public class Application {
     public static void startTicketsManager(Connection connection) throws SQLException {
         TicketsView ticketsView = new TicketsView(connection);
         int userId = 1;
-        ticketsView.cancelTicketList(userId);
+        ticketsView.showMyPage(userId);
     }
 }

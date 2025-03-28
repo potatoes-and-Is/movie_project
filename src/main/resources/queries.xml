@@ -25,4 +25,9 @@
         "JOIN Seats SE ON CI.seat_id = SE.seat_id " +
         "WHERE T.user_id = ?";
     </query>
+
+    <query id="payMovie">
+        INSERT INTO payments (payment_method, payment_price)
+        VALUES (?, 19000)
+    </query>
 </queries>

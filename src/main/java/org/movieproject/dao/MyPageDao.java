@@ -36,7 +36,7 @@ public class MyPageDao {
         String query = QueryUtil.getQuery("getFindUser"); // XML에서 쿼리 로드
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
+g
             while (rs.next()) {
                 users.add(new Users(
                         rs.getString("user_nickname"),

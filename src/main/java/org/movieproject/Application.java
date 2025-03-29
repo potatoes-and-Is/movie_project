@@ -15,6 +15,8 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
+
+
         while(true) {
             System.out.println("1. 좌석 선택하기 구현");
 
@@ -22,14 +24,19 @@ public class Application {
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> showSeats(connection);
+                case 1 -> {
+                    var scheduleChoiceId = selectSeats(connection);
+                }
             }
         }
     }
 
-    private static void showSeats(Connection connection) {
+    private static int selectSeats(Connection connection) {
             SeatsView seatsView = new SeatsView(connection);
-            seatsView.showMenu();
+            var scheduleChoice = seatsView.choiceSchedule();
+            seatsView.showSeats(scheduleChoice);
+            seatsView.selectSeat(scheduleChoice);
+            return scheduleChoice;
     }
 
 }

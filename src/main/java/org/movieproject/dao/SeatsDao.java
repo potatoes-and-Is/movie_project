@@ -42,7 +42,7 @@ public class SeatsDao {
     public List<Seats> getUnavailSeats(int scheduleId) {
 
         List<Seats> seats = new ArrayList<>();
-        String query = QueryUtil.getQuery("getReservedSeatbyTime");
+        String query = QueryUtil.getQuery("getReservedSeatbyScheduleId");
 
         try(PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, scheduleId);
@@ -59,6 +59,47 @@ public class SeatsDao {
             System.out.println("getUnavailSeats: " + e.getMessage());
         }
         return seats;
+    }
+
+    /* seatNumber 로 seat 조회 */
+    public Seats getSeatBySeatNumber(String seatNumber) {
+
+        Seats seat = null;
+        String query = QueryUtil.getQuery("getSeatBySeatNumber");
+
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, seatNumber);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                seat = new Seats(
+                        rs.getInt("seat_id"),
+                        rs.getString("seat_number")
+                );
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("getSeatBySeatNumber: " + e.getMessage());
+        }
+        return seat;
+    }
+
+    /* 좌석 선택 후 cinema_info 테이블 insert */
+    public boolean addCinemaInfo(int scheduleId, int seatId) {
+
+        String query = QueryUtil.getQuery("addCinemaInfo");
+
+        try(PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, scheduleId);
+            ps.setInt(2, seatId);
+
+            int res = ps.executeUpdate();
+            return res > 0;
+
+        } catch (SQLException e) {
+            System.out.println("addCinemaInfo: " + e.getMessage());
+        }
+        return false;
     }
 
 }

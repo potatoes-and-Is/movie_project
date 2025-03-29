@@ -41,4 +41,17 @@ public class SeatsService {
         }
         return availSeats;
     }
+
+    // Cinema_infos 테이블 add
+    public boolean addCinemaInfo(int ScheduleId, String seatNumber) {
+
+        Seats seat = seatsDao.getSeatBySeatNumber(seatNumber);
+
+        if(seat == null) {
+            System.out.println("해당 좌석 번호로 조회된 seat이 없습니다.");
+            return false;
+        }
+        int seatId = seat.getSeatId();
+        return seatsDao.addCinemaInfo(ScheduleId, seatId);
+    }
 }

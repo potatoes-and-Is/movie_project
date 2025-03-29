@@ -7,23 +7,13 @@
         FROM users
     </query>
 
-    <query id="getSchedulesBymovieId">
-        SELECT
-        s.schedule_id,
-        s.schedule_start_time,
-        s.movie_id
-        FROM schedules s
-        JOIN movies m ON s.movie_id = m.movie_id
-        WHERE s.movie_id = ?
-    </query>
-
     <query id="getAllSeats">
         SELECT
         *
         FROM seats
     </query>
 
-    <query id="getReservedSeatbyTime">
+    <query id="getReservedSeatbyScheduleId">
         SELECT
         c.seat_id,
         se.seat_number
@@ -34,9 +24,17 @@
         WHERE t.cancel_status = 'N' AND s.schedule_id = ?
     </query>
 
-    <query id="insertCinemaInfo">
+    <query id="addCinemaInfo">
         INSERT INTO Cinema_Infos(schedule_id, seat_id)
         values(?, ?);
+    </query>
+
+    <query id="getSeatBySeatNumber">
+        SELECT
+        s.seat_id,
+        s.seat_number
+        FROM seats s
+        WHERE s.seat_number = ?;
     </query>
 
 </queries>

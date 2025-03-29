@@ -1,12 +1,28 @@
 package org.movieproject.model;
 
+import java.sql.Timestamp;
+
 public class Tickets {
     private int ticketId;
     private char cancelStatus;
-    private int userId;
-    private int paymentId;
+    private String userNickname;
+    private String movieTitle;
+    private Timestamp scheduleStartTime;
+    private String seatNumber;
+//    private int paymentId;
 
-    public Tickets(int ticketId, String userNickname, String movie_title, int schedule_start_time, int seat_number) {
+    public Tickets(int ticketId, String movieTitle, Timestamp scheduleStartTime) {
+        this.ticketId = ticketId;
+        this.movieTitle = movieTitle;
+        this.scheduleStartTime = scheduleStartTime;
+    }
+
+    public Tickets(int ticketId, String userNickname, String movie_title, Timestamp schedule_start_time, String seat_number) {
+        this.ticketId = ticketId;
+        this.userNickname = userNickname;
+        this.movieTitle = movie_title;
+        this.scheduleStartTime = schedule_start_time;
+        this.seatNumber = seat_number;
     }
 
     public int getTicketId() {
@@ -25,19 +41,43 @@ public class Tickets {
         this.cancelStatus = cancelStatus;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public int getPaymentId() {
-        return paymentId;
+    //    public int getPaymentId() {
+//        return paymentId;
+//    }
+//
+//    public void setPaymentId(int paymentId) {
+//        this.paymentId = paymentId;
+//    }
+
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public String getScheduleStartTime() {
+        return String.valueOf(scheduleStartTime);
+    }
+
+    public void setScheduleStartTime(Timestamp scheduleStartTime) {
+        this.scheduleStartTime = scheduleStartTime;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
     }
 }

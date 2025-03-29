@@ -5,6 +5,7 @@ import org.movieproject.service.MyPageService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MyPageView {
@@ -17,12 +18,7 @@ public class MyPageView {
         this.scanner = new Scanner(System.in);
     }
 
-    /**
-     * 📌 생성자 (Connection 주입)
-     * - 데이터베이스 연결을 `Application`에서 주입받아 사용
-     *
-     */
-
+    /* 테스트용 로그인 */
     public void loginProcess() {
         System.out.print("닉네임을 입력하세요: ");
         String nickname = scanner.nextLine();
@@ -40,13 +36,10 @@ public class MyPageView {
         }
     }
 
-    /**
-     * 📌 역할 조회 메뉴 시작
-     * - 사용자 입력을 받아 역할 정보를 조회
-     */
+     /* 로그인 성공후 예매정보 확인하기와 영화 예매하기를 선택할 수 있음. */
     public void showMenu(int userId) {
         while (true) {
-            System.out.println("1. 예매정보 확인하기"); // 1번 클릭 후 회원의 티켓id 목록+ 영화제목, 상영시간만 나오도록
+            System.out.println("1. 예매정보 확인하기");
             System.out.println("2. 영화 예매하기");
             System.out.print("선택: ");
 
@@ -54,7 +47,7 @@ public class MyPageView {
             scanner.nextLine(); // 버퍼 비우기
 
             switch (choice) {
-                case 1 -> ticketInfoById();
+                case 1 -> showUserTickets(userId);
                 case 2 -> {
                     System.out.println("프로그램을 종료합니다.");
                     return;
@@ -64,23 +57,59 @@ public class MyPageView {
         }
     }
 
-
-    /**
-     * 순서 . 로그인 -> 1. 예매정보 확인하기 클릭하면 -> 회원들의 예매정보에 대한 티켓정보리스트 간단히 보여줌 ->
-     *
-     * y면 삭제 n이면 예매정보 확인하기 창으로
-     */
-    // 티켓 아이디(1번) 입력하면 한 건에 대한 전체 정보창 보여줌 이 창에서 여기서 취소하시겠습니까 정하기
-    private void ticketInfoById() {
-        System.out.print("조회할 티켓 ID를 입력하세요: ");
-        int ticketId = scanner.nextInt();
-        scanner.nextLine(); // 버퍼 비우기
-
+    /* 예매 정보 확인하기 입력 시 회원의 예매 목록 출력 */
+    private void showUserTickets(int userId) {
         try {
-            Tickets ticketInfo = myPageService.getTicketInfoById(ticketId);
-            System.out.println("🎟️ 예매 정보: " + ticketInfo);
+            List<Tickets> tickets = myPageService.getTicketsByUserId(userId);
+
+            if (tickets.isEmpty()) {
+                System.out.println("예매된 티켓이 없습니다.");
+                return;
+            }
+
+            System.out.println("\n예매 내역");
+            for (Tickets ticket : tickets) {
+                System.out.println("티켓 ID: " + ticket.getTicketId() +
+                        ", 영화 제목: " + ticket.getMovieTitle() +
+                        ", 상영 시간: " + ticket.getScheduleStartTime());
+                //      ", 영화 제목: " + ticket.cinemaId.scheduleId.movieId.getmovieTitle() +
+                //      ", 상영 시간: " + ticket.cinemaId.scheduleId.getScheduleTime());
+            }
+            System.out.print("조회할 티켓 ID를 입력하세요: ");
+            int ticketId = scanner.nextInt();
+            scanner.nextLine(); // 버퍼 비우기
+
+            ShowDetailTicket(ticketId); // 티켓 상세 조회
+        } catch (SQLException e) {
+            System.out.println("예매 정보 조회 중 오류 발생: " + e.getMessage());
+        }
+    }
+
+    /* 입력된 티켓 아이디에 대한 상세 정보 출력 */
+    private void ShowDetailTicket(int ticketId) throws SQLException {
+        try {
+            Tickets ticketInfo = myPageService.getTicketById(ticketId);
+
+            System.out.println("\n선택한 티켓 정보");
+            if (ticketInfo != null) {
+                System.out.println("티켓 ID: " + ticketInfo.getTicketId() +
+                        ", 이름: " + ticketInfo.getUserNickname() +
+                        ", 영화 제목: " + ticketInfo.getMovieTitle() +
+                        ", 상영 시간: " + ticketInfo.getScheduleStartTime() +
+                        ", 좌석 번호: " + ticketInfo.getSeatNumber());
+            }
+            System.out.print("예매를 취소하시겠습니까? (y/n): ");
+            String cancelChoice = scanner.nextLine().trim();
+
+            if (cancelChoice.equalsIgnoreCase("y")) {
+                System.out.println("취소 성공");
+            } else {
+                System.out.println("잘못된 입력입니다.");
+            }
+
         } catch (IllegalArgumentException e) {
-            System.out.println("❌ 오류: " + e.getMessage());
+            System.out.println("오류: " + e.getMessage());
         }
     }
 }
+

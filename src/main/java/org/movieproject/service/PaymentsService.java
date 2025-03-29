@@ -1,6 +1,7 @@
-package org.movieproject.model;
+package org.movieproject.service;
 
 import org.movieproject.dao.PaymentsDao;
+import org.movieproject.model.Payments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

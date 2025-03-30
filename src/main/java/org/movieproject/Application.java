@@ -2,17 +2,22 @@ package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.movieproject.view.MovieView;
 import org.movieproject.view.UsersView;
 =======
 import org.movieproject.view.MyPageView;
 >>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
+=======
+import org.movieproject.view.MyPageView;
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Application {
+<<<<<<< HEAD
     public static void main(String[] args) throws SQLException {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
@@ -81,5 +86,17 @@ public class Application {
         int userId = 1;
         myPageView.loginProcess();
 >>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
+=======
+    public static void main(String[] args) {
+        try (Connection connection = JDBCConnection.getConnection();
+             Scanner scanner = new Scanner(System.in)) {
+
+            MyPageView myPageView = new MyPageView(connection);
+            myPageView.loginProcess();
+
+        } catch (SQLException e) {
+            System.err.println("⛔ 데이터베이스 연결 실패: " + e.getMessage());
+        }
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
     }
 }

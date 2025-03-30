@@ -2,11 +2,17 @@ package org.movieproject.view;
 
 import org.movieproject.model.Tickets;
 import org.movieproject.service.MyPageService;
+<<<<<<< HEAD
 import org.movieproject.service.TicketsService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
+=======
+
+import java.sql.Connection;
+import java.sql.SQLException;
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +21,7 @@ public class MyPageView {
     private final Scanner scanner;
     private Connection connection;
 
+<<<<<<< HEAD
     private final TicketsService ticketsService;
     boolean valid = false;
     private int totalUserId;
@@ -22,6 +29,10 @@ public class MyPageView {
     public MyPageView(Connection connection) {
         this.myPageService = new MyPageService(connection);
         this.ticketsService = new TicketsService(connection);
+=======
+    public MyPageView(Connection connection) {
+        this.myPageService = new MyPageService(connection);
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
         this.scanner = new Scanner(System.in);
     }
 
@@ -43,9 +54,14 @@ public class MyPageView {
         }
     }
 
+<<<<<<< HEAD
     /* 로그인 성공후 예매정보 확인하기와 영화 예매하기를 선택할 수 있음. */
     public void showMenu(int userId) {
         totalUserId = userId;
+=======
+     /* 로그인 성공후 예매정보 확인하기와 영화 예매하기를 선택할 수 있음. */
+    public void showMenu(int userId) {
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
         while (true) {
             System.out.println("1. 예매정보 확인하기");
             System.out.println("2. 영화 예매하기");
@@ -71,11 +87,19 @@ public class MyPageView {
             List<Tickets> tickets = myPageService.getTicketsByUserId(userId);
 
             if (tickets.isEmpty()) {
+<<<<<<< HEAD
                 System.out.println("예매된 티켓이 없습니다.\n");
                 return;
             }
 
             System.out.println("\n예매 내역");
+=======
+                System.out.println("예매된 티켓이 없습니다.");
+                return;
+            }
+
+            System.out.println("예매 내역");
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
             for (Tickets ticket : tickets) {
                 System.out.println("티켓 ID: " + ticket.getTicketId() +
                         ", 영화 제목: " + ticket.getMovieTitle() +
@@ -83,7 +107,10 @@ public class MyPageView {
                 //      ", 영화 제목: " + ticket.cinemaId.scheduleId.movieId.getmovieTitle() +
                 //      ", 상영 시간: " + ticket.cinemaId.scheduleId.getScheduleTime());
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
             // 예매취소하기, 뒤로가기
             System.out.println("1. 예매 취소하기");
             System.out.println("2. 뒤로 가기");
@@ -93,11 +120,18 @@ public class MyPageView {
 
             switch (choice) {
                 case 1 -> {
+<<<<<<< HEAD
                     System.out.print("\n취소할 티켓 ID를 입력하세요: ");
                     int ticketId = scanner.nextInt();
                     scanner.nextLine(); // 버퍼 비우기
                     ShowDetailTicket(ticketId);
                     showMenu(userId);
+=======
+                    System.out.print("취소할 티켓 ID를 입력하세요: ");
+                    int ticketId = scanner.nextInt();
+                    scanner.nextLine(); // 버퍼 비우기
+                    ShowDetailTicket(ticketId);
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
                 }
                 case 2 -> {
                     System.out.println("뒤로 가기.");
@@ -111,6 +145,7 @@ public class MyPageView {
 
     /* 입력된 티켓 아이디에 대한 상세 정보 출력 */
     private void ShowDetailTicket(int ticketId) throws SQLException {
+<<<<<<< HEAD
         valid = false;
             try {
                 Tickets ticketInfo = myPageService.getTicketById(ticketId);
@@ -208,6 +243,35 @@ public class MyPageView {
 //                scanner.nextLine();
 //            }
 //        }
+=======
+        try {
+            Tickets ticketInfo = myPageService.getTicketById(ticketId);
+//            System.out.print("조회할 티켓 ID를 입력하세요: ");
+//            int ticketId = scanner.nextInt();
+//            scanner.nextLine(); // 버퍼 비우기
+//
+//            ShowDetailTicket(ticketId); // 티켓 상세 조회
+            System.out.println("\n선택한 티켓 정보");
+            if (ticketInfo != null) {
+                System.out.println("티켓 ID: " + ticketInfo.getTicketId() +
+                        ", 이름: " + ticketInfo.getUserNickname() +
+                        ", 영화 제목: " + ticketInfo.getMovieTitle() +
+                        ", 상영 시간: " + ticketInfo.getScheduleStartTime() +
+                        ", 좌석 번호: " + ticketInfo.getSeatNumber());
+            }
+            System.out.print("예매를 취소하시겠습니까? (y/n): ");
+            String cancelChoice = scanner.nextLine().trim();
+
+            if (cancelChoice.equalsIgnoreCase("y")) {
+                System.out.println("취소 성공");
+            } else {
+                System.out.println("잘못된 입력입니다.");
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("오류: " + e.getMessage());
+        }
+>>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
     }
 }
 

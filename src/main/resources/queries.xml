@@ -1,188 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-<<<<<<< HEAD
-    <query id="getFindUser">
-        SELECT * from users
-        where users.user_id;
+    <!-- Cinema_Infos 테이블: cinema_info_id로 조회 -->
+    <query id="getCinemaInfoById">
+        <![CDATA[
+        SELECT cinema_info_id, schedule_id, seat_id FROM Cinema_Infos WHERE cinema_info_id = ?
+    ]]>
     </query>
 
-    <query id="getTicketsByUserId">
-        SELECT
-        T.ticket_id,
-        M.movie_title,
-        S.schedule_start_time
-        FROM Tickets T
-        JOIN cinema_infos ci ON ci.cinema_info_id = T.cinema_info_id
-        JOIN Users U ON T.user_id = U.user_id
-        JOIN Schedules S ON S.schedule_id = ci.schedule_id
-        JOIN Movies M ON M.movie_id = s.movie_id
-        WHERE T.user_id = ?;
+    <!-- Cinema_Infos 테이블: 새로운 레코드 삽입 -->
+    <query id="insertCinemaInfo">
+        <![CDATA[
+            INSERT INTO Cinema_Infos (schedule_id, seat_id) VALUES (?, ?)
+        ]]>
     </query>
 
-    <query id="getTicketById">
-        SELECT
-        T.ticket_id,
-        U.user_nickname ,
-        M.movie_title,
-        S.schedule_start_time ,
-        SE.seat_number
-        FROM Tickets T
-        JOIN Users U ON T.user_id = U.user_id
-        JOIN Cinema_Infos CI ON T.cinema_info_id = CI.cinema_info_id
-        JOIN Schedules S ON CI.schedule_id = S.schedule_id
-        JOIN Movies M ON s.movie_id = M.movie_id
-        JOIN Seats SE ON CI.seat_id = SE.seat_id
-        WHERE T.ticket_id = ?;
+    <!-- Movies 테이블: 전체 영화 목록 조회 -->
+    <query id="getAllMovies">
+        <![CDATA[
+        SELECT movie_id, movie_title, movie_price FROM Movies
+    ]]>
     </query>
 
-    <query id="payMovie">
-        INSERT INTO payments (payment_method, payment_price)
-        VALUES (?, 19000)
+    <!-- Movies 테이블: 영화 번호로 영화 정보 조회 -->
+    <query id="getMovieById">
+        <![CDATA[
+        SELECT movie_id, movie_title, movie_price FROM Movies WHERE movie_id = ?
+    ]]>
     </query>
 
-<<<<<<< HEAD
-    <query id="getUserById">
-        SELECT
-        *
-        FROM users
-        WHERE user_id = ?
+    <!-- Payments 테이블: 결제 정보 삽입 -->
+    <query id="insertPayment">
+        <![CDATA[
+        INSERT INTO Payments (payment_method, payment_price) VALUES (?, ?)
+    ]]>
     </query>
 
-<<<<<<< HEAD
-    <query id="addUser">
-        INSERT INTO users (user_nickname, user_password, user_status, user_created_at)
-        VALUES (?, ?, ?, ?)
+    <!-- Schedules 테이블: 영화 ID에 해당하는 상영시간 조회 -->
+    <query id="getSchedulesByMovieId">
+        <![CDATA[
+        SELECT schedule_id, schedule_start_time, movie_id FROM Schedules WHERE movie_id = ?
+    ]]>
     </query>
 
-    <query id="updateUser">
-        UPDATE users SET username = ?, email = ?, password_hash = ?, role_id = ? WHERE user_id = ?
-    </query>
-
-    <query id="deleteUser">
-        DELETE FROM users WHERE user_id = ?
-    </query>
-
-    <query id="loginUser">
-        SELECT * FROM users WHERE user_nickname = ? AND user_password = ?
-    </query>
-
-
-=======
-    <query id = "cancelTicket">
-        UPDATE
-            tickets
-        SET
-            cancel_status = 'Y'
-        WHERE ticket_id = ?
-    </query>
-
-    <query id = "getTicketsById">
-        SELECT
-            *
-        FROM tickets
-        WHERE ticket_id = ?
-        AND cancel_status = 'N'
-    </query>
-
-    <query id = "getTicketsByUserId">
-        SELECT
-            *
-        FROM tickets
-        WHERE user_id = ?
-        AND cancel_status = 'N'
-    </query>
-
-<!--  mypage query  -->
-    <query id="getFindUser">
-        SELECT * from users
-        where users.user_id;
-    </query>
-
-    <query id="getTicketsByUserId">
-        SELECT
-        T.ticket_id,
-        M.movie_title,
-        S.schedule_start_time
-        FROM Tickets T
-        JOIN cinema_infos ci ON ci.cinema_info_id = T.cinema_info_id
-        JOIN Users U ON T.user_id = U.user_id
-        JOIN Schedules S ON S.schedule_id = ci.schedule_id
-        JOIN Movies M ON M.movie_id = s.movie_id
-        WHERE T.user_id = ?
-        AND T.cancel_status = 'N';
-    </query>
-
-    <query id="getTicketById">
-        SELECT
-        T.ticket_id,
-        U.user_nickname ,
-        M.movie_title,
-        S.schedule_start_time ,
-        SE.seat_number
-        FROM Tickets T
-        JOIN Users U ON T.user_id = U.user_id
-        JOIN Cinema_Infos CI ON T.cinema_info_id = CI.cinema_info_id
-        JOIN Schedules S ON CI.schedule_id = S.schedule_id
-        JOIN Movies M ON s.movie_id = M.movie_id
-        JOIN Seats SE ON CI.seat_id = SE.seat_id
-        WHERE T.ticket_id = ?;
-    </query>
-
-    <query id="payMovie">
-        INSERT INTO payments (payment_method, payment_price)
-        VALUES (?, 19000)
-    </query>
->>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
-=======
+    <!-- Seats 테이블: 전체 좌석 조회 -->
     <query id="getAllSeats">
-        SELECT
-        *
-        FROM seats
+        <![CDATA[
+        SELECT seat_id, seat_number FROM Seats
+    ]]>
     </query>
 
-    <query id="getReservedSeatbyScheduleId">
-        SELECT
-        c.seat_id,
-        se.seat_number
-        FROM tickets t
-        JOIN cinema_infos c ON t.cinema_info_id = c.cinema_info_id
-        JOIN schedules s ON s.schedule_id = c.schedule_id
-        JOIN seats se ON se.seat_id = c.seat_id
-        WHERE t.cancel_status = 'N' AND s.schedule_id = ?
+    <!-- Seats 테이블: 특정 상영시간의 사용 불가능한 좌석 조회 -->
+    <query id="getUnavailSeatsByScheduleId">
+        <![CDATA[
+        SELECT s.seat_id, s.seat_number
+        FROM Seats s
+        JOIN Cinema_Infos ci ON s.seat_id = ci.seat_id
+        WHERE ci.schedule_id = ?
+    ]]>
     </query>
 
-    <query id="addCinemaInfo">
-        INSERT INTO Cinema_Infos(schedule_id, seat_id)
-        values(?, ?);
+    <!-- Tickets 테이블: 회원 ID로 티켓 정보(예매 내역) 조회 -->
+    <query id="getTicketInfoByUser">
+        <![CDATA[
+        SELECT T.ticket_id, M.movie_title, S.schedule_start_time
+        FROM Tickets T
+        JOIN cinema_infos ci ON ci.cinema_info_id = T.cinema_info_id
+        JOIN Users U ON T.user_id = U.user_id
+        JOIN Schedules S ON S.schedule_id = ci.schedule_id
+        JOIN Movies M ON M.movie_id = S.movie_id
+        WHERE U.user_id = ?
+    ]]>
     </query>
 
-    <query id="getSeatBySeatNumber">
-        SELECT
-        s.seat_id,
-        s.seat_number
-        FROM seats s
-        WHERE s.seat_number = ?;
+    <!-- Tickets 테이블: 티켓 번호로 티켓 정보 조회 -->
+    <query id="getTicketById">
+        <![CDATA[
+        SELECT ticket_id, cancel_status, cinema_info_id, user_id FROM Tickets WHERE ticket_id = ?
+    ]]>
     </query>
 
->>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
-=======
-    <!-- 모든 영화 조회 쿼리 -->
-    <query id="getAllSchedule">
-        SELECT s.schedule_id, s.schedule_start_time,
-        m.movie_id, m.movie_title, m.movie_price
-        FROM Schedules s
-        JOIN Movies m ON s.movie_id = m.movie_id;
+    <!-- Tickets 테이블: 티켓 정보 삽입 -->
+    <query id="insertTicket">
+        <![CDATA[
+        INSERT INTO Tickets (cancel_status, cinema_info_id, user_id, payment_id) VALUES (?, ?, ?, ?)
+    ]]>
     </query>
 
-    <!-- 한개 영화 조회 쿼리 -->
-    <query id="selectSchedule">
-        SELECT * FROM MOVIES WHERE movie_title = ?
+    <!-- Users 테이블: 회원 정보 삽입 (회원가입) -->
+    <query id="insertUser">
+        <![CDATA[
+        INSERT INTO Users (user_nickname, user_password, user_status) VALUES (?, ?, ?)
+    ]]>
     </query>
 
-    <!-- 영화 추가 쿼리 -->
-<!--    <query id="addSchedule">-->
-<!--        INSERT INTO schedules (schedule_start_time, movie_id)-->
-<!--        VALUES (?, ?)-->
-<!--    </query>-->
->>>>>>> 13558501944189d484c53c0cd3683455e24d1646
+    <!-- Users 테이블: 회원 로그인 (닉네임, 비밀번호로 회원 조회) -->
+    <query id="loginUser">
+        <![CDATA[
+        SELECT * FROM Users WHERE user_nickname = ? AND user_password = ?
+    ]]>
+    </query>
+
+
 </queries>

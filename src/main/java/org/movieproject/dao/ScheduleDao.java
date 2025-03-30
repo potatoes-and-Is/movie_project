@@ -1,65 +1,38 @@
 package org.movieproject.dao;
 
-import org.movieproject.model.Movies;
-import org.movieproject.model.Schedules;
+import org.movieproject.model.Schedule;
 import org.movieproject.util.QueryUtil;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleDao {
-    private final Connection connection;
+    private Connection connection;
 
     public ScheduleDao(Connection connection) {
         this.connection = connection;
     }
 
-    // 전체 영화 출력
-    public List<Schedules> getAllMoviesSchedule() throws SQLException {
-        List<Schedules> schedules = new ArrayList<>();
-        String query = QueryUtil.getQuery("getAllSchedule"); // XML에서 쿼리 로드
-
-        try (PreparedStatement ps = connection.prepareStatement(query);
-             ResultSet rs = ps.executeQuery(query)) {
-
-            while (rs.next()) {
-                Movies movie = new Movies(
-                        rs.getInt("movie_id"),
-                        rs.getString("movie_title"),
-                        rs.getInt("movie_price")
-                );
-
-                schedules.add(new Schedules(
-                        rs.getInt("schedule_id"),
-                        rs.getString("schedule_start_time"),
-                        movie
-                ));
+    // 영화 ID에 해당하는 상영시간 목록 조회
+    public List<Schedule> getSchedulesByMovieId(int movieId) throws SQLException {
+        List<Schedule> list = new ArrayList<>();
+        String sql = QueryUtil.getQuery("getSchedulesByMovieId");
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, movieId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Schedule schedule = new Schedule();
+                    schedule.setScheduleId(rs.getInt("schedule_id"));
+                    schedule.setScheduleStartTime(rs.getString("schedule_start_time"));
+                    schedule.setMovieId(rs.getInt("movie_id"));
+                    list.add(schedule);
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return schedules;
+        return list;
     }
-
-
-    // 스케쥴 추가
-//    public boolean addMovies(Schedules movies) throws SQLException {
-//        String query = QueryUtil.getQuery("addSchedule") ;
-////        String query = "insert into movies (movieTitle, moviePrice) values (?, ?)";
-//
-//        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-//            ps.setString(1, movies.getMovieTitle());
-//            ps.setInt(2, movies.getMoviePrice());
-//            ps.setInt(3, movies.getScheduleId());
-//            ps.setString(4, movies.getScheduleStartTime());
-//
-//            int affectedRows = ps.executeUpdate();
-//            return affectedRows > 0;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
 }

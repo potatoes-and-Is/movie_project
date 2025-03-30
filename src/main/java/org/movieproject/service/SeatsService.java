@@ -1,11 +1,12 @@
 package org.movieproject.service;
 
 import org.movieproject.dao.SeatsDao;
-import org.movieproject.model.Seats;
+import org.movieproject.model.Seat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,45 +14,29 @@ public class SeatsService {
 
     private static final Logger log = LoggerFactory.getLogger(SeatsService.class);
 
-    private final Connection connection;
-    private final SeatsDao seatsDao;
+    private SeatsDao seatsDao;
 
     public SeatsService(Connection connection) {
-        this.connection = connection;
         this.seatsDao = new SeatsDao(connection);
     }
 
-    // 해당 스케줄에 예약 가능한 좌석 가져오기
-    public List<Seats> getSeatsbyScheduleId(int scheduleId) {
-
-        List<Seats> allSeats = seatsDao.getAllSeats();
-        List<Seats> unavilSeats = seatsDao.getUnavailSeats(scheduleId);
-        List<Seats> availSeats = new ArrayList<>();
-
-        if(unavilSeats == null  || unavilSeats.isEmpty()) {
-            availSeats = allSeats;
-        } else {
-            availSeats = allSeats;
-            for (int i = 0; i < availSeats.size(); i++) {
-                Seats seat = availSeats.get(i);
-                if (unavilSeats.contains(seat)) {
-                    availSeats.set(i, new Seats(seat.getSeatId(), "   ")); // 예약된 좌석은 공백으로 대체
-                }
+    // 특정 스케줄에 대하여 예약 가능한 좌석 반환
+    public List<Seat> getSeatsByScheduleId(int scheduleId) {
+        try {
+            List<Seat> allSeats = seatsDao.getAllSeats();
+            List<Seat> unavailableSeats = seatsDao.getUnavailSeats(scheduleId);
+            List<Seat> availableSeats = new ArrayList<>();
+            if (unavailableSeats == null || unavailableSeats.isEmpty()) {
+                availableSeats = allSeats;
+            } else {
+                allSeats.removeAll(unavailableSeats); // equals와 hashCode가 올바르게 구현되어 있어야 함
+                availableSeats.addAll(allSeats);
             }
+            return availableSeats;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return availSeats;
+        return null;
     }
 
-    // Cinema_infos 테이블 add
-    public boolean addCinemaInfo(int ScheduleId, String seatNumber) {
-
-        Seats seat = seatsDao.getSeatBySeatNumber(seatNumber);
-
-        if(seat == null) {
-            System.out.println("해당 좌석 번호로 조회된 seat이 없습니다.");
-            return false;
-        }
-        int seatId = seat.getSeatId();
-        return seatsDao.addCinemaInfo(ScheduleId, seatId);
-    }
 }

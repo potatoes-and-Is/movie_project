@@ -1,6 +1,6 @@
 package org.movieproject.view;
 
-import org.movieproject.model.Seats;
+import org.movieproject.model.Seat;
 import org.movieproject.service.SeatsService;
 
 import java.sql.Connection;
@@ -8,65 +8,41 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SeatsView {
+
     private final SeatsService seatsService;
     private final Scanner scanner;
 
-    private static final Integer COLUMN_MAX = 5;
-
-    public SeatsView(Connection connection) {
+    public SeatsView(Connection connection, Scanner scanner) {
+        // 항상 Connection과 Scanner를 생성자로 받아 초기화합니다.
         this.seatsService = new SeatsService(connection);
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
-    public int choiceSchedule() {
-
-        System.out.println("\n===== 관람을 원하시는 영화를 선택해주세요. =====");
-        System.out.println("1. 10:00 어벤져스");
-        System.out.println("2. 12:00 라푼젤");
-        System.out.println("3. 14:00 어벤져스");
-        System.out.println("4. 16:00 라푼젤");
-        System.out.println("5. 18:00 About Time");
-
-        int scheduleChoice = scanner.nextInt();
-        scanner.nextLine();
-
-        return scheduleChoice;
-    }
-
-    // 선택 가능한 좌석 출력
-    public void showSeats(int scheduleChoice) {
-        System.out.println("\n===== 다음은 예약 가능한 좌석입니다. =====");
-        try {
-            int cnt = 0;
-            List<Seats> seats = seatsService.getSeatsbyScheduleId(scheduleChoice);
-            for (int i = 0; i < (seats.size()/COLUMN_MAX.floatValue()); i++) {
-                for (int j = 0; j < COLUMN_MAX; j++) {
-                    if (cnt > seats.size() - 1) {
-                        break;
-                    } else {
-                        System.out.print("[" + seats.get(cnt).getSeatNumber() + "]   ");
-                        cnt++;
-                    }
-                }
-                System.out.println();
+    // 선택된 상영시간(scheduleId)에 따른 예약 가능한 좌석을 조회한 후 선택 받는 메서드
+    public int chooseSeat(int scheduleId) {
+        List<Seat> availableSeats = seatsService.getSeatsByScheduleId(scheduleId);
+        System.out.println("===== 예약 가능한 좌석 =====");
+        if (availableSeats == null || availableSeats.isEmpty()) {
+            System.out.println("예약 가능한 좌석이 없습니다.");
+        }
+        // 모든 좌석 출력
+        for (Seat seat : availableSeats) {
+            System.out.print(seat.getSeatNumber() + " ");
+        }
+        System.out.println();
+        System.out.print("예약할 좌석 입력: ");
+        String selectedSeat = scanner.nextLine().trim();
+        if (selectedSeat.isEmpty()) {
+            System.out.println("입력이 없습니다. 좌석을 다시 선택해주세요.");
+        }
+        // 입력받은 좌석 번호와 일치하는 좌석 검색
+        for (Seat seat : availableSeats) {
+            if (seat.getSeatNumber() != null && seat.getSeatNumber().equalsIgnoreCase(selectedSeat)) {
+                return seat.getSeatId();
             }
-        } catch (Exception e) {
-            System.out.println("showSeats:" + e.getMessage());
         }
-    }
-
-    public void selectSeat(int scheduleChoice) {
-
-        System.out.println("\n===== 좌석 번호를 선택해주세요. =====");
-        String seatChoice = scanner.nextLine();
-
-        // 좌석 번호를 Cinema_info 에 insert시 seat_id 로 전달
-        var result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
-        if (result == true) {
-            System.out.printf("좌석 선택 완료 , 스케줄 번호 : %d, 좌석번호 : %s\n", scheduleChoice, seatChoice);
-        }else {
-            System.out.println("좌석 선택 실패");
-        }
+        System.out.println("해당 좌석을 찾을 수 없습니다.");
+        return -1;
     }
 
 }

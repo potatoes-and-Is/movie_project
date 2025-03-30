@@ -2,12 +2,15 @@ package org.movieproject.model;
 
 import java.util.Objects;
 
-public class Seats {
+public class Seat {
 
     private int seatId;
     private String seatNumber;
 
-    public Seats(int seatId, String seatNumber) {
+    public Seat() {
+    }
+
+    public Seat(int seatId, String seatNumber) {
         this.seatId = seatId;
         this.seatNumber = seatNumber;
     }
@@ -28,11 +31,13 @@ public class Seats {
         this.seatNumber = seatNumber;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; // 자기 자신과 비교 시 true
         if (o == null || getClass() != o.getClass()) return false;
-        Seats seat = (Seats) o;
+        Seat seat = (Seat) o;
 
         // [중요] seatId, seatNumber 타입에 따라 비교 방법 달라짐
         // seatId가 int라면 == 사용, seatNumber가 String이라면 Objects.equals(...) 사용

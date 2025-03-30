@@ -38,9 +38,9 @@ public class TicketsService {
         return tickets;
     }
 
-    public boolean cancelTicket(Tickets tickets) throws SQLException {
+    public boolean cancelTicket(int ticketId) throws SQLException {
         // 티켓이 존재하는지 확인
-        Tickets existingTickets = getTicketsById(tickets.getTicketId());
+        Tickets existingTickets = getTicketsById(ticketId);
         if (existingTickets == null) {
             throw new IllegalArgumentException("예매 건을 찾을 수 없습니다.");
         }

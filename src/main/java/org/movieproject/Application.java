@@ -1,7 +1,7 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
-import org.movieproject.view.TicketsView;
+import org.movieproject.view.MyPageView;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,8 +30,8 @@ public class Application {
     }
 
     public static void startTicketsManager(Connection connection) throws SQLException {
-        TicketsView ticketsView = new TicketsView(connection);
+        MyPageView myPageView = new MyPageView(connection);
         int userId = 1;
-        ticketsView.showMyPage(userId);
+        myPageView.loginProcess();
     }
 }

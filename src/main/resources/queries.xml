@@ -30,4 +30,45 @@
         WHERE user_id = ?
         AND cancel_status = 'N'
     </query>
+
+<!--  mypage query  -->
+    <query id="getFindUser">
+        SELECT * from users
+        where users.user_id;
+    </query>
+
+    <query id="getTicketsByUserId">
+        SELECT
+        T.ticket_id,
+        M.movie_title,
+        S.schedule_start_time
+        FROM Tickets T
+        JOIN cinema_infos ci ON ci.cinema_info_id = T.cinema_info_id
+        JOIN Users U ON T.user_id = U.user_id
+        JOIN Schedules S ON S.schedule_id = ci.schedule_id
+        JOIN Movies M ON M.movie_id = s.movie_id
+        WHERE T.user_id = ?
+        AND T.cancel_status = 'N';
+    </query>
+
+    <query id="getTicketById">
+        SELECT
+        T.ticket_id,
+        U.user_nickname ,
+        M.movie_title,
+        S.schedule_start_time ,
+        SE.seat_number
+        FROM Tickets T
+        JOIN Users U ON T.user_id = U.user_id
+        JOIN Cinema_Infos CI ON T.cinema_info_id = CI.cinema_info_id
+        JOIN Schedules S ON CI.schedule_id = S.schedule_id
+        JOIN Movies M ON s.movie_id = M.movie_id
+        JOIN Seats SE ON CI.seat_id = SE.seat_id
+        WHERE T.ticket_id = ?;
+    </query>
+
+    <query id="payMovie">
+        INSERT INTO payments (payment_method, payment_price)
+        VALUES (?, 19000)
+    </query>
 </queries>

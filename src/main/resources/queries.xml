@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 테스트 용 쿼리-->
 <queries>
+<<<<<<< HEAD
     <query id="getFindUser">
         SELECT * from users
         where users.user_id;
@@ -165,4 +165,24 @@
     </query>
 
 >>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
+=======
+    <!-- 모든 영화 조회 쿼리 -->
+    <query id="getAllSchedule">
+        SELECT s.schedule_id, s.schedule_start_time,
+        m.movie_id, m.movie_title, m.movie_price
+        FROM Schedules s
+        JOIN Movies m ON s.movie_id = m.movie_id;
+    </query>
+
+    <!-- 한개 영화 조회 쿼리 -->
+    <query id="selectSchedule">
+        SELECT * FROM MOVIES WHERE movie_title = ?
+    </query>
+
+    <!-- 영화 추가 쿼리 -->
+<!--    <query id="addSchedule">-->
+<!--        INSERT INTO schedules (schedule_start_time, movie_id)-->
+<!--        VALUES (?, ?)-->
+<!--    </query>-->
+>>>>>>> 13558501944189d484c53c0cd3683455e24d1646
 </queries>

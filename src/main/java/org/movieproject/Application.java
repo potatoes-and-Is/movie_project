@@ -4,6 +4,7 @@ import org.movieproject.config.JDBCConnection;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.movieproject.view.MovieView;
 import org.movieproject.view.UsersView;
 =======
@@ -15,6 +16,9 @@ import org.movieproject.view.MyPageView;
 =======
 import org.movieproject.view.SeatsView;
 >>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
+=======
+import org.movieproject.view.ScheduleView;
+>>>>>>> 13558501944189d484c53c0cd3683455e24d1646
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,10 +27,14 @@ import java.util.Scanner;
 public class Application {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 13558501944189d484c53c0cd3683455e24d1646
     public static void main(String[] args) throws SQLException {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         while (true) {
             System.out.println("\n===== POI MOIVE SYSTEM =====");
@@ -49,6 +57,10 @@ public class Application {
                 default -> System.out.println("❌ 잘못된 입력입니다. 다시 선택하세요.");
             }
         }
+=======
+        ScheduleView movieView = new ScheduleView(connection);
+        movieView.showMenu();
+>>>>>>> 13558501944189d484c53c0cd3683455e24d1646
     }
 
     /**

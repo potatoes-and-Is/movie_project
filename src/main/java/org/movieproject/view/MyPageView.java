@@ -67,7 +67,7 @@ public class MyPageView {
                 return;
             }
 
-            System.out.println("\n예매 내역");
+            System.out.println("예매 내역");
             for (Tickets ticket : tickets) {
                 System.out.println("티켓 ID: " + ticket.getTicketId() +
                         ", 영화 제목: " + ticket.getMovieTitle() +
@@ -75,11 +75,25 @@ public class MyPageView {
                 //      ", 영화 제목: " + ticket.cinemaId.scheduleId.movieId.getmovieTitle() +
                 //      ", 상영 시간: " + ticket.cinemaId.scheduleId.getScheduleTime());
             }
-            System.out.print("조회할 티켓 ID를 입력하세요: ");
-            int ticketId = scanner.nextInt();
+            // 예매취소하기, 뒤로가기
+            System.out.println("1. 예매 취소하기");
+            System.out.println("2. 뒤로 가기");
+            System.out.print("선택: ");
+            int choice = scanner.nextInt();
             scanner.nextLine(); // 버퍼 비우기
 
-            ShowDetailTicket(ticketId); // 티켓 상세 조회
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("취소할 티켓 ID를 입력하세요: ");
+                    int ticketId = scanner.nextInt();
+                    scanner.nextLine(); // 버퍼 비우기
+                    ShowDetailTicket(ticketId);
+                }
+                case 2 -> {
+                    System.out.println("뒤로 가기.");
+                    return;
+                }
+            }
         } catch (SQLException e) {
             System.out.println("예매 정보 조회 중 오류 발생: " + e.getMessage());
         }
@@ -89,7 +103,11 @@ public class MyPageView {
     private void ShowDetailTicket(int ticketId) throws SQLException {
         try {
             Tickets ticketInfo = myPageService.getTicketById(ticketId);
-
+//            System.out.print("조회할 티켓 ID를 입력하세요: ");
+//            int ticketId = scanner.nextInt();
+//            scanner.nextLine(); // 버퍼 비우기
+//
+//            ShowDetailTicket(ticketId); // 티켓 상세 조회
             System.out.println("\n선택한 티켓 정보");
             if (ticketInfo != null) {
                 System.out.println("티켓 ID: " + ticketInfo.getTicketId() +

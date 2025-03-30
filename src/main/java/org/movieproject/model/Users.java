@@ -3,6 +3,7 @@ package org.movieproject.model;
 import java.time.LocalDateTime;
 
 public class Users {
+<<<<<<< HEAD
     /*
       userId - int, 회원ID(PK)
       userNickname - String, 회원 닉네임
@@ -10,6 +11,8 @@ public class Users {
       userStatus - String, 상태
       userCreatedAt - localdatetime, 등록일
       * */
+=======
+>>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
     private int userId;
     private String userNickname;
     private String userPassword;
@@ -23,6 +26,14 @@ public class Users {
         this.userStatus = userStatus;
         this.userCreatedAt = userCreatedAt;
     }
+<<<<<<< HEAD
+=======
+    public Users(String userNickname, String userPassword) {
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+    }
+
+>>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
 
     public int getUserId() {
         return userId;
@@ -63,6 +74,7 @@ public class Users {
     public void setUserCreatedAt(LocalDateTime userCreatedAt) {
         this.userCreatedAt = userCreatedAt;
     }
+<<<<<<< HEAD
 
     @Override
     public String toString() {
@@ -74,4 +86,6 @@ public class Users {
                 ", 등록일 = " + userCreatedAt +
                 '}';
     }
+=======
+>>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
 }

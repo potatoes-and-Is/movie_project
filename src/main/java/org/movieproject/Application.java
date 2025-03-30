@@ -1,8 +1,12 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
+<<<<<<< HEAD
 import org.movieproject.view.MovieView;
 import org.movieproject.view.UsersView;
+=======
+import org.movieproject.view.MyPageView;
+>>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,6 +17,7 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
+<<<<<<< HEAD
         while (true) {
             System.out.println("\n===== POI MOIVE SYSTEM =====");
             System.out.println("1. 회원 가입");
@@ -53,5 +58,28 @@ public class Application {
     private static void signUpUserManagement(Connection connection){
         MovieView movieView = new MovieView(connection);
         movieView.signUp();
+=======
+        System.out.println("로그인 성공");
+        System.out.println("1. 예매 내역 확인");
+        System.out.print("선택 : ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> startTicketsManager(connection);
+            case 0 -> {
+                connection.close();
+                System.out.println("프로그램을 종료합니다.");
+            }
+            default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
+        }
+    }
+
+    public static void startTicketsManager(Connection connection) throws SQLException {
+        MyPageView myPageView = new MyPageView(connection);
+        int userId = 1;
+        myPageView.loginProcess();
+>>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
     }
 }

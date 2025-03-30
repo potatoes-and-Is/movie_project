@@ -48,6 +48,7 @@
         WHERE user_id = ?
     </query>
 
+<<<<<<< HEAD
     <query id="addUser">
         INSERT INTO users (user_nickname, user_password, user_status, user_created_at)
         VALUES (?, ?, ?, ?)
@@ -132,4 +133,36 @@
         VALUES (?, 19000)
     </query>
 >>>>>>> f4f71e99c44b1d1eca80a9f22f32ec61ab10210d
+=======
+    <query id="getAllSeats">
+        SELECT
+        *
+        FROM seats
+    </query>
+
+    <query id="getReservedSeatbyScheduleId">
+        SELECT
+        c.seat_id,
+        se.seat_number
+        FROM tickets t
+        JOIN cinema_infos c ON t.cinema_info_id = c.cinema_info_id
+        JOIN schedules s ON s.schedule_id = c.schedule_id
+        JOIN seats se ON se.seat_id = c.seat_id
+        WHERE t.cancel_status = 'N' AND s.schedule_id = ?
+    </query>
+
+    <query id="addCinemaInfo">
+        INSERT INTO Cinema_Infos(schedule_id, seat_id)
+        values(?, ?);
+    </query>
+
+    <query id="getSeatBySeatNumber">
+        SELECT
+        s.seat_id,
+        s.seat_number
+        FROM seats s
+        WHERE s.seat_number = ?;
+    </query>
+
+>>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
 </queries>

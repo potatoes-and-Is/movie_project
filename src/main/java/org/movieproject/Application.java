@@ -3,6 +3,7 @@ package org.movieproject;
 import org.movieproject.config.JDBCConnection;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.movieproject.view.MovieView;
 import org.movieproject.view.UsersView;
 =======
@@ -11,12 +12,16 @@ import org.movieproject.view.MyPageView;
 =======
 import org.movieproject.view.MyPageView;
 >>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
+=======
+import org.movieproject.view.SeatsView;
+>>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Application {
+<<<<<<< HEAD
 <<<<<<< HEAD
     public static void main(String[] args) throws SQLException {
         Connection connection = JDBCConnection.getConnection();
@@ -98,5 +103,37 @@ public class Application {
             System.err.println("⛔ 데이터베이스 연결 실패: " + e.getMessage());
         }
 >>>>>>> f870e23cb09f1082e0032712db7df97b14d922a2
+=======
+    public static void main(String[] args) throws SQLException {
+
+        System.out.println("프로젝트 환경 테스트");
+
+        Connection connection = JDBCConnection.getConnection();
+        Scanner scanner = new Scanner(System.in);
+
+
+
+        while(true) {
+            System.out.println("1. 좌석 선택하기 구현");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> {
+                    var scheduleChoiceId = selectSeats(connection);
+                }
+            }
+        }
+>>>>>>> 9055586c28d6c3d23a902581247d82f0be2432dc
     }
+
+    private static int selectSeats(Connection connection) {
+            SeatsView seatsView = new SeatsView(connection);
+            var scheduleChoice = seatsView.choiceSchedule();
+            seatsView.showSeats(scheduleChoice);
+            seatsView.selectSeat(scheduleChoice);
+            return scheduleChoice;
+    }
+
 }

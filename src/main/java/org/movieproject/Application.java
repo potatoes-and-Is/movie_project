@@ -36,5 +36,4 @@ public class Application {
             var cinemaId =  seatsView.selectSeat(scheduleChoice);
             return cinemaId;
     }
-
 }

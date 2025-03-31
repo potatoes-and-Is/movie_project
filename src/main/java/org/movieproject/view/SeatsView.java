@@ -4,6 +4,7 @@ import org.movieproject.model.Seats;
 import org.movieproject.service.SeatsService;
 
 import java.sql.Connection;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,8 +58,17 @@ public class SeatsView {
 
     public int selectSeat(int scheduleChoice) {
 
-        System.out.println("\n===== 좌석 번호를 선택해주세요. =====");
+        System.out.println("\n===== 관람을 원하시는 좌석 번호를 선택해주세요. =====");
         String seatChoice = scanner.nextLine();
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice == 1) {
+            int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
+            System.out.println("cinemaID = " + result);
+            return result;
+        }
 
         // 좌석 번호를 Cinema_info 에 insert시 seat_id 로 전달
         int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);

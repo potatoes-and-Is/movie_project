@@ -48,22 +48,24 @@ public class MyPageView {
         totalUserId = userId;
         while (true) {
             try {
-            System.out.println("1. 예매정보 확인하기");
-            System.out.println("2. 영화 예매하기");
-            System.out.print("선택: ");
+                System.out.println("1. 예매정보 확인하기");
+                System.out.println("2. 영화 예매하기");
+                System.out.print("선택: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // 버퍼 비우기
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // 버퍼 비우기
 
-            switch (choice) {
-                case 1 -> showUserTickets(userId);
-                case 2 -> {
-                    System.out.println("프로그램을 종료합니다.");
-                    return;
+                switch (choice) {
+                    case 1 -> {
+                        showUserTickets(userId);
+                        return;
+                    }
+                    case 2 -> {
+                        return;
+                    }
+                    default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
                 }
-                default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-                }
-            } catch(InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 번호를 입력해주세요.");
                 scanner.nextLine(); // 입력 버퍼 비우기
             }
@@ -72,7 +74,6 @@ public class MyPageView {
 
     /* 예매 정보 확인하기 입력 시 회원의 예매 목록 출력 */
     private void showUserTickets(int userId) {
-        while (true) {
         try {
             List<Tickets> tickets = myPageService.getTicketsByUserId(userId);
 
@@ -80,6 +81,7 @@ public class MyPageView {
                 System.out.println("예매된 티켓이 없습니다.\n");
                 return;
             }
+
             System.out.println("\n예매 내역");
             for (Tickets ticket : tickets) {
                 System.out.println("티켓 ID: " + ticket.getTicketId() +
@@ -88,50 +90,42 @@ public class MyPageView {
                 //      ", 영화 제목: " + ticket.cinemaId.scheduleId.movieId.getmovieTitle() +
                 //      ", 상영 시간: " + ticket.cinemaId.scheduleId.getScheduleTime());
             }
+            checkCancelTicket(tickets);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            // 예매취소하기, 뒤로가기
-            valid = false;
-            while (!valid) {
-                try{
-                    System.out.println("1. 예매 취소하기");
-                    System.out.println("2. 뒤로 가기");
-                    System.out.print("선택: ");
+    /* 입력된 티켓 아이디에 대한 상세 정보 출력 */
+    private void checkCancelTicket(List<Tickets> tickets) throws SQLException {
+        while (true) {
+            System.out.println("1. 예매 취소하기");
+            System.out.println("2. 뒤로 가기");
+            System.out.print("선택: ");
+            String choice = scanner.nextLine();
 
-                    int choice = scanner.nextInt();
-                    scanner.nextLine(); // 버퍼 비우기
-
-                    switch (choice) {
-                        case 1 -> {
-                            System.out.print("\n취소할 티켓 ID를 입력하세요: ");
-
-                            int ticketId = scanner.nextInt();
-                            scanner.nextLine(); // 버퍼 비우기
-                            ShowDetailTicket(ticketId);
-                            showMenu(userId);
-                            valid = true;
-                        }
-                        case 2 -> {
-                            System.out.println("뒤로 가기.");
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("\n취소할 티켓 ID를 입력하세요: ");
+                    String showDetailTicketId = scanner.nextLine();
+                    for (Tickets ticket : tickets) {
+                        if (String.valueOf(ticket.getTicketId()).equals(showDetailTicketId)){
+                            showDetailTicket(Integer.parseInt(showDetailTicketId));
                             return;
                         }
-                        default -> {
-                            System.out.println("잘못된 입력입니다. 번호를 선택해주세요.\n");
-                        }
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("잘못된 입력입니다. 번호를 선택해주세요.\n");
-                    scanner.nextLine();
+                    System.out.println("티켓 ID를 다시 입력하세요.");
                 }
-            }
-        } catch (SQLException e) {
-            System.out.println("예매 정보 조회 중 오류 발생: " + e.getMessage());
+                case "2" -> {
+                    System.out.println("뒤로 가기.");
+                    return;
+                }
+                default -> System.out.println("다시 입력하세요.");
             }
         }
     }
-    /* 입력된 티켓 아이디에 대한 상세 정보 출력 */
-    private void ShowDetailTicket(int ticketId) throws SQLException {
-        valid = false;
-        try {
+    public void showDetailTicket(int ticketId) throws SQLException {
+
             Tickets ticketInfo = myPageService.getTicketById(ticketId);
 
             System.out.println("\n선택한 티켓 정보");
@@ -142,64 +136,39 @@ public class MyPageView {
                         ", 상영 시간: " + ticketInfo.getScheduleStartTime() +
                         ", 좌석 번호: " + ticketInfo.getSeatNumber());
             }
-            valid = false;
-            while (!valid) {
-                try {
-                    System.out.print("예매를 취소하시겠습니까? (y/n): ");
-                    String cancelChoice = scanner.nextLine().trim();
-                    switch (cancelChoice) {
-                        case "y" -> {
-                            cancelTicket(ticketId);
-                            System.out.println("취소 성공");
-                            valid = true;
-                        }
-                        case "n" -> {
-                            System.out.println("마이페이지로 돌아갑니다.\n");
-                            return;
-                        }
-                        default -> {
-                            System.out.println("잘못된 입력입니다. 다시 선택해주세요.\n");
-//                                scanner.nextLine();
-                        }
+            cancelTicket(ticketId);
+        }
+    public void cancelTicket(int ticketId) throws SQLException {
+        while (true) {
+            try {
+                System.out.print("예매를 취소하시겠습니까? (Y/N): ");
+                String cancelChoice = scanner.nextLine().trim().toUpperCase();
+                switch (cancelChoice) {
+                    case "Y" -> {
+                        ticketsService.cancelTicket(ticketId);
+                        System.out.println("취소 성공");
+                        return;
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("잘못된 입력입니다. 번호를 선택해주세요.");
-                    System.out.print("선택 : ");
-                    scanner.nextLine();
+                    case "N" -> {
+                        return;
+                    }
+                    default -> {
+                        System.out.println("잘못된 입력입니다. 다시 선택해주세요.\n");
+                        scanner.nextLine();
+                    }
                 }
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("오류: " + e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("오류: " + e.getMessage());
         }
     }
+};
 
-//    // 1개의 취소할 예매 내역 가져오기
-//    public Tickets getTicketById(List<Tickets> tickets) throws SQLException {
-//        String ticketLine = "";
-//        int ticketIndex = 0;
-//        System.out.println("\n===== 취소할 번호 선택 =====");
-//        while (true) {
-//            try {
-//                System.out.print("취소할 번호 : ");
-//                ticketLine = scanner.nextLine();
-//                ticketIndex = Integer.parseInt(ticketLine) - 1;
-//                // 인덱스 오류 잡기
-//                if (ticketIndex >= 0 && ticketIndex < tickets.size()) {
-//                    break;
-//                } else {
-//                    System.out.println("취소할 예매 번호가 없습니다. 다시 입력해주세요.");
-//                }
-//            } catch (InputMismatchException | NumberFormatException ime) {
-//                System.out.println("잘못 입력하셨습니다. 번호로 입력해주세요.");
-//            }
-//        }
-//        return ticketsService.getTicketsById(tickets.get(ticketIndex).getTicketId());
-//    }
 
-    public void cancelTicket(int ticketId) throws SQLException {
-
-        ticketsService.cancelTicket(ticketId);
-//        // 선택한 예매 취소 여부 확인
+//    public void cancelTicket(int ticketId) throws SQLException {
+//        ticketsService.cancelTicket(ticketId);
+////         선택한 예매 취소 여부 확인
 //        System.out.println("\n===== 취소 여부 확인 =====");
 //        System.out.println("취소하시겠습니까?");
 //        System.out.println("1. 네.");
@@ -226,5 +195,30 @@ public class MyPageView {
 //                scanner.nextLine();
 //            }
 //        }
-    }
-}
+//    }
+//
+//}
+
+    // 1개의 취소할 예매 내역 가져오기
+//    public Tickets getTicketById(List<Tickets> tickets) throws SQLException {
+//        String ticketLine = "";
+//        int ticketIndex = 0;
+//        System.out.println("\n===== 취소할 번호 선택 =====");
+//        while (true) {
+//            try {
+//                System.out.print("취소할 번호 : ");
+//                ticketLine = scanner.nextLine();
+//                ticketIndex = Integer.parseInt(ticketLine) - 1;
+//                // 인덱스 오류 잡기
+//                if (ticketIndex >= 0 && ticketIndex < tickets.size()) {
+//                    break;
+//                } else {
+//                    System.out.println("취소할 예매 번호가 없습니다. 다시 입력해주세요.");
+//                }
+//            } catch (InputMismatchException | NumberFormatException ime) {
+//                System.out.println("잘못 입력하셨습니다. 번호로 입력해주세요.");
+//            }
+//        }
+//        return ticketsService.getTicketsById(tickets.get(ticketIndex).getTicketId());
+//    }
+

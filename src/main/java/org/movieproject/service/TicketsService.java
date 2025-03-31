@@ -52,4 +52,8 @@ public class TicketsService {
         }
         return true;
     }
+
+    public boolean saveTicket(Tickets tickets) {
+        return ticketsDAO.saveTicket(tickets);
+    }
 }

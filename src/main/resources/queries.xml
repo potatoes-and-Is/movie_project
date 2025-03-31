@@ -71,4 +71,9 @@
         INSERT INTO payments (payment_method, payment_price)
         VALUES (?, 19000)
     </query>
+
+    <query id="saveTicket">
+        INSERT INTO tickets (cinema_info_id, user_id)
+        VALUES (?, ?);
+    </query>
 </queries>

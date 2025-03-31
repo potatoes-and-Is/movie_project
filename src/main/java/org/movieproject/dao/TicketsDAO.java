@@ -3,10 +3,7 @@ package org.movieproject.dao;
 import org.movieproject.model.Tickets;
 import org.movieproject.util.QueryUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +71,22 @@ public class TicketsDAO {
 
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean saveTicket(Tickets tickets) {
+        String query = QueryUtil.getQuery("saveTicket");
+
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, tickets.getcinemaInfoId());
+            ps.setInt(2, tickets.getUserId());
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

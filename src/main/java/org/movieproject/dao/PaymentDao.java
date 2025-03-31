@@ -61,7 +61,7 @@ public class PaymentDao {
     }
 
 
-    /* 결제 등록하기  */
+    /* 결제 등록하기 */
     public boolean payMovie(Payment payment) {
         String query = QueryUtil.getQuery("payMovie");
 

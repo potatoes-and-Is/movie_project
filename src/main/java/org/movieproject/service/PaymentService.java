@@ -41,11 +41,11 @@ public class PaymentService {
         return addSuccess;
     }
 
+    /* 결제 등록하기 */
+    public boolean payMovie(Payment payment) {
+        //검증 처리 필요
 
-
-
-//    public boolean payMovie(Payment payments) {
-//        return paymentsDao.payMovie(payments);
-//    }
+        return paymentDao.payMovie(payment);
+    }
 
 }

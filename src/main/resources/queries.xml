@@ -64,7 +64,8 @@
         JOIN Schedules S ON CI.schedule_id = S.schedule_id
         JOIN Movies M ON s.movie_id = M.movie_id
         JOIN Seats SE ON CI.seat_id = SE.seat_id
-        WHERE T.ticket_id = ?;
+        WHERE T.ticket_id = ?
+        AND T.cancel_status = 'N';
     </query>
 
     <query id="payMovie">

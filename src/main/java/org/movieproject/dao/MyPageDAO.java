@@ -68,7 +68,7 @@ public class MyPageDAO {
                 Tickets ticket = new Tickets(
                         rs.getInt("ticket_id"), // --> tickets 배열의 인덱스 불러오기 변경
                         rs.getString("movie_title"),
-                        rs.getTimestamp("schedule_start_time")
+                        rs.getString("schedule_start_time")
                 );
                 tickets.add(ticket);  // 결과를 리스트에 추가
             }
@@ -96,7 +96,7 @@ public class MyPageDAO {
                             rs.getInt("ticket_id"),
                             rs.getString("user_nickname"),
                             rs.getString("movie_title"),
-                            rs.getTimestamp("schedule_start_time"),
+                            rs.getString("schedule_start_time"),
                             rs.getString("seat_number")
                     );
                 }

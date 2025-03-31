@@ -1,8 +1,10 @@
 package org.movieproject.dao;
 
+import com.mysql.cj.protocol.Resultset;
 import org.movieproject.model.Seats;
 import org.movieproject.util.QueryUtil;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import java.util.List;
 public class SeatsDao {
 
     private final Connection connection;
+
     public SeatsDao(Connection connection) {
         this.connection = connection;
     }
@@ -23,7 +26,7 @@ public class SeatsDao {
         List<Seats> seats = new ArrayList<>();
         String query = QueryUtil.getQuery("getAllSeats");
 
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 seats.add(new Seats(
@@ -31,7 +34,7 @@ public class SeatsDao {
                         rs.getString("seat_number")
                 ));
             }
-          // System.out.println("모든 좌석 갯수: " + seats.size());
+            // System.out.println("모든 좌석 갯수: " + seats.size());
         } catch (SQLException e) {
             System.out.println("getAllSeats: " + e.getMessage());
         }
@@ -44,18 +47,18 @@ public class SeatsDao {
         List<Seats> seats = new ArrayList<>();
         String query = QueryUtil.getQuery("getReservedSeatbyScheduleId");
 
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, scheduleId);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 seats.add(new Seats(
-                    rs.getInt("seat_id"),
-                    rs.getString("seat_number")
+                        rs.getInt("seat_id"),
+                        rs.getString("seat_number")
                 ));
             }
-           // System.out.println("예약된 좌석 갯수 : " + seats.size());
-        } catch(SQLException e) {
+            // System.out.println("예약된 좌석 갯수 : " + seats.size());
+        } catch (SQLException e) {
             System.out.println("getUnavailSeats: " + e.getMessage());
         }
         return seats;
@@ -67,39 +70,44 @@ public class SeatsDao {
         Seats seat = null;
         String query = QueryUtil.getQuery("getSeatBySeatNumber");
 
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, seatNumber);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 seat = new Seats(
                         rs.getInt("seat_id"),
                         rs.getString("seat_number")
                 );
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("getSeatBySeatNumber: " + e.getMessage());
         }
         return seat;
     }
 
     /* 좌석 선택 후 cinema_info 테이블 insert */
-    public boolean addCinemaInfo(int scheduleId, int seatId) {
+    public int addCinemaInfo(int scheduleId, int seatId) {
 
         String query = QueryUtil.getQuery("addCinemaInfo");
+        int cinemaInfoId = 0;
 
-        try(PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, scheduleId);
             ps.setInt(2, seatId);
 
             int res = ps.executeUpdate();
-            return res > 0;
+
+            if (res > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    cinemaInfoId =  rs.getInt(1); // 첫 번째 컬럼의 값을 가져옴 : cinema_info_id
+                }
+            }
 
         } catch (SQLException e) {
             System.out.println("addCinemaInfo: " + e.getMessage());
         }
-        return false;
+        return cinemaInfoId;
     }
-
 }

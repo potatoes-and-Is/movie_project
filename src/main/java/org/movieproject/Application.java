@@ -15,8 +15,6 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
-
-
         while(true) {
             System.out.println("1. 좌석 선택하기 구현");
 
@@ -25,7 +23,7 @@ public class Application {
 
             switch (choice) {
                 case 1 -> {
-                    var scheduleChoiceId = selectSeats(connection);
+                    var cinemaId = selectSeats(connection); // cinemaInfo_id 값
                 }
             }
         }
@@ -35,8 +33,8 @@ public class Application {
             SeatsView seatsView = new SeatsView(connection);
             var scheduleChoice = seatsView.choiceSchedule();
             seatsView.showSeats(scheduleChoice);
-            seatsView.selectSeat(scheduleChoice);
-            return scheduleChoice;
+            var cinemaId =  seatsView.selectSeat(scheduleChoice);
+            return cinemaId;
     }
 
 }

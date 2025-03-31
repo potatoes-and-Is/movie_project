@@ -55,18 +55,17 @@ public class SeatsView {
         }
     }
 
-    public void selectSeat(int scheduleChoice) {
+    public int selectSeat(int scheduleChoice) {
 
         System.out.println("\n===== 좌석 번호를 선택해주세요. =====");
         String seatChoice = scanner.nextLine();
 
         // 좌석 번호를 Cinema_info 에 insert시 seat_id 로 전달
-        var result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
-        if (result == true) {
-            System.out.printf("좌석 선택 완료 , 스케줄 번호 : %d, 좌석번호 : %s\n", scheduleChoice, seatChoice);
-        }else {
-            System.out.println("좌석 선택 실패");
-        }
+        int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
+        System.out.println("cinemaID = " + result);
+        return result;
+        // System.out.printf("좌석 선택 완료 , 스케줄 번호 : %d, 좌석번호 : %s\n", scheduleChoice, seatChoice);
+
     }
 
 }

@@ -39,12 +39,15 @@ public class ScheduleView {
             System.out.println("===== 상영시간 선택 =====");
             Map<Integer, String> scheduleMap = new HashMap<>();
 
+            int index = 1;
             for (Schedule s : schedules) {
-                scheduleMap.put(s.getScheduleId(), s.getScheduleStartTime());
-                for (Integer i : scheduleMap.keySet()) {
-                    System.out.println(scheduleMap.get(i) + "\t" + scheduleMap.get(i) + "\t" + s.getScheduleStartTime());
-                }
+                scheduleMap.put(index++, s.getScheduleStartTime()); // key는 1번 부터 저장
             }
+
+            for (Integer i : scheduleMap.keySet()) {
+                System.out.println(i + ". " + scheduleMap.get(i));
+            }
+
             // 올바른 상영시간 번호 입력을 받을 때까지 반복
             while (true) {
                 System.out.print("상영시간 번호 선택: ");
@@ -52,8 +55,8 @@ public class ScheduleView {
                 try {
                     int scheduleId = Integer.parseInt(input);
                     boolean valid = false;
-                    for (Schedule s : schedules) {
-                        if (s.getScheduleId() == scheduleId) {
+                    for (Integer i : scheduleMap.keySet()) {
+                        if (scheduleId == i) {
                             valid = true;
                             break;
                         }

@@ -13,7 +13,7 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
 
         int ticketId = 1;
-        int userId = 1;
+        int userId = 4;
 
         PaymentView paymentView = new PaymentView(connection);
 

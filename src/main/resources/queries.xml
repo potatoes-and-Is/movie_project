@@ -18,4 +18,9 @@
         FROM pay_methods
         WHERE user_id = ?
     </query>
+
+    <query id="addPayMethod">
+        INSERT INTO (pay_method_number, pay_method_balance, user_id)
+        VALUES (?, 50000, ?)
+    </query>
 </queries>

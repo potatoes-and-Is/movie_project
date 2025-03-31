@@ -41,6 +41,22 @@ public class PaymentDao {
         return payMethods;
     }
 
+    /* 결제 수단 등록하기 */
+    public boolean addPayMethod (PayMethod payMethod) {
+        String query = QueryUtil.getQuery("addPayMethod");
+
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, payMethod.getPayMethodNumber());
+            ps.setInt(2, payMethod.getUserId());
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
     /* 결제 ( insert)  */

@@ -1,6 +1,7 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
+import org.movieproject.dao.PaymentDao;
 import org.movieproject.view.PaymentsView;
 
 import java.sql.Connection;
@@ -18,6 +19,5 @@ public class Application {
         PaymentsView paymentsView = new PaymentsView(connection);
 
         paymentsView.payMovie(ticket_id, user_id);
-
     }
 }

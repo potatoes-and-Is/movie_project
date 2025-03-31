@@ -1,16 +1,16 @@
 package org.movieproject.view;
 
-import org.movieproject.service.PaymentsService;
+import org.movieproject.service.PaymentService;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
 public class PaymentsView {
-    private final PaymentsService paymentsService;
+    private final PaymentService paymentsService;
     private final Scanner scanner;
 
     public PaymentsView(Connection connection) {
-        this.paymentsService = new PaymentsService(connection);
+        this.paymentsService = new PaymentService(connection);
         this.scanner = new Scanner(System.in);
     }
 

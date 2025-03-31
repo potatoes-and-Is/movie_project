@@ -100,5 +100,12 @@
     ]]>
     </query>
 
+    <!-- Users 테이블: 모든 회원 조회 -->
+    <query id="getUserNickname">
+        <![CDATA[
+        SELECT user_nickname FROM Users
+    ]]>
+    </query>
+
 
 </queries>

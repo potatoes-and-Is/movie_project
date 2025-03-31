@@ -18,19 +18,20 @@ public class PaymentView {
     // 결제 수단 선택 및 결제 처리 예시
     public int processPayment() {
         System.out.println("===== 결제 수단 선택 =====");
-        System.out.println("1. Credit Card");
-        System.out.println("2. Cash");
-        System.out.println("3. Mobile Payment");
+        System.out.println("1. 카드");
+        System.out.println("2. 현금");
         System.out.print("결제 수단 선택: ");
         int choice = Integer.parseInt(scanner.nextLine().trim());
-        String paymentMethod;
-        switch (choice) {
-            case 1: paymentMethod = "Credit Card"; break;
-            case 2: paymentMethod = "Cash"; break;
-            case 3: paymentMethod = "Mobile Payment"; break;
-            default: paymentMethod = "Cash";
+
+        String paymentMethod = "";
+        if(choice == 1) {
+            paymentMethod = "카드";
+        } else if(choice == 2) {
+            paymentMethod = "현금";
+        } else {
+            System.out.println("결제가 진행되지 않았습니다. 다시 진행하여 주시기 바랍니다.");
+            return -1;
         }
-        System.out.print("결제 금액 입력: ");
         int price = Integer.parseInt(scanner.nextLine().trim());
         int paymentId = paymentService.processPayment(paymentMethod, price);
         return paymentId;

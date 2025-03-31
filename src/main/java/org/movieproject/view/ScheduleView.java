@@ -4,7 +4,9 @@ import org.movieproject.model.Schedule;
 import org.movieproject.service.ScheduleService;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ScheduleView {
@@ -31,12 +33,17 @@ public class ScheduleView {
             List<Schedule> schedules = scheduleService.getSchedulesByMovieId(movieId);
             if (movieId == -1 || schedules == null || schedules.isEmpty()) {
                 System.out.println("해당 영화의 상영시간이 없습니다. 다시 선택해주세요.");
-                // 상위 호출자에서 movieId 재선택을 요청하도록 -1 반환
                 return -1;
             }
+
             System.out.println("===== 상영시간 선택 =====");
+            Map<Integer, String> scheduleMap = new HashMap<>();
+
             for (Schedule s : schedules) {
-                System.out.println(s.getScheduleId() + ". " + s.getScheduleStartTime());
+                scheduleMap.put(s.getScheduleId(), s.getScheduleStartTime());
+                for (Integer i : scheduleMap.keySet()) {
+                    System.out.println(scheduleMap.get(i) + "\t" + scheduleMap.get(i) + "\t" + s.getScheduleStartTime());
+                }
             }
             // 올바른 상영시간 번호 입력을 받을 때까지 반복
             while (true) {

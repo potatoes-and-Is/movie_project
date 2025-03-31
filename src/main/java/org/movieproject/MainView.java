@@ -18,13 +18,13 @@ public class MainView {
         try (Connection conn = JDBCConnection.getConnection();
              Scanner scanner = new Scanner(System.in)) {
 
-            // 1. 회원가입/로그인 처리 (UserView)
-            UserService userService = new UserService(conn);
+            // 1. 회원가입/로그인 (UserView)
+            UserService userService = new UserService(conn); // 의존성 주입
             UserView userView = new UserView(userService, scanner);
+
             User loggedInUser = userView.displayUserMenu();
             if (loggedInUser == null) {
-                System.out.println("로그인 실패로 프로그램 종료");
-                return;
+                return; // 프로그램 종료
             }
             System.out.println("로그인 성공! 환영합니다, " + loggedInUser.getNickname() + "님!");
 
@@ -44,6 +44,7 @@ public class MainView {
                 // 4. 좌석 선택 (SeatsView)
                 SeatsView seatsView = new SeatsView(conn, scanner);
                 int selectedSeatId = -1; // 초기값 설정
+
                 while (selectedSeatId == -1) {
                     selectedSeatId = seatsView.chooseSeat(selectedScheduleId); // 좌석 ID 반환
                     if (selectedSeatId == -1) {
@@ -53,16 +54,21 @@ public class MainView {
 
                 // 5. 결제 처리 (PaymentView)
                 PaymentView paymentView = new PaymentView(conn, scanner);
-                int paymentId = paymentView.processPayment(); // 결제 ID 반환
+                int paymentId = -1; // 초기값 설정
+                while (paymentId == -1) {
+                    paymentId = paymentView.processPayment(); // 결제 ID 반환
+                }
 
                 // 6. 티켓 생성 (TicketView)
                 TicketView ticketView = new TicketView(conn);
                 ticketView.createTicket(selectedScheduleId, selectedSeatId, loggedInUser.getUserId(), paymentId);
 
                 // 루프 종료 여부 확인
-                System.out.print("다른 영화를 예매하시겠습니까? (Y/N): ");
-                String choice = scanner.nextLine().trim();
-                if (!choice.equalsIgnoreCase("Y")) {
+                System.out.print("다른 영화를 예매하시겠습니까?");
+                System.out.print("1. 예");
+                System.out.println("2. 아니오");
+                int choice = Integer.parseInt(scanner.nextLine().trim());
+                if (choice == 2) {
                     System.out.println("프로그램을 종료합니다.");
                     break; // 루프 종료
                 }

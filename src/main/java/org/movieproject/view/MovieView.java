@@ -27,7 +27,7 @@ public class MovieView {
                 List<Movie> movies = movieService.getAllMovies();
                 if (movies == null || movies.isEmpty()) {
                     System.out.println("현재 영화 목록이 없습니다.");
-                    return 0;
+                    return -1;
                 }
                 System.out.println("===== 영화 목록 =====");
                 for (Movie movie : movies) {

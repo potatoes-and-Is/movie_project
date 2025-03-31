@@ -1,7 +1,7 @@
 package org.movieproject.dao;
 
 
-import org.movieproject.model.Payments;
+import org.movieproject.model.Payment;
 import org.movieproject.util.QueryUtil;
 
 import java.sql.Connection;
@@ -18,7 +18,7 @@ public class PaymentsDao {
 
     /* 결제 ( insert)  */
     /* payment_method, payment_price(고정값) 전달 */
-    public boolean payMovie(Payments payments) {
+    public boolean payMovie(Payment payments) {
         String query = QueryUtil.getQuery("payMovie");
 
         try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {

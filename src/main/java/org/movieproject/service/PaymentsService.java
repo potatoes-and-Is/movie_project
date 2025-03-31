@@ -1,6 +1,7 @@
-package org.movieproject.model;
+package org.movieproject.service;
 
 import org.movieproject.dao.PaymentsDao;
+import org.movieproject.model.Payment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ public class PaymentsService {
         this.paymentsDao = new PaymentsDao(connection);
     }
 
-    public boolean payMovie(Payments payments) {
+    public boolean payMovie(Payment payments) {
         return paymentsDao.payMovie(payments);
     }
 

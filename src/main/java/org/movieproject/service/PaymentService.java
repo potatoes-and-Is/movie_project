@@ -21,6 +21,7 @@ public class PaymentService {
         this.paymentDao = new PaymentDao(connection);
     }
 
+    /* 결제수단 목록 조회하기 */
     public List<PayMethod> getAllPayMethods(int userId) throws SQLException {
         List<PayMethod> payMethods = paymentDao.getAllPayMethods(userId);
 
@@ -31,6 +32,17 @@ public class PaymentService {
 
         return paymentDao.getAllPayMethods(userId);
     }
+
+    /* 결제 수단 등록하기 */
+    public boolean addPayMethod (PayMethod payMethod) throws SQLException {
+        //결제 수단 정보 예외처리 추가 구현 필요
+
+        boolean addSuccess = paymentDao.addPayMethod(payMethod);
+        return addSuccess;
+    }
+
+
+
 
 //    public boolean payMovie(Payment payments) {
 //        return paymentsDao.payMovie(payments);

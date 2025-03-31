@@ -19,7 +19,7 @@ public class SeatsView {
         this.scanner = new Scanner(System.in);
     }
 
-    public int choiceSchedule() {
+    /*public int choiceSchedule() {
 
         System.out.println("\n===== 관람을 원하시는 영화를 선택해주세요. =====");
         System.out.println("1. 10:00 어벤져스");
@@ -32,7 +32,7 @@ public class SeatsView {
         scanner.nextLine();
 
         return scheduleChoice;
-    }
+    }*/
 
     // 선택 가능한 좌석 출력
     public void showSeats(int scheduleChoice) {
@@ -61,14 +61,12 @@ public class SeatsView {
         System.out.println("\n===== 관람을 원하시는 좌석 번호를 선택해주세요. =====");
         String seatChoice = scanner.nextLine();
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        String movieInfo = seatsService.getMoviesbyScheduleId(scheduleChoice);
+        System.out.println("\n===== 다음은 선택하신 영화와 좌석 정보입니다. =====");
+        System.out.println(movieInfo);
+        System.out.println("좌석 : " + seatChoice);
 
-        if (choice == 1) {
-            int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
-            System.out.println("cinemaID = " + result);
-            return result;
-        }
+        System.out.println("\n===== 결제를 진행하시겠습니까? =====");
 
         // 좌석 번호를 Cinema_info 에 insert시 seat_id 로 전달
         int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);

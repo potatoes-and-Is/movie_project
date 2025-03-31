@@ -1,6 +1,8 @@
 package org.movieproject.dao;
 
 import com.mysql.cj.protocol.Resultset;
+import org.movieproject.model.Movies;
+import org.movieproject.model.Schedules;
 import org.movieproject.model.Seats;
 import org.movieproject.util.QueryUtil;
 
@@ -109,5 +111,29 @@ public class SeatsDao {
             System.out.println("addCinemaInfo: " + e.getMessage());
         }
         return cinemaInfoId;
+    }
+
+    /* cinema_id 로 영화 상영시간과 제목 불러오기 */
+    public Movies getCinemaInfoByScheduleId(int scheduleId) {
+
+        Movies movie = null;
+        Schedules schedule = null;
+        String query = QueryUtil.getQuery("getCinemaInfoByScheduleId");
+
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, scheduleId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                movie = new Movies(
+                        rs.getInt("movie_id"),
+                        rs.getString("movie_title"),
+                        rs.getInt("movie_price")
+                );
+            }
+        }catch (SQLException e) {
+            System.out.println("getCinemaInfoByScheduleId: " + e.getMessage());
+        }
+        return movie;
     }
 }

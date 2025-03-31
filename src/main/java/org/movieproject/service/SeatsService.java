@@ -1,6 +1,7 @@
 package org.movieproject.service;
 
 import org.movieproject.dao.SeatsDao;
+import org.movieproject.model.Movies;
 import org.movieproject.model.Seats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,19 @@ public class SeatsService {
             }
         }
         return availSeats;
+    }
+
+    // schedule_id로 영화 제목과 상영시간 가져오기
+    public String getMoviesbyScheduleId(int scheduleId) {
+
+        Movies movie = seatsDao.getCinemaInfoByScheduleId(scheduleId);
+
+        if(movie == null) {
+            System.out.println("해당 영화 정보가 없습니다.");
+            return null;
+        }
+
+        return "영화 제목 : " + movie.getMovieTitle() + "영화 시간 : " +  movie.getStartTime();
     }
 
     // Cinema_infos 테이블 add

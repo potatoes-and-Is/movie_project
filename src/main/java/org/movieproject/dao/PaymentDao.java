@@ -67,6 +67,8 @@ public class PaymentDao {
 
         try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, payment.getPaymentPrice());
+            ps.setInt(2, payment.getTicketId());
+            ps.setInt(3, payment.getPayMethodId());
 
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;

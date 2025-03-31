@@ -7,12 +7,14 @@ public class Payment {
     private int paymentPrice;
     private LocalDateTime paymentTime;
     private int ticketId;
+    private int payMethodId;
 
-    public Payment(int paymentId, int paymentPrice, LocalDateTime paymentTime, int ticketId) {
+    public Payment(int paymentId, int paymentPrice, LocalDateTime paymentTime, int ticketId, int payMethodId) {
         this.paymentId = paymentId;
         this.paymentPrice = paymentPrice;
         this.paymentTime = paymentTime;
         this.ticketId = ticketId;
+        this.payMethodId = payMethodId;
     }
 
     public int getPaymentId() {
@@ -47,13 +49,22 @@ public class Payment {
         this.ticketId = ticketId;
     }
 
+    public int getPayMethodId() {
+        return payMethodId;
+    }
+
+    public void setPayMethodId(int payMethodId) {
+        this.payMethodId = payMethodId;
+    }
+
     @Override
     public String toString() {
-        return "Payments{" +
+        return "Payment{" +
                 "paymentId=" + paymentId +
                 ", paymentPrice=" + paymentPrice +
                 ", paymentTime=" + paymentTime +
                 ", ticketId=" + ticketId +
+                ", payMethodId=" + payMethodId +
                 '}';
     }
 }

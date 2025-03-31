@@ -12,12 +12,14 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
-        int ticketId = 1;
-        int userId = 5;
+        int ticketId = 4;
+        int payMethodId = 6;
+        int userId = 11;
 
         PaymentView paymentView = new PaymentView(connection);
 
 //        paymentView.getAllPayMethods(userId);
 //        paymentView.addPayMethod(userId);
+        paymentView.payMovie(ticketId);
     }
 }

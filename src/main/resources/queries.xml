@@ -8,8 +8,8 @@
     </query>
 
     <query id="payMovie">
-        INSERT INTO payments (payment_price)
-        VALUES (19000)
+        INSERT INTO payments (payment_price, ticket_id, pay_method_id)
+        VALUES (?, ?, ?)
     </query>
 
     <query id="getAllPayMethods">

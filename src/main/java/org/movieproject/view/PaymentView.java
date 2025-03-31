@@ -1,6 +1,7 @@
 package org.movieproject.view;
 
 import org.movieproject.model.PayMethod;
+import org.movieproject.model.Payment;
 import org.movieproject.service.PaymentService;
 
 import java.sql.Connection;
@@ -17,8 +18,8 @@ public class PaymentView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void payMovie(int ticket_id, int user_id) {
-        System.out.println("===== 결제를 진행하시겠습니까? =====");
+//    public void payMovie(int ticket_id, int user_id) {
+//        System.out.println("===== 결제를 진행하시겠습니까? =====");
 
 
 //        System.out.println("1. 카드");
@@ -46,7 +47,7 @@ public class PaymentView {
 //            System.out.println("결제 진행 중 오류가 발생했습니다.");
 //        }
 
-    }
+//    }
 
 
     /* 결제 수단 목록 조회 */
@@ -91,7 +92,24 @@ public class PaymentView {
         }
     }
 
-    /* 결제 수단 선택, 결제 진행 */
+    /* 결제 등록하기 */
+    public void payMovie(int ticketId) {
+        System.out.print("\n결제를 위한 결제 수단을 선택해 주세요 : ");
+        String inputStrPayNum = scanner.nextLine();
+        int inputPayNum = Integer.parseInt(inputStrPayNum);
+
+        Payment payment = new Payment(0, 19000, null, ticketId, inputPayNum);
+        try {
+            boolean paySuccess = paymentService.payMovie(payment);
+            if (paySuccess) {
+                System.out.println("결제가 성공적으로 완료되었습니다.");
+            } else {
+                System.out.println("결제에 실패하였습니다.");
+            }
+        } catch (SQLException e) {
+            System.out.println("결제 진행 중 오류가 발생했습니다.");
+        }
+    }
 
 
 }

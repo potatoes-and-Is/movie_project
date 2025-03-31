@@ -42,7 +42,7 @@ public class PaymentService {
     }
 
     /* 결제 등록하기 */
-    public boolean payMovie(Payment payment) {
+    public boolean payMovie(Payment payment) throws SQLException {
         //검증 처리 필요
 
         return paymentDao.payMovie(payment);

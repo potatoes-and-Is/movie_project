@@ -1,18 +1,17 @@
 package org.movieproject.dao;
 
 import org.movieproject.model.Tickets;
-import org.movieproject.model.Users;
 import org.movieproject.util.QueryUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPageDao {
+public class MyPageDAO {
 
     private final Connection connection;
 
-    public MyPageDao(Connection connection) {
+    public MyPageDAO(Connection connection) {
         this.connection = connection;
     }
 

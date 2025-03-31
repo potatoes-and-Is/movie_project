@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 테스트 용 쿼리-->
 <queries>
+    <query id="getAllUsers">
+        SELECT
+        *
+        FROM users
+    </query>
+
+    <query id = "cancelTicket">
+        UPDATE
+        tickets
+        SET
+        cancel_status = 'Y'
+        WHERE ticket_id = ?
+    </query>
+
+    <query id = "getTicketsById">
+        SELECT
+        *
+        FROM tickets
+        WHERE ticket_id = ?
+        AND cancel_status = 'N'
+    </query>
+
+    <query id = "getTicketsByUserId">
+        SELECT
+        *
+        FROM tickets
+        WHERE user_id = ?
+        AND cancel_status = 'N'
+    </query>
+
+    <!--  mypage query  -->
     <query id="getFindUser">
         SELECT * from users
         where users.user_id;
@@ -16,7 +47,8 @@
         JOIN Users U ON T.user_id = U.user_id
         JOIN Schedules S ON S.schedule_id = ci.schedule_id
         JOIN Movies M ON M.movie_id = s.movie_id
-        WHERE T.user_id = ?;
+        WHERE T.user_id = ?
+        AND T.cancel_status = 'N';
     </query>
 
     <query id="getTicketById">

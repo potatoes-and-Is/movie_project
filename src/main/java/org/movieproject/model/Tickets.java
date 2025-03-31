@@ -3,13 +3,33 @@ package org.movieproject.model;
 import java.sql.Timestamp;
 
 public class Tickets {
-    private int ticketId;
-    private char cancelStatus;
+
+    private int ticketId; // 예약 ID
+    private char cancelStatus; // 티켓 취소 여부
+    private int userId; // 회원 ID (외래키)
+    private int cinema_info_id; // 예약 ID
     private String userNickname;
     private String movieTitle;
     private Timestamp scheduleStartTime;
     private String seatNumber;
-//    private int paymentId;
+
+    public Tickets(int ticketId, char cancelStatus, int userId, int cinema_info_id) {
+        this.ticketId = ticketId;
+        this.cancelStatus = cancelStatus;
+        this.userId = userId;
+        this.cinema_info_id = cinema_info_id;
+    }
+
+    public Tickets(int ticketId, char cancelStatus, int userId, int cinema_info_id, String userNickname, String movieTitle, Timestamp scheduleStartTime, String seatNumber) {
+        this.ticketId = ticketId;
+        this.cancelStatus = cancelStatus;
+        this.userId = userId;
+        this.cinema_info_id = cinema_info_id;
+        this.userNickname = userNickname;
+        this.movieTitle = movieTitle;
+        this.scheduleStartTime = scheduleStartTime;
+        this.seatNumber = seatNumber;
+    }
 
     public Tickets(int ticketId, String movieTitle, Timestamp scheduleStartTime) {
         this.ticketId = ticketId;
@@ -29,55 +49,31 @@ public class Tickets {
         return ticketId;
     }
 
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
-    }
-
     public char getCancelStatus() {
         return cancelStatus;
     }
 
-    public void setCancelStatus(char cancelStatus) {
-        this.cancelStatus = cancelStatus;
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getCinema_info_id() {
+        return cinema_info_id;
     }
 
     public String getUserNickname() {
         return userNickname;
     }
 
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    //    public int getPaymentId() {
-//        return paymentId;
-//    }
-//
-//    public void setPaymentId(int paymentId) {
-//        this.paymentId = paymentId;
-//    }
-
     public String getMovieTitle() {
         return movieTitle;
-    }
-
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
     }
 
     public String getScheduleStartTime() {
         return String.valueOf(scheduleStartTime);
     }
 
-    public void setScheduleStartTime(Timestamp scheduleStartTime) {
-        this.scheduleStartTime = scheduleStartTime;
-    }
-
     public String getSeatNumber() {
         return seatNumber;
-    }
-
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
     }
 }

@@ -1,6 +1,6 @@
 package org.movieproject.service;
 
-import org.movieproject.dao.MyPageDao;
+import org.movieproject.dao.MyPageDAO;
 import org.movieproject.model.Tickets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,12 @@ public class MyPageService {
 
     private static final Logger log = LoggerFactory.getLogger(MyPageService.class);
 
-    private final MyPageDao myPageDao;
+    private final MyPageDAO myPageDao;
     private final Connection connection;
 
     /* 생성자 주입 (의존성 주입) */
     public MyPageService(Connection connection) {
-        this.myPageDao = new MyPageDao(connection);
+        this.myPageDao = new MyPageDAO(connection);
         this.connection = connection;
     }
 

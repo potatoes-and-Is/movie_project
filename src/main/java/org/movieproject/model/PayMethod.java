@@ -6,12 +6,14 @@ public class PayMethod {
     private String payMethodNumber;
     private int payMethodBalance;
     private int userId;
+    private int payMethodPwd;
 
-    public PayMethod(int payMethodId, String payMethodNumber, int payMethodBalance, int userId) {
+    public PayMethod(int payMethodId, String payMethodNumber, int payMethodBalance, int userId, int payMethodPwd) {
         this.payMethodId = payMethodId;
         this.payMethodNumber = payMethodNumber;
         this.payMethodBalance = payMethodBalance;
         this.userId = userId;
+        this.payMethodPwd = payMethodPwd;
     }
 
     public int getPayMethodId() {
@@ -46,6 +48,14 @@ public class PayMethod {
         this.userId = userId;
     }
 
+    public int getPayMethodPwd() {
+        return payMethodPwd;
+    }
+
+    public void setPayMethodPwd(int payMethodPwd) {
+        this.payMethodPwd = payMethodPwd;
+    }
+
     @Override
     public String toString() {
         return "PayMethod{" +
@@ -53,6 +63,7 @@ public class PayMethod {
                 ", payMethodNumber='" + payMethodNumber + '\'' +
                 ", payMethodBalance=" + payMethodBalance +
                 ", userId=" + userId +
+                ", payMethodPwd=" + payMethodPwd +
                 '}';
     }
 }

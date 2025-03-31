@@ -69,7 +69,28 @@ public class PaymentView {
         }
     }
 
+    /* 결제 수단 등록하기 */
+    public void addPayMethod(int userId) {
+        System.out.println("\n======== 결제 수단 등록 ========");
+        System.out.print("카드 번호 16자리 숫자를 '-'를 포함하여 입력하세요 \n (예시: 1234-5678-9012-3456) : ");
+        String inputMethodNum = scanner.nextLine();
 
+        System.out.print("비밀번호 4자리를 입력하세요 : ");
+        String inputStrMethodPwd = scanner.nextLine();
+        int inputMethodPwd = Integer.parseInt(inputStrMethodPwd);
+
+        PayMethod payMethod = new PayMethod(0, inputMethodNum, 0, userId, inputMethodPwd);
+        try {
+            boolean addSuccess = paymentService.addPayMethod(payMethod);
+            if (addSuccess) {
+                System.out.println("결제 수단이 성공적으로 등록되었습니다.");
+            } else {
+                System.out.println("결제 수단 등록에 실패하였습니다.");
+            }
+        } catch (SQLException e) {
+            System.out.println("결제 수단 등록 중 오류가 발생했습니다.");
+        }
+    }
 
 
 }

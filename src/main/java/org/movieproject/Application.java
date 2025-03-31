@@ -17,6 +17,7 @@ public class Application {
 
         PaymentView paymentView = new PaymentView(connection);
 
-        paymentView.getAllPayMethods(userId);
+//        paymentView.getAllPayMethods(userId);
+        paymentView.addPayMethod(userId);
     }
 }

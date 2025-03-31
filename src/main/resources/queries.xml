@@ -20,7 +20,7 @@
     </query>
 
     <query id="addPayMethod">
-        INSERT INTO (pay_method_number, pay_method_balance, user_id)
-        VALUES (?, 50000, ?)
+        INSERT INTO pay_methods (pay_method_number, pay_method_balance, user_id, pay_method_pwd)
+        VALUES (?, 50000, ?, ?)
     </query>
 </queries>

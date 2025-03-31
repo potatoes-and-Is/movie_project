@@ -1,8 +1,7 @@
 package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
-import org.movieproject.dao.PaymentDao;
-import org.movieproject.view.PaymentsView;
+import org.movieproject.view.PaymentView;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,8 +15,8 @@ public class Application {
         int ticket_id = 1;
         int user_id = 2;
 
-        PaymentsView paymentsView = new PaymentsView(connection);
+        PaymentView paymentView = new PaymentView(connection);
 
-        paymentsView.payMovie(ticket_id, user_id);
+        paymentView.getAllPayMethods();
     }
 }

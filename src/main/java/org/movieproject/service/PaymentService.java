@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,15 +21,15 @@ public class PaymentService {
         this.paymentDao = new PaymentDao(connection);
     }
 
-    public List<PayMethod> getPaymentStatus(List<Payment> payMethods) {
-        List<PayMethod> payMethods = paymentDao.getAllPayMethods(payMethods);
+    public List<PayMethod> getAllPayMethods() throws SQLException {
+        List<PayMethod> payMethods = paymentDao.getAllPayMethods();
 
         if (payMethods == null) {
             log.error("조회한 결제 수단의 정보가 없거나 DB와 연결하는 과정에서 오류가 발생했습니다.");
             return null;
         }
 
-        return payMethods;
+        return paymentDao.getAllPayMethods();
     }
 
 //    public boolean payMovie(Payment payments) {

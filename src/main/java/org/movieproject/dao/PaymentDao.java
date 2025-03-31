@@ -36,7 +36,6 @@ public class PaymentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("값이 잘 나옵니다!" + payMethods.size());
         return payMethods;
     }
 

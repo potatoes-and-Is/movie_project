@@ -32,7 +32,7 @@ public class PaymentDao {
                              rs.getString("pay_method_number"),
                              rs.getInt("pay_method_balance"),
                              rs.getInt("user_id"),
-                             rs.getInt("pay_method_pwd")
+                             rs.getString("pay_method_pwd")
                      ));
                  }
              }
@@ -49,7 +49,7 @@ public class PaymentDao {
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, payMethod.getPayMethodNumber());
             ps.setInt(2, payMethod.getUserId());
-            ps.setInt(3, payMethod.getPayMethodPwd());
+            ps.setString(3, payMethod.getPayMethodPwd());
 
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;

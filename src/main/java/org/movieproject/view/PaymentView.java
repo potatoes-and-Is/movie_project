@@ -76,8 +76,7 @@ public class PaymentView {
         String inputMethodNum = scanner.nextLine();
 
         System.out.print("비밀번호 4자리를 입력하세요 : ");
-        String inputStrMethodPwd = scanner.nextLine();
-        int inputMethodPwd = Integer.parseInt(inputStrMethodPwd);
+        String inputMethodPwd = scanner.nextLine();
 
         PayMethod payMethod = new PayMethod(0, inputMethodNum, 0, userId, inputMethodPwd);
         try {

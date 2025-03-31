@@ -6,9 +6,9 @@ public class PayMethod {
     private String payMethodNumber;
     private int payMethodBalance;
     private int userId;
-    private int payMethodPwd;
+    private String payMethodPwd;
 
-    public PayMethod(int payMethodId, String payMethodNumber, int payMethodBalance, int userId, int payMethodPwd) {
+    public PayMethod(int payMethodId, String payMethodNumber, int payMethodBalance, int userId, String payMethodPwd) {
         this.payMethodId = payMethodId;
         this.payMethodNumber = payMethodNumber;
         this.payMethodBalance = payMethodBalance;
@@ -48,11 +48,11 @@ public class PayMethod {
         this.userId = userId;
     }
 
-    public int getPayMethodPwd() {
+    public String getPayMethodPwd() {
         return payMethodPwd;
     }
 
-    public void setPayMethodPwd(int payMethodPwd) {
+    public void setPayMethodPwd(String payMethodPwd) {
         this.payMethodPwd = payMethodPwd;
     }
 

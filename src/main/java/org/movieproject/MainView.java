@@ -2,6 +2,7 @@ package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
 import org.movieproject.model.User;
+import org.movieproject.service.CinemaInfoService;
 import org.movieproject.service.UserService;
 import org.movieproject.view.MovieView;
 import org.movieproject.view.ScheduleView;
@@ -26,7 +27,6 @@ public class MainView {
             if (loggedInUser == null) {
                 return; // 프로그램 종료
             }
-            System.out.println("로그인 성공! 환영합니다, " + loggedInUser.getNickname() + "님!");
 
             while (true) {
                 // 2. 영화 선택 (MovieView)
@@ -51,6 +51,8 @@ public class MainView {
                         System.out.println("유효하지 않은 좌석입니다. 다시 선택해주세요.");
                     }
                 }
+//                CinemaInfoService cinemaInfoService = new CinemaInfoService(conn);
+//                int cinemaInfoId = cinemaInfoService.createCinemaInfo(selectedMovieId, selectedSeatId); // CinemaInfo Id 생성
 
                 // 5. 결제 처리 (PaymentView)
                 PaymentView paymentView = new PaymentView(conn, scanner);

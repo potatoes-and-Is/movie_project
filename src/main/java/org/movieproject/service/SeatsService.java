@@ -12,9 +12,7 @@ import java.util.List;
 
 public class SeatsService {
 
-    private static final Logger log = LoggerFactory.getLogger(SeatsService.class);
-
-    private SeatsDao seatsDao;
+    private final SeatsDao seatsDao;
 
     public SeatsService(Connection connection) {
         this.seatsDao = new SeatsDao(connection);
@@ -25,18 +23,24 @@ public class SeatsService {
         try {
             List<Seat> allSeats = seatsDao.getAllSeats();
             List<Seat> unavailableSeats = seatsDao.getUnavailSeats(scheduleId);
-            List<Seat> availableSeats = new ArrayList<>();
+
             if (unavailableSeats == null || unavailableSeats.isEmpty()) {
-                availableSeats = allSeats;
+                return allSeats; // 좌석이 다 있으면 allSeats 반환
             } else {
-                allSeats.removeAll(unavailableSeats); // equals와 hashCode가 올바르게 구현되어 있어야 함
-                availableSeats.addAll(allSeats);
+                for (int i = 0; i < allSeats.size(); i++) {
+                    Seat seat = allSeats.get(i);
+                    if(unavailableSeats.contains(seat)) {
+                        // 만약 Seat 클래스가 set메서드를 지원한다면 seat.setSeatNumber(""); 와 같이 처리할 수도 있음
+                        // 여기서는 새로운 빈 객체로 교체하는 예시입니다.
+                        allSeats.set(i, new Seat("  "));
+                    }
+                }
             }
-            return availableSeats;
+            return allSeats;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
 }

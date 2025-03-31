@@ -1,6 +1,8 @@
 package org.movieproject.view;
 
+import org.movieproject.dao.CinemaInfoDao;
 import org.movieproject.model.Seat;
+import org.movieproject.service.CinemaInfoService;
 import org.movieproject.service.SeatsService;
 
 import java.sql.Connection;
@@ -12,8 +14,8 @@ public class SeatsView {
     private final SeatsService seatsService;
     private final Scanner scanner;
 
+    // Connection과 Scanner를 생성자로 받아 초기화
     public SeatsView(Connection connection, Scanner scanner) {
-        // 항상 Connection과 Scanner를 생성자로 받아 초기화합니다.
         this.seatsService = new SeatsService(connection);
         this.scanner = scanner;
     }
@@ -22,14 +24,23 @@ public class SeatsView {
     public int chooseSeat(int scheduleId) {
         List<Seat> availableSeats = seatsService.getSeatsByScheduleId(scheduleId);
         System.out.println("===== 예약 가능한 좌석 =====");
-        if (availableSeats == null || availableSeats.isEmpty()) {
+        if (availableSeats.isEmpty()) {
             System.out.println("예약 가능한 좌석이 없습니다.");
         }
+
         // 모든 좌석 출력
-        for (Seat seat : availableSeats) {
-            System.out.print(seat.getSeatNumber() + " ");
+        int cnt = 0;
+        for (int i = 0; i < availableSeats.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                if(cnt == availableSeats.size() - 1) {
+                    break;
+                }
+                System.out.print(availableSeats.get(cnt).getSeatNumber() + " ");
+                cnt++;
+            }
+            System.out.println();
         }
-        System.out.println();
+
         System.out.print("예약할 좌석 입력: ");
         String selectedSeat = scanner.nextLine().trim();
         if (selectedSeat.isEmpty()) {

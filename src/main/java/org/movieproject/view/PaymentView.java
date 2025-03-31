@@ -1,5 +1,6 @@
 package org.movieproject.view;
 
+import org.movieproject.service.MovieService;
 import org.movieproject.service.PaymentService;
 
 import java.sql.Connection;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class PaymentView {
 
     private PaymentService paymentService;
+    private MovieService movieService;
     private Scanner scanner;
 
     public PaymentView(Connection connection, Scanner scanner) {
@@ -18,6 +20,7 @@ public class PaymentView {
     // 결제 수단 선택 및 결제 처리 예시
     public int processPayment() {
         System.out.println("===== 결제 수단 선택 =====");
+
         System.out.println("1. 카드");
         System.out.println("2. 현금");
         System.out.print("결제 수단 선택: ");

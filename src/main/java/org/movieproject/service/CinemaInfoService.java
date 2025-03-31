@@ -23,4 +23,8 @@ public class CinemaInfoService {
         }
     }
 
+    public int createCinemaInfo(int scheduleId, int seatId) throws SQLException {
+        return cinemaInfoDao.createCinemaInfo(scheduleId, seatId);
+    }
+
 }

@@ -17,7 +17,8 @@ public class UserDao {
     // 회원 생성
     public boolean createUser(User user) throws SQLException {
         String sql = QueryUtil.getQuery("insertUser");
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        //
+        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, user.getNickname());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getStatus());
@@ -50,6 +51,7 @@ public class UserDao {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(
+                            rs.getInt("user_id"), // id 값도 전달하여 사용할 수 있도록 한다.
                             rs.getString("user_nickname"),
                             rs.getString("user_password"),
                             rs.getString("user_status")

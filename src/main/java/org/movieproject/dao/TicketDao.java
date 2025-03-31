@@ -18,16 +18,19 @@ public class TicketDao {
 
     // Tickets 테이블에 티켓을 생성하고, 생성된 ticket_id 반환
     public int createTicket(String cancelStatus, int cinemaInfoId, int userId, int paymentId) throws SQLException {
-        String sql = QueryUtil.getQuery("insertTicket"); // queries.xml에 insertTicket 쿼리 정의
+        String sql = QueryUtil.getQuery("insertTicket");
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, cancelStatus);
             pstmt.setInt(2, cinemaInfoId);
             pstmt.setInt(3, userId);
             pstmt.setInt(4, paymentId);
+
             int affectedRows = pstmt.executeUpdate();
+
             if (affectedRows == 0) {
                 throw new SQLException("티켓 생성에 실패하였습니다.");
             }
+
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getInt(1);  // 생성된 티켓 ID 반환

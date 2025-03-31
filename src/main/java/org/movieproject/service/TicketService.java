@@ -33,8 +33,7 @@ public class TicketService {
         // Cinema_Infos 테이블에 새 레코드 생성 후 cinema_info_id 반환
         int cinemaInfoId = cinemaInfoDao.createCinemaInfo(scheduleId, seatId);
         // 생성된 cinema_info_id를 사용해 Tickets 테이블에 티켓 생성 및 생성된 ticket_id 반환
-        int ticketId = ticketDao.createTicket("N", cinemaInfoId, userId, paymentId);
-        return ticketId;
+        return ticketDao.createTicket("N", cinemaInfoId, userId, paymentId);
     }
 
     // 사용자의 예매 내역 반환

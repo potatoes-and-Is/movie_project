@@ -15,6 +15,10 @@ public class Seat {
         this.seatNumber = seatNumber;
     }
 
+    public Seat(String space) {
+        this.seatNumber = space;
+    }
+
     public int getSeatId() {
         return seatId;
     }

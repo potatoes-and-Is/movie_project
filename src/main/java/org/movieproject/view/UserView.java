@@ -19,7 +19,7 @@ public class UserView {
     public User displayUserMenu() throws SQLException {
         while (true) {
             System.out.println("\n===== POI MOVIE SYSTEM =====");
-            System.out.println("1. 회원 가입");
+            System.out.println("1. 회원가입");
             System.out.println("2. 로그인");
             System.out.println("0. 종료");
             System.out.print("선택: ");
@@ -88,7 +88,7 @@ public class UserView {
 
             User user = userService.login(nickname, password);
             if (user != null) {
-                System.out.println("로그인 성공! 환영합니다, " + user.getNickname());
+                System.out.println("로그인 성공! 환영합니다, " + user.getNickname() + "님 !");
                 return user; // 성공 시 유저 반환
             } else {
                 System.out.println("아이디랑 비밀번호를 다시 입력하여 주시기 바랍니다.");

@@ -24,42 +24,34 @@ public class ScheduleDao {
              ResultSet rs = ps.executeQuery(query)) {
 
             while (rs.next()) {
-                Movies movie = new Movies(
-                        rs.getInt("movie_id"),
-                        rs.getString("movie_title"),
-                        rs.getInt("movie_price")
-                );
-
                 schedules.add(new Schedules(
                         rs.getInt("schedule_id"),
                         rs.getString("schedule_start_time"),
-                        movie
+                        rs.getInt("movie_id") // Movies => int
                 ));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return schedules;
     }
 
+    // 영화Id 값으로 모든 영화 가지고 오기
+    public Movies getMovieById(int movieId) throws SQLException {
 
-    // 스케쥴 추가
-//    public boolean addMovies(Schedules movies) throws SQLException {
-//        String query = QueryUtil.getQuery("addSchedule") ;
-////        String query = "insert into movies (movieTitle, moviePrice) values (?, ?)";
-//
-//        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-//            ps.setString(1, movies.getMovieTitle());
-//            ps.setInt(2, movies.getMoviePrice());
-//            ps.setInt(3, movies.getScheduleId());
-//            ps.setString(4, movies.getScheduleStartTime());
-//
-//            int affectedRows = ps.executeUpdate();
-//            return affectedRows > 0;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+        String query = QueryUtil.getQuery("getMovieById");
+        Movies movie = new Movies();
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, movieId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+              movie = new Movies(
+                        rs.getInt("movie_id"),
+                        rs.getString("movie_title"),
+                        rs.getInt("movie_price")
+                );
+            }
+        }
+        return movie;
+    }
 }

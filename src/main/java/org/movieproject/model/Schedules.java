@@ -3,9 +3,9 @@ package org.movieproject.model;
 public class Schedules {
     private int scheduleId;
     private String startTime;
-    private Movies movieId;
+    private int movieId;
 
-    public Schedules(int scheduleId, String startTime, Movies movieId) {
+    public Schedules(int scheduleId, String startTime, int movieId) {
         this.scheduleId = scheduleId;
         this.startTime = startTime;
         this.movieId = movieId;
@@ -27,18 +27,14 @@ public class Schedules {
         this.startTime = startTime;
     }
 
-    public Movies getMovieId() {
+    public int getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
 
-    @Override
-    public String toString() {
-        return "영화 :" + movieId.getMovieTitle() + ", " + "가격 :" + movieId.getMoviePrice() + "상영 시작 시간 : " + startTime + "\n";
-    }
 }
 
 

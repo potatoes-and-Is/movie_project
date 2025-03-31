@@ -24,8 +24,8 @@ public class Application {
             scanner.nextLine(); // 개행 문자 처리
 
             switch (choice) {
-                case 1 -> signUpUserManagement(connection);
-                case 2 -> logInMovieMenuManagement(connection);
+                case 1 -> signUpUserManagement(connection); // 회원가입
+                case 2 -> logInMovieMenuManagement(connection); // 로그인
                 case 0 -> {
                     connection.close();
                     System.out.println("🚀 프로그램을 종료합니다.");
@@ -36,20 +36,13 @@ public class Application {
         }
     }
 
-    /**
-     * 📌 사용자(User) 관리 시작
-     * - 사용자(User) 관련 기능 실행
-     */
-    private static void startUserManagement(Connection connection) {
-        UsersView userView = new UsersView(connection);
-        userView.showMenu();
-    }
-
+    // 로그인
     private static void logInMovieMenuManagement(Connection connection) {
         MovieView movieView = new MovieView(connection);
         movieView.loginUser();
     }
 
+    // 회원가입
     private static void signUpUserManagement(Connection connection){
         MovieView movieView = new MovieView(connection);
         movieView.signUp();

@@ -13,11 +13,11 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
 
         int ticketId = 1;
-        int userId = 4;
+        int userId = 5;
 
         PaymentView paymentView = new PaymentView(connection);
 
 //        paymentView.getAllPayMethods(userId);
-        paymentView.addPayMethod(userId);
+//        paymentView.addPayMethod(userId);
     }
 }

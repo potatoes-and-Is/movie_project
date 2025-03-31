@@ -91,5 +91,7 @@ public class PaymentView {
         }
     }
 
+    /* 결제 수단 선택, 결제 진행 */
+
 
 }

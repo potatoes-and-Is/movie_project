@@ -61,22 +61,19 @@ public class PaymentDao {
     }
 
 
-    /* 결제 ( insert)  */
-    /* payment_method, payment_price(고정값) 전달 */
-//    public boolean payMovie(Payment payments) {
-//        String query = QueryUtil.getQuery("payMovie");
-//
-//        try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-//            ps.setString(1, payments.getPaymentMethod());
-//
-//            int affectedRows = ps.executeUpdate();
-//            return affectedRows > 0;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    /* 결제 등록하기  */
+    public boolean payMovie(Payment payment) {
+        String query = QueryUtil.getQuery("payMovie");
 
+        try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, payment.getPaymentPrice());
 
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

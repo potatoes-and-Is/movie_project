@@ -12,11 +12,11 @@ public class Application {
         Connection connection = JDBCConnection.getConnection();
         Scanner scanner = new Scanner(System.in);
 
-        int ticket_id = 1;
-        int user_id = 2;
+        int ticketId = 1;
+        int userId = 1;
 
         PaymentView paymentView = new PaymentView(connection);
 
-        paymentView.getAllPayMethods();
+        paymentView.getAllPayMethods(userId);
     }
 }

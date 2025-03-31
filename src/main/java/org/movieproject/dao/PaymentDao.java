@@ -18,21 +18,23 @@ public class PaymentDao {
     }
 
     /* 결제수단 목록 조회하기 */
-    public List<PayMethod> getAllPayMethods () {
+    public List<PayMethod> getAllPayMethods (int userId) {
         List<PayMethod> payMethods = new ArrayList<>();
         String query = QueryUtil.getQuery("getAllPayMethods");
 
-        try (Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+             ps.setInt(1, userId);
 
-            while (rs.next()) {
-                payMethods.add(new PayMethod(
-                    rs.getInt("pay_method_id"),
-                    rs.getString("pay_method_number"),
-                    rs.getInt("pay_method_balance"),
-                    rs.getInt("user_id")
-                ));
-            }
+             try (ResultSet rs = ps.executeQuery()) {
+                 while (rs.next()) {
+                     payMethods.add(new PayMethod(
+                             rs.getInt("pay_method_id"),
+                             rs.getString("pay_method_number"),
+                             rs.getInt("pay_method_balance"),
+                             rs.getInt("user_id")
+                     ));
+                 }
+             }
         } catch (SQLException e) {
             e.printStackTrace();
         }

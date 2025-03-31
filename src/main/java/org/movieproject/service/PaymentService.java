@@ -21,15 +21,15 @@ public class PaymentService {
         this.paymentDao = new PaymentDao(connection);
     }
 
-    public List<PayMethod> getAllPayMethods() throws SQLException {
-        List<PayMethod> payMethods = paymentDao.getAllPayMethods();
+    public List<PayMethod> getAllPayMethods(int userId) throws SQLException {
+        List<PayMethod> payMethods = paymentDao.getAllPayMethods(userId);
 
         if (payMethods == null) {
             log.error("조회한 결제 수단의 정보가 없거나 DB와 연결하는 과정에서 오류가 발생했습니다.");
             return null;
         }
 
-        return paymentDao.getAllPayMethods();
+        return paymentDao.getAllPayMethods(userId);
     }
 
 //    public boolean payMovie(Payment payments) {

@@ -15,6 +15,7 @@
     <query id="getAllPayMethods">
         SELECT
         *
-        FROM pay_methods;
+        FROM pay_methods
+        WHERE user_id = ?
     </query>
 </queries>

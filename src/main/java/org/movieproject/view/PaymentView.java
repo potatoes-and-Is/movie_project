@@ -50,9 +50,9 @@ public class PaymentView {
 
 
     /* 결제 수단 목록 조회 */
-    public void getAllPayMethods() {
+    public void getAllPayMethods(int userId) {
         try {
-            List<PayMethod> payMethods = paymentService.getAllPayMethods();
+            List<PayMethod> payMethods = paymentService.getAllPayMethods(userId);
 
             if (payMethods.isEmpty()) {
                 System.out.println("등록된 결제 수단이 없습니다.");

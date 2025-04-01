@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 테스트 용 쿼리-->
 <queries>
     <query id="getAllUsers">
         SELECT
@@ -76,4 +75,81 @@
         INSERT INTO tickets (cinema_info_id, user_id)
         VALUES (?, ?);
     </query>
+
+    <query id="getAllSeats">
+        SELECT
+        *
+        FROM seats
+    </query>
+
+    <query id="getReservedSeatbyScheduleId">
+        SELECT
+        c.seat_id,
+        se.seat_number
+        FROM tickets t
+        JOIN cinema_infos c ON t.cinema_info_id = c.cinema_info_id
+        JOIN schedules s ON s.schedule_id = c.schedule_id
+        JOIN seats se ON se.seat_id = c.seat_id
+        WHERE t.cancel_status = 'N' AND s.schedule_id = ?
+    </query>
+
+    <query id="addCinemaInfo">
+        INSERT INTO Cinema_Infos(schedule_id, seat_id)
+        values(?, ?);
+    </query>
+
+    <query id="getSeatBySeatNumber">
+        SELECT
+        s.seat_id,
+        s.seat_number
+        FROM seats s
+        WHERE s.seat_number = ?;
+    </query>
+
+    <query id="getMovieInfobyScheduleId">
+        SELECT
+        m.movie_title,
+        s.schedule_start_time
+        FROM schedules s
+        JOIN movies m ON s.movie_id = m.movie_id
+        WHERE s.schedule_id = ?;
+    </query>
+
+    <!-- 모든 영화 조회 쿼리 -->
+    <query id="getAllSchedule">
+        SELECT s.schedule_id, s.schedule_start_time,
+        m.movie_id, m.movie_title, m.movie_price
+        FROM Schedules s
+        JOIN Movies m ON s.movie_id = m.movie_id;
+    </query>
+
+    <!-- 영화Id로 모든 영화 목록 조회 쿼리 -->
+    <query id="getMovieById">
+        SELECT * FROM MOVIES WHERE movie_id = ?
+    </query>
+
+    <query id="getUserById">
+        SELECT
+        *
+        FROM users
+        WHERE user_id = ?
+    </query>
+
+    <query id="addUser">
+        INSERT INTO users (user_nickname, user_password, user_status, user_created_at)
+        VALUES (?, ?, ?, ?)
+    </query>
+
+    <query id="updateUser">
+        UPDATE users SET username = ?, email = ?, password_hash = ?, role_id = ? WHERE user_id = ?
+    </query>
+
+    <query id="deleteUser">
+        DELETE FROM users WHERE user_id = ?
+    </query>
+
+    <query id="loginUser">
+        SELECT * FROM users WHERE user_nickname = ? AND user_password = ?
+    </query>
+
 </queries>

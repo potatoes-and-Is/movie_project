@@ -77,6 +77,7 @@ public class TicketsDAO {
         return false;
     }
 
+    /* 생성된 티켓 저장 */
     public boolean saveTicket(Tickets tickets) {
         String query = QueryUtil.getQuery("saveTicket");
 

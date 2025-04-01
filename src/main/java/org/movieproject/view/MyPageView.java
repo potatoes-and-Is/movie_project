@@ -96,7 +96,7 @@ public class MyPageView {
         }
     }
 
-    /* 입력된 티켓 아이디에 대한 상세 정보 출력 */
+    /* 예매 취소 선택 후 취소할 티켓 ID 입력*/
     private void checkCancelTicket(List<Tickets> tickets) throws SQLException {
         while (true) {
             System.out.println("1. 예매 취소하기");
@@ -109,7 +109,7 @@ public class MyPageView {
                     System.out.print("\n취소할 티켓 ID를 입력하세요: ");
                     String showDetailTicketId = scanner.nextLine();
                     for (Tickets ticket : tickets) {
-                        if (String.valueOf(ticket.getTicketId()).equals(showDetailTicketId)){
+                        if (String.valueOf(ticket.getTicketId()).equals(showDetailTicketId)) {
                             showDetailTicket(Integer.parseInt(showDetailTicketId));
                             return;
                         }
@@ -124,20 +124,22 @@ public class MyPageView {
             }
         }
     }
+
+    /* 선택한 티켓의 상세정보 출력 */
     public void showDetailTicket(int ticketId) throws SQLException {
-
-            Tickets ticketInfo = myPageService.getTicketById(ticketId);
-
-            System.out.println("\n선택한 티켓 정보");
-            if (ticketInfo != null) {
-                System.out.println("티켓 ID: " + ticketInfo.getTicketId() +
-                        ", 이름: " + ticketInfo.getUserNickname() +
-                        ", 영화 제목: " + ticketInfo.getMovieTitle() +
-                        ", 상영 시간: " + ticketInfo.getScheduleStartTime() +
-                        ", 좌석 번호: " + ticketInfo.getSeatNumber());
-            }
-            cancelTicket(ticketId);
+        Tickets ticketInfo = myPageService.getTicketById(ticketId);
+        System.out.println("\n선택한 티켓 정보");
+        if (ticketInfo != null) {
+            System.out.println("티켓 ID: " + ticketInfo.getTicketId() +
+                    ", 이름: " + ticketInfo.getUserNickname() +
+                    ", 영화 제목: " + ticketInfo.getMovieTitle() +
+                    ", 상영 시간: " + ticketInfo.getScheduleStartTime() +
+                    ", 좌석 번호: " + ticketInfo.getSeatNumber());
         }
+        cancelTicket(ticketId);
+    }
+
+    /* 예매 취소 진행 */
     public void cancelTicket(int ticketId) throws SQLException {
         while (true) {
             try {
@@ -150,6 +152,7 @@ public class MyPageView {
                         return;
                     }
                     case "N" -> {
+                        System.out.println("마이페이지로 돌아갑니다.\n");
                         return;
                     }
                     default -> {
@@ -157,7 +160,6 @@ public class MyPageView {
                         scanner.nextLine();
                     }
                 }
-
             } catch (IllegalArgumentException e) {
                 System.out.println("오류: " + e.getMessage());
             }

@@ -117,8 +117,7 @@ public class SeatsDao {
     public Movies getCinemaInfoByScheduleId(int scheduleId) {
 
         Movies movie = null;
-        Schedules schedule = null;
-        String query = QueryUtil.getQuery("getCinemaInfoByScheduleId");
+        String query = QueryUtil.getQuery("getMovieInfobyScheduleId");
 
         try(PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, scheduleId);
@@ -126,9 +125,8 @@ public class SeatsDao {
 
             if (rs.next()) {
                 movie = new Movies(
-                        rs.getInt("movie_id"),
                         rs.getString("movie_title"),
-                        rs.getInt("movie_price")
+                        rs.getString("schedule_start_time")
                 );
             }
         }catch (SQLException e) {

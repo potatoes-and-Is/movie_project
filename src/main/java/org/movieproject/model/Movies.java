@@ -4,11 +4,17 @@ public class Movies {
     private int movieId;
     private String movieTitle;
     private int moviePrice;
+    private String scheduleStartTime;
 
     public Movies(int movieId, String movieTitle, int moviePrice) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.moviePrice = moviePrice;
+    }
+
+    public Movies(String movieTitle, String scheduleStartTime) {
+        this.movieTitle = movieTitle;
+        this.scheduleStartTime = scheduleStartTime;
     }
 
     public Movies() {
@@ -36,6 +42,14 @@ public class Movies {
 
     public void setMoviePrice(int moviePrice) {
         this.moviePrice = moviePrice;
+    }
+
+    public void setScheduleStartTime(String scheduleStartTime) {
+        this.scheduleStartTime = scheduleStartTime;
+    }
+
+    public String getScheduleStartTime() {
+        return scheduleStartTime;
     }
 
     @Override

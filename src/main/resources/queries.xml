@@ -38,15 +38,11 @@
 
     <query id="getMovieInfobyScheduleId">
         SELECT
-        m.movie_id,
         m.movie_title,
-        m.movie_price,
-        s.schedule_id,
-        s.schedule_start_time,
-        s.movie_id
+        s.schedule_start_time
         FROM schedules s
         JOIN movies m ON s.movie_id = m.movie_id
-        WHERE schedule_id = 1;
+        WHERE s.schedule_id = ?;
     </query>
 
     <!-- 모든 영화 조회 쿼리 -->

@@ -56,12 +56,4 @@ public class Application {
         movieView.signUp();
     }
 
-    /*private static int selectSeats(Connection connection) {
-            SeatsView seatsView = new SeatsView(connection);
-            var scheduleChoice = seatsView.choiceSchedule();
-            seatsView.showSeats(scheduleChoice);
-            var cinemaId =  seatsView.selectSeat(scheduleChoice);
-            return cinemaId;
-    }*/
-
 }

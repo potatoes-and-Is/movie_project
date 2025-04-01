@@ -9,6 +9,7 @@ import org.movieproject.service.UsersService;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,16 +36,21 @@ public class MovieView {
             System.out.println("1. 영화 목록 보기");
             System.out.println("0. 로그아웃");
             System.out.print("원하시는 메뉴를 선택해주세요 : ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choice){
-                case 1 -> printAllMovies(); // System.out.println("현재 상영 중인 영화 목록입니다.");
-                case 0 ->{
-                    System.out.println("로그아웃 되었습니다. 메인 메뉴로 돌아갑니다.");
-                    return;
+                switch (choice) {
+                    case 1 -> printAllMovies(); // System.out.println("현재 상영 중인 영화 목록입니다.");
+                    case 0 -> {
+                        System.out.println("로그아웃 되었습니다. 메인 메뉴로 돌아갑니다.");
+                        return;
+                    }
+                    default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
                 }
-                default -> System.out.println("잘못된 입력입니다.");
+            } catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                scanner.nextLine();
             }
         }
     }
@@ -118,17 +124,28 @@ public class MovieView {
                     }
                 }
                 System.out.print("관람을 원하시는 영화를 선택해주세요 : ");
-                int scheduleChoice = scanner.nextInt();
-                scanner.nextLine();
 
-                seatsView.showSeats(scheduleChoice);
-                seatsView.selectSeat(scheduleChoice);
-
+                while (true) {
+                    try {
+                        int scheduleChoice = scanner.nextInt();
+                        scanner.nextLine();
+                        if (scheduleChoice < 1 || scheduleChoice > 5) {
+                            System.out.println("해당 번호의 상영정보가 없습니다. 다시 입력해주세요.");
+                            continue;
+                        }
+                        seatsView.showSeats(scheduleChoice);
+                        seatsView.selectSeat(scheduleChoice);
+                        return;
+                    } catch (InputMismatchException e) {
+                        System.out.println("잘못된 입력입니다. 관람 원하시는 영화의 번호만 입력해주세요.");
+                        scanner.nextLine();
+                    }
+                }
             }
         } catch (SQLException e) {
             System.out.println("영화 목록을 조회하는 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
-    }
 
-}
+
+}}

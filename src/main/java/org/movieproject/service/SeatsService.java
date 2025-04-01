@@ -53,10 +53,10 @@ public class SeatsService {
             return null;
         }
 
-        return "영화 제목 : " + movie.getMovieTitle() + "영화 시간 : " +  movie.getStartTime();
+        return "시간 : " + movie.getScheduleStartTime() + "시 \n영화 : " + movie.getMovieTitle();
     }
 
-    // Cinema_infos 테이블 add
+    // Cinema_infos 테이블 add, cinema_info_id 반환
     public int addCinemaInfo(int ScheduleId, String seatNumber) {
 
         Seats seat = seatsDao.getSeatBySeatNumber(seatNumber);

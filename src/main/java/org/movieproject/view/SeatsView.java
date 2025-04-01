@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class SeatsView {
     private final SeatsService seatsService;
@@ -19,28 +20,13 @@ public class SeatsView {
         this.scanner = new Scanner(System.in);
     }
 
-    /*public int choiceSchedule() {
-
-        System.out.println("\n===== 관람을 원하시는 영화를 선택해주세요. =====");
-        System.out.println("1. 10:00 어벤져스");
-        System.out.println("2. 12:00 라푼젤");
-        System.out.println("3. 14:00 어벤져스");
-        System.out.println("4. 16:00 라푼젤");
-        System.out.println("5. 18:00 About Time");
-
-        int scheduleChoice = scanner.nextInt();
-        scanner.nextLine();
-
-        return scheduleChoice;
-    }*/
-
     // 선택 가능한 좌석 출력
     public void showSeats(int scheduleChoice) {
         System.out.println("\n===== 다음은 예약 가능한 좌석입니다. =====");
         try {
             int cnt = 0;
             List<Seats> seats = seatsService.getSeatsbyScheduleId(scheduleChoice);
-            for (int i = 0; i < (seats.size()/COLUMN_MAX.floatValue()); i++) {
+            for (int i = 0; i < (seats.size() / COLUMN_MAX.floatValue()); i++) {
                 for (int j = 0; j < COLUMN_MAX; j++) {
                     if (cnt > seats.size() - 1) {
                         break;
@@ -56,24 +42,52 @@ public class SeatsView {
         }
     }
 
-    public int selectSeat(int scheduleChoice) {
+    public void selectSeat(int scheduleChoice) {
 
-        System.out.println("\n===== 관람을 원하시는 좌석 번호를 선택해주세요. =====");
-        String seatChoice = scanner.nextLine();
+        try {
+            while (true) {
+                System.out.println("\n===== 관람을 원하시는 좌석 번호를 선택해주세요. =====");
+                String seatChoice = scanner.nextLine();
 
-        String movieInfo = seatsService.getMoviesbyScheduleId(scheduleChoice);
-        System.out.println("\n===== 다음은 선택하신 영화와 좌석 정보입니다. =====");
-        System.out.println(movieInfo);
-        System.out.println("좌석 : " + seatChoice);
+                if(!isValidSeat(seatChoice)) {
+                    System.out.println("잘못되었거나 존재하지 않는 좌석 번호입니다. 다시 입력해주세요.");
+                    continue;
+                }
 
-        System.out.println("\n===== 결제를 진행하시겠습니까? =====");
+                String movieInfo = seatsService.getMoviesbyScheduleId(scheduleChoice);
+                System.out.println("\n===== 다음은 선택하신 영화와 좌석 정보입니다. =====");
+                System.out.println(movieInfo);
+                System.out.println("좌석 : " + seatChoice);
 
-        // 좌석 번호를 Cinema_info 에 insert시 seat_id 로 전달
-        int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice);
-        System.out.println("cinemaID = " + result);
-        return result;
-        // System.out.printf("좌석 선택 완료 , 스케줄 번호 : %d, 좌석번호 : %s\n", scheduleChoice, seatChoice);
+                System.out.println("\n===== 결제를 진행하시겠습니까? =====");
+                System.out.println("1. 예");
+                System.out.println("2. 아니오");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
+                switch (choice) {
+                    case 1 -> { // 결제 진행을 눌렀을 때 cinema_info 테이블에 insert 후 cinema_info_id 반환
+                        int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice); // cinema_info_id
+                    }
+                    case 2 -> {
+                        System.out.println("메인 화면으로 돌아갑니다.");
+                        return;
+                    }
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택하세요.");
+                }
+            }
+
+        }  catch (Exception e) {
+            System.out.println("selectSeat:" + e.getMessage());
+        }
     }
 
+    // 좌석 번호가 올바른 형식인지 확인하는 메서드
+    private boolean isValidSeat(String seat) {
+        // A-1, B-10, C-25 형식과 같은 패턴을 맞추기 위한 정규식
+        String seatPattern = "^[A-D]-[1-5]"; // A-1 ~ Z-99 형식
+        return Pattern.matches(seatPattern, seat);
+    }
 }
+
+

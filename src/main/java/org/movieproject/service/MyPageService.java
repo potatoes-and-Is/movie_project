@@ -25,28 +25,6 @@ public class MyPageService {
         this.connection = connection;
     }
 
-    // 회원별 티켓 아이디 조회
-//    public void retrieveTickets(int userId) {
-//        String sql = "SELECT tickets_id FROM Tickets WHERE user_id = ?";
-//
-//        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-//            pstmt.setInt(1, userId);
-//
-//            try (ResultSet rs = pstmt.executeQuery()) {
-//                while (rs.next()) {
-//                    System.out.println("보유한 티켓 ID: " + rs.getInt("tickets_id"));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /* 테스트용 로그인 */
-    public int validateLogin(String nickname, String password) {
-        return myPageDao.validateLogin(nickname, password);
-    }
-
     /* 회원별 티켓 정보 간단히 출력 */
     public List<Tickets> getTicketsByUserId(int userId) throws SQLException {
         return myPageDao.getTicketsByUserId(userId);

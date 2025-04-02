@@ -1,7 +1,9 @@
 package org.movieproject.view;
 
 import org.movieproject.model.Seats;
+import org.movieproject.model.Users;
 import org.movieproject.service.SeatsService;
+import org.movieproject.service.TicketsService;
 
 import java.sql.Connection;
 import java.sql.SQLOutput;
@@ -12,11 +14,13 @@ import java.util.regex.Pattern;
 public class SeatsView {
     private final SeatsService seatsService;
     private final Scanner scanner;
+    private final TicketsView ticketsView;
 
     private static final Integer COLUMN_MAX = 5;
 
     public SeatsView(Connection connection) {
         this.seatsService = new SeatsService(connection);
+        this.ticketsView = new TicketsView((connection));
         this.scanner = new Scanner(System.in);
     }
 
@@ -42,7 +46,7 @@ public class SeatsView {
         }
     }
 
-    public void selectSeat(int scheduleChoice) {
+    public void selectSeat(int scheduleChoice, Users loginUser) {
 
         try {
             while (true) {
@@ -68,6 +72,9 @@ public class SeatsView {
                 switch (choice) {
                     case 1 -> { // 결제 진행을 눌렀을 때 cinema_info 테이블에 insert 후 cinema_info_id 반환
                         int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice); // cinema_info_id
+                        ticketsView.saveTicket(result, loginUser.getUserId());
+
+                        return;
                     }
                     case 2 -> {
                         System.out.println("메인 화면으로 돌아갑니다.");

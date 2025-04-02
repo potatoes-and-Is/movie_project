@@ -1,5 +1,7 @@
 package org.movieproject.model;
 
+import java.sql.Timestamp;
+
 public class Movies {
     private int movieId;
     private String movieTitle;

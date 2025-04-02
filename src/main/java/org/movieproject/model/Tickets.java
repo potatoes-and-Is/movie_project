@@ -10,7 +10,7 @@ public class Tickets {
     private int cinemaInfoId; // 예약 ID
     private String userNickname;
     private String movieTitle;
-    private Timestamp scheduleStartTime;
+    private String scheduleStartTime;
     private String seatNumber;
 
     public Tickets(int ticketId, char cancelStatus, int userId, int cinemaInfoId) {
@@ -20,7 +20,7 @@ public class Tickets {
         this.cinemaInfoId = cinemaInfoId;
     }
 
-    public Tickets(int ticketId, char cancelStatus, int userId, int cinemaInfoId, String userNickname, String movieTitle, Timestamp scheduleStartTime, String seatNumber) {
+    public Tickets(int ticketId, char cancelStatus, int userId, int cinemaInfoId, String userNickname, String movieTitle, String scheduleStartTime, String seatNumber) {
         this.ticketId = ticketId;
         this.cancelStatus = cancelStatus;
         this.userId = userId;
@@ -31,13 +31,13 @@ public class Tickets {
         this.seatNumber = seatNumber;
     }
 
-    public Tickets(int ticketId, String movieTitle, Timestamp scheduleStartTime) {
+    public Tickets(int ticketId, String movieTitle, String scheduleStartTime) {
         this.ticketId = ticketId;
         this.movieTitle = movieTitle;
         this.scheduleStartTime = scheduleStartTime;
     }
 
-    public Tickets(int ticketId, String userNickname, String movie_title, Timestamp schedule_start_time, String seat_number) {
+    public Tickets(int ticketId, String userNickname, String movie_title, String schedule_start_time, String seat_number) {
         this.ticketId = ticketId;
         this.userNickname = userNickname;
         this.movieTitle = movie_title;

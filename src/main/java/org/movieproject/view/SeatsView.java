@@ -22,8 +22,8 @@ public class SeatsView {
 
     public SeatsView(Connection connection) {
         this.seatsService = new SeatsService(connection);
-        this.ticketsView = new TicketsView((connection));
-        this.paymentView = new PaymentView((connection));
+        this.ticketsView = new TicketsView(connection);
+        this.paymentView = new PaymentView(connection);
         this.scanner = new Scanner(System.in);
     }
 
@@ -82,7 +82,7 @@ public class SeatsView {
                     case 1 -> { // 결제 진행을 눌렀을 때 cinema_info 테이블에 insert 후 cinema_info_id 반환
                         int result = seatsService.addCinemaInfo(scheduleChoice, seatChoice); // cinema_info_id
                         int ticketId = ticketsView.saveTicket(result, loginUser.getUserId());
-                        paymentView.startPay(ticketId, loginUser.getUserId());
+                        paymentView.showPaymentMenu(ticketId, loginUser.getUserId());
                         return;
                     }
                     case 2 -> {

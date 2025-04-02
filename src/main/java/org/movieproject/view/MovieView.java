@@ -233,7 +233,6 @@ public class MovieView {
                         }
                         seatsView.showSeats(scheduleChoice);
                         seatsView.selectSeat(scheduleChoice, loginUser);
-                        return;
                     } catch (InputMismatchException e) {
                         System.out.println("잘못된 입력입니다. 관람 원하시는 영화의 번호만 입력해주세요.");
                         scanner.nextLine();

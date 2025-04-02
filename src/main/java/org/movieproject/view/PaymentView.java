@@ -49,6 +49,12 @@ public class PaymentView {
 
 //    }
 
+    /* 결제 과정 시작 */
+    public void startPay(int ticketId, int userId) {
+        getAllPayMethods(userId);
+
+    }
+
 
     /* 결제 수단 목록 조회 */
     public void getAllPayMethods(int userId) {

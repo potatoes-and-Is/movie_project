@@ -78,19 +78,25 @@ public class TicketsDAO {
     }
 
     /* 생성된 티켓 저장 */
-    public boolean saveTicket(Tickets tickets) {
+    public int saveTicket(Tickets tickets) {
         String query = QueryUtil.getQuery("saveTicket");
+        int ticketId = 0;
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, tickets.getcinemaInfoId());
             ps.setInt(2, tickets.getUserId());
 
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
+            int res = ps.executeUpdate();
+            if (res > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    ticketId = rs.getInt(1);
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return ticketId;
     }
 }

@@ -2,10 +2,14 @@ package org.movieproject;
 
 import org.movieproject.config.JDBCConnection;
 import org.movieproject.view.MovieView;
+import org.movieproject.view.UsersView;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import org.movieproject.config.JDBCConnection;
+import org.movieproject.view.SeatsView;
 
 public class Application {
     public static void main(String[] args) throws SQLException {

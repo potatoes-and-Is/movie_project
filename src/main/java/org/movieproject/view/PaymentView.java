@@ -24,9 +24,10 @@ public class PaymentView {
     public void showPaymentMenu(int ticketId, int userId) {
         System.out.println("===== 결제 진행 =====");
         System.out.println("결제는 등록된 결제수단을 통해서만 가능합니다.");
-        System.out.println("1. 결제하기 (결제수단 목록 조회)");
+        System.out.println("1. 결제하기 (결제수단 목록 조회 후 결제)");
         System.out.println("2. 결제수단 등록하기");
-        System.out.println("3. 메인으로 이동하기");
+        System.out.println("3. 결제수단 목록만 조회하기");
+        System.out.println("4. 메인으로 이동하기");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -37,6 +38,7 @@ public class PaymentView {
                 break;
             case 2 :
                 addPayMethod(userId, ticketId);
+                printPayMethodList(userId);
                 break;
             case 3 :
                 return;
@@ -53,6 +55,7 @@ public class PaymentView {
         return;
     }
 
+    /* 결제 흐름용 전용 함수 (switch case 1: 에서 실행됨) */
     /* 결제 수단 목록 조회 */
     public void getAllPayMethods(int ticketId, int userId) {
             while (true) {
@@ -68,6 +71,7 @@ public class PaymentView {
                                 payMethod.getPayMethodId() + ") "
                                         + payMethod.getPayMethodNumber() + " (잔액 : "
                                         + payMethod.getPayMethodBalance() + "원)"));
+                        // 결제하기
                         payMovie(ticketId);
                         return;
                     }
@@ -76,6 +80,25 @@ public class PaymentView {
                     System.out.println("결제 수단 목록을 조회하는 중 오류가 발생했습니다.");
                 }
             }
+    }
+
+    /* 오직 순수한 결제 수단 목록만 조회 후 출력하는 함수 */
+    /* 결제 수단 목록 조회 */
+    public void printPayMethodList(int userId) {
+        try {
+            List<PayMethod> payMethods = paymentService.getAllPayMethods(userId);
+            if (payMethods.isEmpty()) {
+                System.out.println("\n등록된 결제 수단이 없습니다. 결제 수단 등록을 진행합니다.");
+            } else {
+                System.out.println("\n===== 전체 결제 수단 목록 =====");
+                payMethods.forEach(payMethod -> System.out.println(
+                        payMethod.getPayMethodId() + ") "
+                                + payMethod.getPayMethodNumber() + " (잔액 : "
+                                + payMethod.getPayMethodBalance() + "원)"));
+            }
+        } catch (SQLException e) {
+            System.out.println("결제 수단 목록을 조회하는 중 오류가 발생했습니다.");
+        }
     }
 
     /* 결제 수단 등록하기 */

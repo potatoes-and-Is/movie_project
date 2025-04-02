@@ -85,4 +85,21 @@ public class UsersService {
         return users; // DAO로
     }
 
+    /**
+     * 📌 사용자 삭제 (DELETE)
+     * - 삭제 시 확인 메시지 출력 후 진행
+     *
+     * @param userId 삭제할 사용자의 고유 ID
+     * @return boolean 삭제 성공 여부를 반환합니다.
+     * @throws IllegalArgumentException 삭제할 사용자가 존재하지 않는 경우 발생합니다.
+     * @throws SQLException 데이터베이스 접근 중 오류가 발생할 경우 발생합니다.
+     */
+    public boolean deleteUser(int userId) throws SQLException {
+        Users existingUser = getUserById(userId);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("삭제할 사용자를 찾을 수 없습니다.");
+        }
+        return usersDao.deleteUser(userId);
+    }
+
 }

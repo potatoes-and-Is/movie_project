@@ -30,35 +30,44 @@ public class UsersView {
      */
     public void showMenu() {
         while (true) {
+
             System.out.println("\n관리자 전용 메뉴(root)");
             System.out.println("===== 사용자 관리 시스템 =====");
             System.out.println("1. 전체 사용자 조회");
-            System.out.println("2. 사용자 등록");
-            System.out.println("3. 사용자 단일 조회 (ID)");
+            System.out.println("2. 사용자 단일 조회 (ID)");
+            System.out.println("3. 사용자 등록");
+            System.out.println("4. 사용자 삭제");
+
             System.out.println("0. 종료");
             System.out.print("선택하세요: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // 개행 문자 처리
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // 개행 문자 처리
 
-            switch (choice) {
-                case 1 -> getAllUsers();
-                case 2 -> registerUser();
-                case 3 -> getUserById();
-                case 0 -> {
-                    System.out.println("관리자 프로그램을 종료합니다.");
-                    return;
+                switch (choice) {
+                    case 1 -> getAllUsers();
+                    case 2 -> getUserById();
+                    case 3 -> registerUser();
+                    case 4 -> deleteUser();
+                    case 0 -> {
+                        System.out.println("관리자 프로그램을 종료합니다.");
+                        return;
+                    }
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택하세요.");
                 }
-                default -> System.out.println("잘못된 입력입니다. 다시 선택하세요.");
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
             }
         }
     }
-
     /**
      * 📌 전체 사용자 조회
      * - `UserService`의 `getAllUsers()` 메서드를 호출하여 사용자 목록을 출력
      */
-    private void getAllUsers() {
+    private void getAllUsers () {
         try {
             List<Users> users = usersService.getAllUsers();
 
@@ -77,7 +86,7 @@ public class UsersView {
      * 📌 단일 사용자 조회
      * - 사용자 ID를 입력받아 해당 사용자의 정보를 출력
      */
-    private void getUserById() {
+    private void getUserById () {
         System.out.print("조회할 사용자 ID를 입력하세요: ");
         int userId = scanner.nextInt();
         scanner.nextLine(); // 개행 문자 처리
@@ -97,7 +106,7 @@ public class UsersView {
      * 📌 사용자 등록 (CREATE)
      * - 사용자 정보를 입력받아 새로운 사용자를 등록
      */
-    private void registerUser() {
+    private void registerUser () {
         System.out.print("사용자 닉네임: ");
         String nickname = scanner.nextLine();
 
@@ -117,5 +126,26 @@ public class UsersView {
             System.out.println(e.getMessage());
         }
     }
+
+    // 삭제 추가
+    private void deleteUser () {
+        System.out.print("삭제할 사용자 회원번호 ID를 입력하세요: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine(); // 개행 문자 처리
+
+        try {
+            boolean success = usersService.deleteUser(userId);
+            if (success) {
+                System.out.println("사용자가 성공적으로 삭제되었습니다.");
+            } else {
+                System.out.println("사용자 삭제에 실패하였습니다.");
+            }
+        } catch (SQLException e) {
+            System.out.println("사용자 삭제 중 오류가 발생했습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }

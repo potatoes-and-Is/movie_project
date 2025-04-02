@@ -6,6 +6,7 @@ import org.movieproject.view.UsersView;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.movieproject.config.JDBCConnection;
@@ -26,20 +27,23 @@ public class Application {
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // 개행 문자 처리
+            try{
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // 개행 문자 처리
 
-            switch (choice) {
-                /*case 1 -> {
-                    var cinemaId = selectSeats(connection); // cinemaInfo_id 값*/
-                case 1 -> signUpUserManagement(connection); // 회원가입
-                case 2 -> logInMovieMenuManagement(connection); // 로그인
-                case 0 -> {
-                    connection.close();
-                    System.out.println("🚀 프로그램을 종료합니다.");
-                    return;
+                switch (choice) {
+                    case 1 -> signUpUserManagement(connection); // 회원가입
+                    case 2 -> logInMovieMenuManagement(connection); // 로그인
+                    case 0 -> {
+                        connection.close();
+                        System.out.println("🚀 프로그램을 종료합니다.");
+                        return;
+                    }
+                    default -> System.out.println("❌ 잘못된 입력입니다. 다시 선택하세요.");
                 }
-                default -> System.out.println("❌ 잘못된 입력입니다. 다시 선택하세요.");
+            } catch (InputMismatchException e){
+                System.out.println("숫자(정수)만 입력 가능합니다.");
+                scanner.nextLine();
             }
         }
     }

@@ -120,5 +120,23 @@ public class UsersDao {
         return users;
     }
 
+    /**
+     * 📌 사용자 삭제 (DELETE)
+     */
+    public boolean deleteUser(int userId) {
+        String query = QueryUtil.getQuery("deleteUser");
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 }

@@ -1,12 +1,7 @@
 package org.movieproject.service;
 
-import com.sun.source.tree.AssertTree;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.movieproject.config.JDBCConnection;
-import org.movieproject.model.Movies;
 import org.movieproject.model.Seats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SeatsServiceTest {
     private static final Logger log = LoggerFactory.getLogger(SeatsServiceTest.class);
     private Connection connection;

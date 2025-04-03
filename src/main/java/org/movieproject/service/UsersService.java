@@ -56,6 +56,21 @@ public class UsersService {
         return users;
     }
 
+    public Users getUserByNickname(String userNickname){
+        Users users = null;
+        try {
+            users = usersDao.getUserByNickname(userNickname);
+
+            if (users == null) {
+                throw new IllegalArgumentException("해당 닉네임의 사용자를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            System.out.println("사용자 정보를 불러오는 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     /**
      * 📌 사용자 등록 (CREATE)
      * - 이메일 중복 체크 후 추가
@@ -77,14 +92,25 @@ public class UsersService {
 
     // 사용자 로그인
     public Users login(String userNickname, String userPassword) {
-        Users users = usersDao.login(userNickname, userPassword);
-        if (users == null){
-            System.out.println("로그인 실패: 닉네임 또는 비밀번호가 올바르지 않습니다.");
+        Users user = usersDao.getUserByNickname(userNickname); // 닉네임만으로 먼저 조회
+
+        if (user == null) {
+            System.out.println("존재하지 않는 닉네임입니다.");
+            return null;
         }
 
-        return users; // DAO로
-    }
+        if (!user.getUserPassword().equals(userPassword)) {
+            System.out.println("로그인 실패: 비밀번호가 올바르지 않습니다.");
+            return null;
+        }
 
+        if ("N".equalsIgnoreCase(user.getUserStatus())) {
+            System.out.println("비활성화된 계정입니다. 관리자에게 문의하세요.");
+            return null;
+        }
+
+        return user; // 로그인 성공
+    }
     /**
      * 📌 사용자 삭제 (DELETE)
      * - 삭제 시 확인 메시지 출력 후 진행
@@ -97,8 +123,27 @@ public class UsersService {
     public boolean deleteUser(int userId) throws SQLException {
         Users existingUser = getUserById(userId);
         if (existingUser == null) {
-            throw new IllegalArgumentException("삭제할 사용자를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("삭제할 사용자(회원 번호 ID)를 찾을 수 없습니다.");
         }
         return usersDao.deleteUser(userId);
     }
+
+    public boolean changeStatusUser(String userNickname) throws SQLException {
+        Users existingUser = getUserByNickname(userNickname);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("삭제할 사용자(닉네임)를 찾을 수 없습니다.");
+        }
+        return usersDao.changeStatusUser(userNickname);
+    }
+
+    public boolean changeUserPassword(String userNickname, String newPassword) throws SQLException {
+        Users existingUser = getUserByNickname(userNickname);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("사용자(닉네임)를 찾을 수 없습니다.");
+        }
+        return usersDao.changeUserPassword(userNickname, newPassword) > 0;
+    }
+
+
+
 }

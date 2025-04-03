@@ -4,6 +4,8 @@ import org.movieproject.model.Movies;
 import org.movieproject.model.Schedules;
 import org.movieproject.model.Tickets;
 import org.movieproject.model.Users;
+import org.movieproject.service.UsersService;
+import org.movieproject.view.UsersView;
 import org.movieproject.service.*;
 
 import java.sql.Connection;
@@ -15,6 +17,7 @@ import java.util.Scanner;
 
 public class MovieView {
     private final UsersService usersService;
+    private final UsersView usersView;
     private final Scanner scanner;
     private final Connection connection;
     private final MovieService movieService;
@@ -27,6 +30,7 @@ public class MovieView {
 
     public MovieView(Connection connection) {
         this.usersService = new UsersService(connection);
+        this.usersView = new UsersView(connection);
         this.movieService = new MovieService(connection);
         this.myPageService = new MyPageService(connection);
         this.ticketsService = new TicketsService(connection);
@@ -39,25 +43,32 @@ public class MovieView {
         this.seatsView.getPaymentView().setMovieView(this);
     }
 
-    public void showMenu(Users loginUser) {
+    public void showMenu(Users loginUser) throws SQLException {
         while (true) {
             System.out.println("\n===== 사용자 메뉴 =====");
             System.out.println("1. 영화 목록 보기");
             System.out.println("2. 예매정보 확인하기");
+            System.out.println("3. 회원 비밀번호 변경");
+            System.out.println("4. 회원 탈퇴");
             System.out.println("0. 로그아웃");
             System.out.print("원하시는 메뉴를 선택해주세요 : ");
             try {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
 
-                switch (choice) {
-                    case 1 -> printAllMovies(loginUser); // System.out.println("현재 상영 중인 영화 목록입니다.");
-                    case 2 -> showUserTickets(loginUser);
-                    case 0 -> {
-                        System.out.println("로그아웃 합니다.");
-                        return;
-                    }
-                    default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+            switch (choice){
+                case 1 -> printAllMovies(loginUser); // System.out.println("현재 상영 중인 영화 목록입니다.");
+                case 2 -> showUserTickets(loginUser);
+                case 3 -> usersView.changeUserPassword();
+                case 4 -> {
+                    usersView.changeStatusUser();
+                    return;
+                }
+                case 0 -> {
+                    System.out.println("로그아웃 되었습니다. 메인 메뉴로 돌아갑니다.");
+                    return;
+                }
+                default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
@@ -115,11 +126,12 @@ public class MovieView {
                     System.out.println("뒤로 가기.");
                     return;
                 }
-                default -> System.out.println("다시 입력하세요.");
+                default -> System.out.println("잘못된 입력입니다.");
             }
         }
     }
 
+    //일반 사용자 로그인
     /* 선택한 티켓의 상세정보 출력 */
     public void showDetailTicket(int ticketId) throws SQLException {
         Tickets ticketInfo = myPageService.getTicketById(ticketId);
@@ -167,19 +179,24 @@ public class MovieView {
         System.out.print("비밀번호: ");
         String password = scanner.nextLine();
 
-        Users loginUser = usersService.login(nickname, password);
-        if (loginUser != null) {
-            System.out.println("\n로그인 성공! " + loginUser.getUserNickname() + "님 환영합니다!");
-            if ("root".equals(loginUser.getUserNickname())) {
-                UsersView usersView = new UsersView(connection);
-                usersView.showMenu(); // 관리자 메뉴 (여기에도 return 있음)
-            } else {
-                showMenu(loginUser); // 사용자 메뉴 → 내부에서 로그아웃하면 return
+        try {
+            Users loginUser = usersService.login(nickname, password);
+            if (loginUser != null) {
+                System.out.println("\n로그인 성공! " + loginUser.getUserNickname() + "님 환영합니다!");
+                if ("root".equals(loginUser.getUserNickname())) {
+                    UsersView usersView = new UsersView(connection);
+                    usersView.showMenu(); // 관리자 메뉴
+                } else {
+                    showMenu(loginUser); // 일반 사용자 메뉴
+                }
             }
+        } catch (SQLException e) {
+            System.out.println("로그인 중 오류가 발생했습니다.");
+            e.printStackTrace();
         }
     }
 
-    // 회원가입
+    // 회원 가입
     public void signUp(){
         System.out.println("\n===== [회원가입] =====");
 

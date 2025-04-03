@@ -101,5 +101,4 @@ public class UsersService {
         }
         return usersDao.deleteUser(userId);
     }
-
 }

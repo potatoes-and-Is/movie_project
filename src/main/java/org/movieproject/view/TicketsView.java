@@ -1,12 +1,10 @@
 package org.movieproject.view;
 
 import org.movieproject.model.Tickets;
-import org.movieproject.model.Users;
 import org.movieproject.service.TicketsService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLXML;
 
 public class TicketsView {
 

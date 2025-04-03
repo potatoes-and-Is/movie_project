@@ -174,4 +174,17 @@
         )
     </query>
 
+    <!-- 티켓 ID로 결제 ID 조회 쿼리 -->
+    <query id = "getPaymentById">
+        SELECT payment_id FROM tickets
+        INNER JOIN payments ON payments.ticket_id = tickets.ticket_id
+        WHERE payments.ticket_id = ?
+    </query>
+
+    <!--  취소한 티켓 결제 정보 삭제 쿼리 -->
+    <query id = "deletePayment">
+        DELETE
+        FROM payments
+        WHERE payment_id = ?
+    </query>
 </queries>

@@ -115,4 +115,38 @@ public class PaymentDao {
         return false;
     }
 
+
+    public Payment getPaymentById(int ticketId) {
+        String query = QueryUtil.getQuery("getPaymentById");
+        Payment payment = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, ticketId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                payment = new Payment(
+                        rs.getInt("payment_id")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return payment;
+    }
+
+    /* 취소한 티켓 결제 정보 삭제 */
+    public void deletePayment(int paymentId) {
+        String query = QueryUtil.getQuery("deletePayment");
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, paymentId);
+
+            int affectedRows = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

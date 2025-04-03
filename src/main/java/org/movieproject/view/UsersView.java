@@ -5,6 +5,7 @@ import org.movieproject.service.UsersService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDateTime;
@@ -59,7 +60,9 @@ public class UsersView {
 
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-
+            } catch (InputMismatchException e) {
+                System.out.println("관리자 메뉴 ERROR - 메뉴에 있는 숫자(정수)를 입력해주세요.");
+                scanner.nextLine();
             }
         }
     }

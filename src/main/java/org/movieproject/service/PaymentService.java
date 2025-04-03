@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class PaymentService {
@@ -60,4 +59,9 @@ public class PaymentService {
         return paymentDao.cancelUnpaidTicket(ticketId);
     }
 
+    /* 결제 정보 삭제 */
+    public void deletePayment(int ticketId) {
+        Payment payment = paymentDao.getPaymentById(ticketId);
+        paymentDao.deletePayment(payment.getPaymentId());
+    }
 }

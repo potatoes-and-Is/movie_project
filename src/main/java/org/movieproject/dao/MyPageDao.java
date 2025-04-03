@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPageDAO {
+public class MyPageDao {
 
     private final Connection connection;
 
-    public MyPageDAO(Connection connection) {
+    public MyPageDao(Connection connection) {
         this.connection = connection;
     }
 

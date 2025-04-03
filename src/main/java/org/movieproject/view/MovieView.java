@@ -4,10 +4,7 @@ import org.movieproject.model.Movies;
 import org.movieproject.model.Schedules;
 import org.movieproject.model.Tickets;
 import org.movieproject.model.Users;
-import org.movieproject.service.MovieService;
-import org.movieproject.service.MyPageService;
-import org.movieproject.service.TicketsService;
-import org.movieproject.service.UsersService;
+import org.movieproject.service.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,6 +20,7 @@ public class MovieView {
     private final MovieService movieService;
     private final MyPageService myPageService;
     private final TicketsService ticketsService;
+    private final PaymentService paymentService;
 
     // 성리 추가
     private final SeatsView seatsView;
@@ -32,6 +30,7 @@ public class MovieView {
         this.movieService = new MovieService(connection);
         this.myPageService = new MyPageService(connection);
         this.ticketsService = new TicketsService(connection);
+        this.paymentService = new PaymentService(connection);
         this.seatsView = new SeatsView(connection);
         this.scanner = new Scanner(System.in);
         this.connection = connection;
@@ -45,6 +44,7 @@ public class MovieView {
             System.out.println("\n===== 사용자 메뉴 =====");
             System.out.println("1. 영화 목록 보기");
             System.out.println("2. 예매정보 확인하기");
+            System.out.println("0. 로그아웃");
             System.out.print("원하시는 메뉴를 선택해주세요 : ");
             try {
                 int choice = scanner.nextInt();
@@ -53,6 +53,10 @@ public class MovieView {
                 switch (choice) {
                     case 1 -> printAllMovies(loginUser); // System.out.println("현재 상영 중인 영화 목록입니다.");
                     case 2 -> showUserTickets(loginUser);
+                    case 0 -> {
+                        System.out.println("로그아웃 합니다.");
+                        return;
+                    }
                     default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
                 }
             } catch (InputMismatchException e) {
@@ -139,6 +143,7 @@ public class MovieView {
                 switch (cancelChoice) {
                     case "Y" -> {
                         ticketsService.cancelTicket(ticketId);
+                        paymentService.deletePayment(ticketId);
                         System.out.println("취소 성공");
                         return;
                     }
@@ -147,7 +152,7 @@ public class MovieView {
                         return;
                     }
                     default -> {
-                        System.out.println("잘못된 입력입니다. 다시 선택해주세요.\n");
+                        System.out.println("잘못된 입력입니다. 'Y' 또는 'N'로 선택해주세요.\n");
                     }
                 }
             } catch (IllegalArgumentException e) {
@@ -236,6 +241,7 @@ public class MovieView {
                         }
                         seatsView.showSeats(scheduleChoice);
                         seatsView.selectSeat(scheduleChoice, loginUser);
+                        return;
                     } catch (InputMismatchException e) {
                         System.out.println("잘못된 입력입니다. 관람 원하시는 영화의 번호만 입력해주세요.");
                         scanner.nextLine();

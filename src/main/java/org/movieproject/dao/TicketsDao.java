@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketsDAO {
+public class TicketsDao {
 
     private final Connection connection;
 
-    public TicketsDAO(Connection connection) {
+    public TicketsDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -32,29 +32,6 @@ public class TicketsDAO {
                         rs.getInt("user_id"),
                         rs.getInt("cinema_info_id")
                 );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tickets;
-    }
-
-    // 회원 ID별 티켓 리스트 조회
-    public List<Tickets> getTicketsByUserId(int userId) {
-        String query = QueryUtil.getQuery("getTicketsByUserId");
-        List<Tickets> tickets = new ArrayList<Tickets>();
-
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                tickets.add(new Tickets(
-                        rs.getInt("ticket_id"),
-                        rs.getString("cancel_status").charAt(0),
-                        rs.getInt("user_id"),
-                        rs.getInt("cinema_info_id")
-                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();

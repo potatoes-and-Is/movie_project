@@ -45,7 +45,7 @@ public class PaymentView {
             switch (choice) {
                 case 1:
                     getAllPayMethods(ticketId, userId, loginUser);
-                    break;
+                    return;
                 case 2:
                     addPayMethod(userId);
                     printPayMethodList(userId);
@@ -55,7 +55,7 @@ public class PaymentView {
                     break;
                 case 4:
                     goToMovieSelect(ticketId, loginUser);
-                    break;
+                    return;
                 default:
                     System.out.println("잘못된 입력입니다.");
                     return;
@@ -153,7 +153,7 @@ public class PaymentView {
             boolean paySuccess = paymentService.payMovie(payment);
             if (paySuccess) {
                 System.out.println("결제가 성공적으로 완료되었습니다.");
-                movieView.showMenu(loginUsers);
+//                movieView.showMenu(loginUsers);
             } else {
                 System.out.println("결제에 실패하였습니다.");
             }
@@ -169,8 +169,7 @@ public class PaymentView {
 
         if (isTicketDeleted) {
             // 삭제 완료되면, showMenu() 호출하기
-            movieView.showMenu(loginUser);
+//            movieView.showMenu(loginUser);
         }
     }
-
 }

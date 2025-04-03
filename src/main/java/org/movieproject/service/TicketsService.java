@@ -1,6 +1,6 @@
 package org.movieproject.service;
 
-import org.movieproject.dao.TicketsDAO;
+import org.movieproject.dao.TicketsDao;
 import org.movieproject.model.Tickets;
 
 import java.sql.Connection;
@@ -11,12 +11,12 @@ import java.util.List;
 public class TicketsService {
 
     //    private static final Logger logger = Logger.getLogger(TicketsService.class);
-    private final TicketsDAO ticketsDAO;
+    private final TicketsDao ticketsDAO;
     private final Connection connection;
 
     public TicketsService(Connection connection) {
         this.connection = connection;
-        ticketsDAO = new TicketsDAO(connection);
+        ticketsDAO = new TicketsDao(connection);
     }
 
     // 티켓이 존재하는지 확인
@@ -25,15 +25,6 @@ public class TicketsService {
 
         if (tickets == null) {
             throw new SQLException("예매 정보가 존재하지 않습니다.");
-        }
-        return tickets;
-    }
-
-    public List<Tickets> getTicketsByUserId(int userId) throws SQLException {
-        List<Tickets> tickets = ticketsDAO.getTicketsByUserId(userId);
-        if (tickets.isEmpty()) {
-//            System.out.println("예매 정보가 없습니다.");
-            return Collections.emptyList();
         }
         return tickets;
     }

@@ -37,6 +37,11 @@ public class MovieView {
         this.connection = connection;
     }
 
+    // setter 추가
+    public void setMovieView(MovieView movieView) {
+        this.movieView = movieView;
+    }
+
     public void showMenu(Users loginUser) {
         while (true) {
             System.out.println("===== 사용자 메뉴 =====");

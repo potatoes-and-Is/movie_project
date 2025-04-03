@@ -168,4 +168,10 @@
         SELECT COUNT(*) AS cnt FROM payments WHERE ticket_id = ?
     </query>
 
+    <query id="cancelUnpaidTicket">
+        DELETE FROM cinema_infos WHERE cinema_info_id = (
+            SELECT cinema_info_id FROM tickets WHERE ticket_id = ?
+        )
+    </query>
+
 </queries>

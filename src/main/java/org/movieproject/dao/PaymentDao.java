@@ -99,4 +99,20 @@ public class PaymentDao {
 
         return false;
     }
+
+    /* 다시 영화정보 선택으로 돌아가기 위해 선택한 ticket, cinema_info 삭제하기  */
+    public boolean cancelUnpaidTicket(int ticketId) {
+        String query = QueryUtil.getQuery("cancelUnpaidTicket");
+
+        try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, ticketId);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

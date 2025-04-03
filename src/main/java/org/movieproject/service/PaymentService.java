@@ -53,4 +53,11 @@ public class PaymentService {
 
         return paymentDao.isAlreadyPaid(ticketId);
     }
+
+    /*  */
+    public boolean cancelUnpaidTicket (int ticketId) {
+
+        return paymentDao.cancelUnpaidTicket(ticketId);
+    }
+
 }

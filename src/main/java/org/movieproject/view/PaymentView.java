@@ -129,6 +129,9 @@ public class PaymentView {
             } else {
                 System.out.println("결제 수단 등록에 실패하였습니다.");
             }
+        } catch (IllegalArgumentException e) {
+            // 유효성 검사 실패 시 메시지 출력
+            System.out.println(e.getMessage());
         } catch (SQLException e) {
             System.out.println("결제 수단 등록 중 오류가 발생했습니다.");
         }

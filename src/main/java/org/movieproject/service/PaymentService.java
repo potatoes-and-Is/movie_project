@@ -29,12 +29,13 @@ public class PaymentService {
             return null;
         }
 
-        return paymentDao.getAllPayMethods(userId);
+        return payMethods;
     }
 
     /* 결제 수단 등록하기 */
-    public boolean addPayMethod (PayMethod payMethod) throws SQLException {
-        //결제 수단 정보 예외처리 추가 구현 필요
+    public boolean addPayMethod(PayMethod payMethod) throws SQLException {
+        // 유효성 검사
+        validatePayMethod(payMethod);
 
         boolean addSuccess = paymentDao.addPayMethod(payMethod);
         return addSuccess;
@@ -54,7 +55,7 @@ public class PaymentService {
     }
 
     /*  */
-    public boolean cancelUnpaidTicket (int ticketId) {
+    public boolean cancelUnpaidTicket(int ticketId) {
 
         return paymentDao.cancelUnpaidTicket(ticketId);
     }
@@ -63,5 +64,21 @@ public class PaymentService {
     public void deletePayment(int ticketId) {
         Payment payment = paymentDao.getPaymentById(ticketId);
         paymentDao.deletePayment(payment.getPaymentId());
+    }
+
+    /* 결제 수단 등록 시 유효성 검사 */
+    private void validatePayMethod(PayMethod payMethod) {
+        String cardNumber = payMethod.getPayMethodNumber();
+        String password = payMethod.getPayMethodPwd();
+
+        // 카드 번호 형식: 16자리 숫자 + '-' 3개 포함
+        if (!cardNumber.matches("\\d{4}-\\d{4}-\\d{4}-\\d{4}")) {
+            throw new IllegalArgumentException("카드 번호 형식이 올바르지 않습니다. (예: 1234-5678-9012-3456)");
+        }
+
+        // 비밀번호: 숫자 4자리
+        if (!password.matches("\\d{4}")) {
+            throw new IllegalArgumentException("비밀번호는 숫자 4자리여야 합니다.");
+        }
     }
 }

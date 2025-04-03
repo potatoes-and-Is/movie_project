@@ -1,8 +1,6 @@
 package org.movieproject.service;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.movieproject.config.JDBCConnection;
 
 import java.sql.Connection;
@@ -16,8 +14,8 @@ class TicketsServiceTest {
     private Connection connection;
     private TicketsService ticketsService;
 
-    private static final int TEST_TICKET_ID = 27;
-    private static final String TEST_CANCEL_STATUS = "N";
+    private static final String TEST_USERNAME = "test100";
+    private static final String TEST_PASSWORD = "1234";
 
     @BeforeEach
     void setUp() {
@@ -27,9 +25,19 @@ class TicketsServiceTest {
             ticketsService = new TicketsService(connection);
 
             PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE tickets SET cancel_status = 'Y' WHERE ticket_id = ?");
+                    "INSERT INTO Users (userNickname, userPassword) VALUES (?, ?)"
+            );
+            ps.setString(1, TEST_USERNAME);
+            ps.setString(2, TEST_PASSWORD);
+            ps.executeUpdate();
         } catch (SQLException e) {
-            Assertions.fail(e.getMessage());
+            Assertions.fail("DB 연결 실패 : " + e.getMessage());
         }
+    }
+
+    @Test
+    @DisplayName("티켓 ID별 티켓 조회 테스트 (정상 케이스)")
+    void testGetTicket() {
+
     }
 }

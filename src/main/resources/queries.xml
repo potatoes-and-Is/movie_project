@@ -86,6 +86,13 @@
     ]]>
     </query>
 
+    <!-- Tickets 테이블: 티켓 삭제 -->
+    <query id="deleteTicket">
+        <![CDATA[
+        DELETE FROM Tickets WHERE ticket_id = ?
+    ]]>
+    </query>
+
     <!-- Users 테이블: 회원 정보 삽입 (회원가입) -->
     <query id="insertUser">
         <![CDATA[

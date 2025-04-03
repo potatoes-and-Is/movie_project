@@ -1,11 +1,12 @@
 package org.movieproject.view;
 
 import org.movieproject.model.TicketInfo;
+import org.movieproject.model.User;
 import org.movieproject.service.TicketService;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
 public class TicketView {
     private final TicketService ticketService;
@@ -22,13 +23,17 @@ public class TicketView {
      * @param seatId     좌석 ID (예: 이전 UI에서 선택된 좌석의 ID)
      * @param userId     사용자 ID (로그인한 사용자)
      */
-    public void createTicket(int scheduleId, int seatId, int userId, int paymentId) {
-        try {
-            int ticketId = ticketService.createTicket(scheduleId, seatId, userId, paymentId);
-            System.out.println("티켓이 생성되었습니다. 티켓 번호: " + ticketId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("티켓 생성에 실패하였습니다.");
-        }
+    public void createTicket(int scheduleId, int seatId, int userId, int paymentId) throws SQLException {
+            System.out.println("티켓이 생성되었습니다. 티켓 번호: " + ticketService.createTicket(scheduleId, seatId, userId, paymentId));
+    }
+    
+    // 회원 번호로 티켓 조회
+    public List<TicketInfo> getUserTickets(User user) {
+        return ticketService.getTicketInfoByUser(user.getUserId());
+    }
+
+    // 회원 번호로 티켓 삭제
+    public boolean deleteByTicketId(int ticketId) throws SQLException {
+        return ticketService.deleteByTicketId(ticketId);
     }
 }

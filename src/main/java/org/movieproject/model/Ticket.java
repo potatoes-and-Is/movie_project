@@ -47,9 +47,8 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
-                "ticketId=" + ticketId +
-                ", cancelStatus='" + cancelStatus + '\'' +
+        return "예약된 티켓 정보" +
+                "티켓Id=" + ticketId +
                 ", cinemaInfoId=" + cinemaInfoId +
                 ", userId=" + userId +
                 '}';

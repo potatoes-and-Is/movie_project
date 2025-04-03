@@ -41,6 +41,7 @@ public class TicketDao {
         }
     }
 
+    // 티켓 ID로 조회
     public Ticket getTicketById(int ticketId) throws SQLException {
         String sql = QueryUtil.getQuery("getTicketById");
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -77,5 +78,16 @@ public class TicketDao {
             }
         }
         return list;
+    }
+
+    // 티켓 번호로 티켓 삭제
+    public boolean deleteByTicketId(int ticketId) throws SQLException {
+        String sql = QueryUtil.getQuery("deleteTicket");
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, ticketId);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows != 0) return true;
+            else return false;
+        }
     }
 }

@@ -56,7 +56,8 @@ public class UserView {
     // 회원가입
     private User createUser() {
         int attempts = 0; // 시도 횟수 추적
-        while (attempts < 3) {
+        int cnt = 3;
+        while (attempts < 4) {
             System.out.print("닉네임: ");
             String nickname = scanner.nextLine();
 
@@ -68,18 +69,23 @@ public class UserView {
                 System.out.println("회원가입 성공!");
                 return newUser; // 성공 시 유저 반환
             } else {
-                System.out.println("아이디가 중복되었습니다. 다시 입력하여 주시기 바랍니다.");
+                if(cnt == 0){
+                    System.out.println("회원가입 시도 횟수를 초과했습니다.");
+                    return null;
+                }
+                System.out.println("아이디가 중복되었습니다. 다시 입력하여 주시기 바랍니다.(남은 횟수)" + cnt + "회");
             }
-            attempts++; // 시도 횟수 증가
+            attempts++; // 시도 횟수 증가 => 1 => 2
+            cnt--;
         }
-        System.out.println("회원가입 시도 횟수를 초과했습니다.");
         return null; // 실패 시 null 반환
     }
 
     // 로그인
     private User getUser() {
         int attempts = 0; // 시도 횟수 추적
-        while (attempts < 3) {
+        int cnt = 3;
+        while (attempts < 4) {
             System.out.print("닉네임: ");
             String nickname = scanner.nextLine();
 
@@ -91,11 +97,15 @@ public class UserView {
                 System.out.println("로그인 성공! 환영합니다, " + user.getNickname() + "님 !");
                 return user; // 성공 시 유저 반환
             } else {
-                System.out.println("아이디랑 비밀번호를 다시 입력하여 주시기 바랍니다.");
+                if(cnt == 0){
+                   System.out.println("로그인 시도 횟수를 초과했습니다.");
+                   return null;
+                }
+                System.out.println("아이디랑 비밀번호를 다시 입력하여 주시기 바랍니다.(남은 횟수)" + cnt + "회");
+                attempts++; // 시도 횟수 증가 => 1 => 2
+                cnt--;
             }
-            attempts++; // 시도 횟수 증가
         }
-        System.out.println("로그인 시도 횟수를 초과했습니다.");
         return null; // 실패 시 null 반환
     }
 }

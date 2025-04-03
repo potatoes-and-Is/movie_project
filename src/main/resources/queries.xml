@@ -164,4 +164,8 @@
         SELECT * FROM users WHERE user_nickname = ? AND user_password = ?
     </query>
 
+    <query id="isAlreadyPaid">
+        SELECT COUNT(*) AS cnt FROM payments WHERE ticket_id = ?
+    </query>
+
 </queries>

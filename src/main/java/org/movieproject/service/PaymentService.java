@@ -48,4 +48,9 @@ public class PaymentService {
         return paymentDao.payMovie(payment);
     }
 
+    /* 이미 결제한 ticket_id 인지 확인하기 */
+    public boolean isAlreadyPaid(int ticketId) {
+
+        return paymentDao.isAlreadyPaid(ticketId);
+    }
 }

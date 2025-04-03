@@ -78,4 +78,25 @@ public class PaymentDao {
         }
         return false;
     }
+
+    /* 결제 가능 여부 확인하기 */
+    public boolean isAlreadyPaid(int ticketId) {
+        String query = QueryUtil.getQuery("isAlreadyPaid");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, ticketId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("cnt");
+                    return count > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

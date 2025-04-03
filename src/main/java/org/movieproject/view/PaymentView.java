@@ -22,37 +22,36 @@ public class PaymentView {
 
     /* 결제 과정 시작 */
     public void showPaymentMenu(int ticketId, int userId) {
-        System.out.println("===== 결제 진행 =====");
-        System.out.println("결제는 등록된 결제수단을 통해서만 가능합니다.");
-        System.out.println("1. 결제하기 (결제수단 목록 조회 후 결제)");
-        System.out.println("2. 결제수단 등록하기");
-        System.out.println("3. 결제수단 목록만 조회하기");
-        System.out.println("4. 메인으로 이동하기");
+        while (true) {
+            System.out.println("\n===== 결제 관리 메뉴 =====");
+            System.out.println("결제는 등록된 결제수단을 통해서만 가능합니다.");
+            System.out.println("1. 결제하기 (결제수단 목록 조회 후 결제)");
+            System.out.println("2. 결제수단 등록하기");
+            System.out.println("3. 결제수단 목록만 조회하기");
+            System.out.println("4. 메인으로 이동하기");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-        switch (choice) {
-            case 1 :
-                getAllPayMethods(ticketId, userId);
-                break;
-            case 2 :
-                addPayMethod(userId, ticketId);
-                printPayMethodList(userId);
-                break;
-            case 3 :
-                return;
+            switch (choice) {
+                case 1:
+                    getAllPayMethods(ticketId, userId);
+                    break;
+                case 2:
+                    addPayMethod(userId, ticketId);
+                    printPayMethodList(userId);
+                    break;
+                case 3:
+                    printPayMethodList(userId);
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("잘못된 입력입니다.");
+            }
+
         }
 
-        System.out.println("결제가 모두 완료되었습니다!");
-//        System.out.println("1. 예매내역 확인하기");
-//        System.out.println("2. 새로운 영화 예매 시작하기");
-
-//        String option = scanner.nextLine();
-//        if (option.equals("1")) {
-//
-//        }
-        return;
     }
 
     /* 결제 흐름용 전용 함수 (switch case 1: 에서 실행됨) */
@@ -126,12 +125,20 @@ public class PaymentView {
 
     /* 결제 등록하기 */
     public void payMovie(int ticketId) {
-        System.out.print("\n결제를 위한 결제 수단을 선택해 주세요 : ");
-        String inputStrPayNum = scanner.nextLine();
-        int inputPayNum = Integer.parseInt(inputStrPayNum);
-
-        Payment payment = new Payment(0, 19000, null, ticketId, inputPayNum);
         try {
+            // 이미 결제된 티켓인지 확인하기 (결제된 거면 결제수단 입력 받을 필요도 없음)
+            if (paymentService.isAlreadyPaid(ticketId)) {
+                System.out.println("이미 결제가 완료된 티켓입니다.");
+                return; // case 1 에서 목록 조회 후, 무조건 결제되는 것 방지
+            }
+
+            // 결제되지 않은 티켓의 결제 정상 진행
+            System.out.print("\n결제를 위한 결제 수단을 선택해 주세요 : ");
+            String inputStrPayNum = scanner.nextLine();
+            int inputPayNum = Integer.parseInt(inputStrPayNum);
+
+            Payment payment = new Payment(0, 19000, null, ticketId, inputPayNum);
+
             boolean paySuccess = paymentService.payMovie(payment);
             if (paySuccess) {
                 System.out.println("결제가 성공적으로 완료되었습니다.");

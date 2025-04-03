@@ -14,6 +14,10 @@
         WHERE user_id = ?
     </query>
 
+    <query id="getUserByNickname">
+        SELECT * FROM users WHERE user_nickname = ?
+    </query>
+
     <query id="addUser">
         INSERT INTO users (user_nickname, user_password, user_status, user_created_at)
         VALUES (?, ?, ?, ?)
@@ -23,6 +27,10 @@
         UPDATE users SET username = ?, email = ?, password_hash = ?, role_id = ? WHERE user_id = ?
     </query>
 
+    <query id="changeUserPassword">
+        UPDATE users SET user_password = ? WHERE user_nickname = ?
+    </query>
+
     <query id="deleteUser">
         DELETE FROM users WHERE user_id = ?
     </query>
@@ -30,6 +38,11 @@
     <query id="loginUser">
         SELECT * FROM users WHERE user_nickname = ? AND user_password = ?
     </query>
+
+    <query id="changeStatusUser">
+        UPDATE users SET user_status = 'N' WHERE user_nickname = ?
+    </query>
+
 
 
 </queries>

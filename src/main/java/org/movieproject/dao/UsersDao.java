@@ -73,6 +73,29 @@ public class UsersDao {
         return users;
     }
 
+    public Users getUserByNickname(String userNickname) {
+        String query = QueryUtil.getQuery("getUserByNickname");
+        Users users = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, userNickname);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                users = new Users(
+                        rs.getInt("user_id"),
+                        rs.getString("user_nickname"),
+                        rs.getString("user_password"),
+                        rs.getString("user_status"),
+                        rs.getTimestamp("user_created_at").toLocalDateTime()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     // 📌 사용자 추가 (CREATE)
     public boolean addUser(Users users) {
         String query = QueryUtil.getQuery("addUser");
@@ -94,7 +117,6 @@ public class UsersDao {
         }
         return false;
     }
-
 
     public Users login(String userNickname, String userPassword){
         String query = QueryUtil.getQuery("loginUser");
@@ -119,6 +141,64 @@ public class UsersDao {
 
         return users;
     }
+
+    /**
+     * 📌 사용자 삭제 (DELETE)
+     */
+    public boolean deleteUser(int userId) {
+        String query = QueryUtil.getQuery("deleteUser");
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 📌 사용자 삭제 (DELETE)
+     */
+    public boolean changeStatusUser(String userNickname) {
+        String query = QueryUtil.getQuery("changeStatusUser");
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, userNickname);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int changeUserPassword(String nickname, String newPassword) {
+        String query = QueryUtil.getQuery("changeUserPassword");
+        int result = 0;
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, newPassword);
+            ps.setString(2, nickname);
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+
+
+
 
 
 }

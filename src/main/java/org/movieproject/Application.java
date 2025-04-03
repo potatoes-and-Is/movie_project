@@ -34,13 +34,13 @@ public class Application {
                 String choice = scanner.nextLine();
                 switch (choice) {
                     case "1" -> {
-                        myPageProcess(conn, scanner, loggedInUser);
+                        myPageProcess(conn, scanner, loggedInUser); // 마이 페이지
                     }
                     case "2" -> {
-                        movieProcess(conn, scanner, loggedInUser);
+                        movieProcess(conn, scanner, loggedInUser); // 영화 
                     }
                     case "3" -> {
-                        return;
+                        return; // 종료
                     }
                     default -> {
                         System.out.println("잘못된 입력입니다. 다시 선택하세요.");

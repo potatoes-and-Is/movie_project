@@ -27,6 +27,10 @@ public class SeatsView {
         this.scanner = new Scanner(System.in);
     }
 
+    public PaymentView getPaymentView() {
+        return this.paymentView;
+    }
+
     // 선택 가능한 좌석 출력
     public void showSeats(int scheduleChoice) {
         System.out.println("\n===== 다음은 예약 가능한 좌석입니다. =====");

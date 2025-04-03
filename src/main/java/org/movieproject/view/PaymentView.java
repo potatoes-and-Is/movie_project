@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class PaymentView {
     private final PaymentService paymentService;
     private final Scanner scanner;
+    private MovieView movieView;
 
     public PaymentView(Connection connection) {
         this.paymentService = new PaymentService(connection);
@@ -20,6 +21,11 @@ public class PaymentView {
 
         // 의존성 주입 방식(밖에서 만들어진 거 그냥 저장하여 순환 참조 방지) <- new로 직접 생성했더니 stackOverflow 발생하여 수정함
 
+    }
+
+    // setter 방식으로 moviewView 주입하기
+    public void setMovieView(MovieView movieView) {
+        this.movieView = movieView;
     }
 
     /* 결제 과정 시작 */
@@ -38,7 +44,7 @@ public class PaymentView {
 
             switch (choice) {
                 case 1:
-                    getAllPayMethods(ticketId, userId);
+                    getAllPayMethods(ticketId, userId, loginUser);
                     break;
                 case 2:
                     addPayMethod(userId);
@@ -61,7 +67,7 @@ public class PaymentView {
 
     /* 결제 흐름용 전용 함수 (switch case 1: 에서 실행됨) */
     /* 결제 수단 목록 조회 */
-    public void getAllPayMethods(int ticketId, int userId) {
+    public void getAllPayMethods(int ticketId, int userId, Users loginUser) {
         while (true) {
             try {
                 List<PayMethod> payMethods = paymentService.getAllPayMethods(userId);
@@ -76,7 +82,7 @@ public class PaymentView {
                                     + payMethod.getPayMethodNumber() + " (잔액 : "
                                     + payMethod.getPayMethodBalance() + "원)"));
                     // 결제하기
-                    payMovie(ticketId);
+                    payMovie(ticketId, loginUser);
                     return;
                 }
 
@@ -129,7 +135,7 @@ public class PaymentView {
     }
 
     /* 결제 등록하기 */
-    public void payMovie(int ticketId) {
+    public void payMovie(int ticketId, Users loginUsers) {
         try {
             // 이미 결제된 티켓인지 확인하기 (결제된 거면 결제수단 입력 받을 필요도 없음)
             if (paymentService.isAlreadyPaid(ticketId)) {
@@ -147,7 +153,7 @@ public class PaymentView {
             boolean paySuccess = paymentService.payMovie(payment);
             if (paySuccess) {
                 System.out.println("결제가 성공적으로 완료되었습니다.");
-                return;
+                movieView.showMenu(loginUsers);
             } else {
                 System.out.println("결제에 실패하였습니다.");
             }

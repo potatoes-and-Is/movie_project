@@ -35,16 +35,14 @@ public class MovieView {
         this.seatsView = new SeatsView(connection);
         this.scanner = new Scanner(System.in);
         this.connection = connection;
-    }
 
-    // setter 추가
-    public void setMovieView(MovieView movieView) {
-        this.movieView = movieView;
+        // movieView(this)를 PaymentView에 넘겨줌
+        this.seatsView.getPaymentView().setMovieView(this);
     }
 
     public void showMenu(Users loginUser) {
         while (true) {
-            System.out.println("===== 사용자 메뉴 =====");
+            System.out.println("\n===== 사용자 메뉴 =====");
             System.out.println("1. 영화 목록 보기");
             System.out.println("2. 예매정보 확인하기");
             System.out.print("원하시는 메뉴를 선택해주세요 : ");
@@ -75,7 +73,7 @@ public class MovieView {
                 return;
             }
 
-            System.out.println("\n예매 내역");
+            System.out.println("\n===== 예매 내역 =====");
             for (Tickets ticket : tickets) {
                 System.out.println("티켓 ID: " + ticket.getTicketId() +
                         ", 영화 제목: " + ticket.getMovieTitle() +

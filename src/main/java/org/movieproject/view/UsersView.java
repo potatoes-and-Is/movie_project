@@ -28,7 +28,6 @@ public class UsersView {
     /**
      * 📌 사용자 메뉴 출력
      * - 사용자가 CRUD 기능을 선택할 수 있도록 메뉴를 제공
-     * root로 로그인 했을 때 이동하는 관리자 전용 메뉴
      */
     public void showMenu() {
         while (true) {
@@ -154,19 +153,18 @@ public class UsersView {
     }
 
     void changeStatusUser() {
-        System.out.print("삭제할 사용자 회원 아이디(닉네임)를 입력하세요: ");
+        System.out.print("탈퇴할 사용자 회원 아이디(닉네임)를 입력하세요: ");
         String userNickname = scanner.next();
-        scanner.nextLine(); // 개행 문자 처리
-
+        scanner.nextLine();
         try {
             boolean success = usersService.changeStatusUser(userNickname);
             if (success) {
-                System.out.println("사용자가 성공적으로 삭제되었습니다.");
+                System.out.println("사용자가 성공적으로 탈퇴되었습니다.");
             } else {
-                System.out.println("사용자 삭제에 실패하였습니다.");
+                System.out.println("사용자 탈퇴에 실패하였습니다.");
             }
         } catch (SQLException e) {
-            System.out.println("사용자 삭제 중 오류가 발생했습니다.");
+            System.out.println("사용자 탈퇴 중 오류가 발생했습니다.");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

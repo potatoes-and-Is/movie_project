@@ -7,6 +7,140 @@
         FROM users
     </query>
 
+    <query id = "cancelTicket">
+        UPDATE
+        tickets
+        SET
+        cancel_status = 'Y'
+        WHERE ticket_id = ?
+    </query>
+
+    <query id = "getTicketsById">
+        SELECT
+        *
+        FROM tickets
+        WHERE ticket_id = ?
+        AND cancel_status = 'N'
+    </query>
+
+    <query id = "getTicketsByUserId">
+        SELECT
+        *
+        FROM tickets
+        WHERE user_id = ?
+        AND cancel_status = 'N'
+    </query>
+
+    <!--  mypage query  -->
+    <query id="getFindUser">
+        SELECT * from users
+        where users.user_id;
+    </query>
+
+    <query id="getTicketsByUserId">
+        SELECT
+        T.ticket_id,
+        M.movie_title,
+        S.schedule_start_time
+        FROM Tickets T
+        JOIN cinema_infos ci ON ci.cinema_info_id = T.cinema_info_id
+        JOIN Users U ON T.user_id = U.user_id
+        JOIN Schedules S ON S.schedule_id = ci.schedule_id
+        JOIN Movies M ON M.movie_id = s.movie_id
+        WHERE T.user_id = ?
+        AND T.cancel_status = 'N';
+    </query>
+
+    <query id="getTicketById">
+        SELECT
+        T.ticket_id,
+        U.user_nickname ,
+        M.movie_title,
+        S.schedule_start_time ,
+        SE.seat_number
+        FROM Tickets T
+        JOIN Users U ON T.user_id = U.user_id
+        JOIN Cinema_Infos CI ON T.cinema_info_id = CI.cinema_info_id
+        JOIN Schedules S ON CI.schedule_id = S.schedule_id
+        JOIN Movies M ON s.movie_id = M.movie_id
+        JOIN Seats SE ON CI.seat_id = SE.seat_id
+        WHERE T.ticket_id = ?;
+    </query>
+
+    <query id="payMovie">
+        INSERT INTO payments (payment_price, ticket_id, pay_method_id)
+        VALUES (?, ?, ?)
+    </query>
+
+    <query id="getAllPayMethods">
+        SELECT
+        *
+        FROM pay_methods
+        WHERE user_id = ?
+    </query>
+
+    <query id="addPayMethod">
+        INSERT INTO pay_methods (pay_method_number, pay_method_balance, user_id, pay_method_pwd)
+        VALUES (?, 50000, ?, ?)
+    </query>
+
+    <query id="saveTicket">
+        INSERT INTO tickets (cinema_info_id, user_id)
+        VALUES (?, ?);
+    </query>
+
+    <query id="getAllSeats">
+        SELECT
+        *
+        FROM seats
+    </query>
+
+    <query id="getReservedSeatbyScheduleId">
+        SELECT
+        c.seat_id,
+        se.seat_number
+        FROM tickets t
+        JOIN cinema_infos c ON t.cinema_info_id = c.cinema_info_id
+        JOIN schedules s ON s.schedule_id = c.schedule_id
+        JOIN seats se ON se.seat_id = c.seat_id
+        WHERE t.cancel_status = 'N' AND s.schedule_id = ?
+    </query>
+
+    <query id="addCinemaInfo">
+        INSERT INTO Cinema_Infos(schedule_id, seat_id)
+        values(?, ?);
+    </query>
+
+    <query id="getSeatBySeatNumber">
+        SELECT
+        s.seat_id,
+        s.seat_number
+        FROM seats s
+        WHERE s.seat_number = ?;
+    </query>
+
+    <query id="getMovieInfobyScheduleId">
+        SELECT
+        m.movie_title,
+        s.schedule_start_time
+        FROM schedules s
+        JOIN movies m ON s.movie_id = m.movie_id
+        WHERE s.schedule_id = ?;
+    </query>
+
+    <!-- 모든 영화 조회 쿼리 -->
+    <query id="getAllSchedule">
+        SELECT s.schedule_id, s.schedule_start_time,
+        m.movie_id, m.movie_title, m.movie_price
+        FROM Schedules s
+        JOIN Movies m ON s.movie_id = m.movie_id;
+    </query>
+
+    <!-- 영화Id로 모든 영화 목록 조회 쿼리 -->
+    <query id="getMovieById">
+        SELECT * FROM MOVIES WHERE movie_id = ?
+    </query>
+
     <query id="getUserById">
         SELECT
         *
@@ -44,5 +178,27 @@
     </query>
 
 
+    <query id="isAlreadyPaid">
+        SELECT COUNT(*) AS cnt FROM payments WHERE ticket_id = ?
+    </query>
 
+    <query id="cancelUnpaidTicket">
+        DELETE FROM cinema_infos WHERE cinema_info_id = (
+            SELECT cinema_info_id FROM tickets WHERE ticket_id = ?
+        )
+    </query>
+
+    <!-- 티켓 ID로 결제 ID 조회 쿼리 -->
+    <query id = "getPaymentById">
+        SELECT payment_id FROM tickets
+        INNER JOIN payments ON payments.ticket_id = tickets.ticket_id
+        WHERE payments.ticket_id = ?
+    </query>
+
+    <!--  취소한 티켓 결제 정보 삭제 쿼리 -->
+    <query id = "deletePayment">
+        DELETE
+        FROM payments
+        WHERE payment_id = ?
+    </query>
 </queries>

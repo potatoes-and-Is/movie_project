@@ -80,7 +80,7 @@ public class UsersService {
      * @throws IllegalArgumentException 중복하는 닉네임이 존재하는 경우 발생
      */
     public boolean registerUser(Users users) throws SQLException {
-        // 중복 닉네임 검사
+        // 중복 이메일 검사
         List<Users> existingUsers = getAllUsers();
         for (Users u : existingUsers) {
             if (u.getUserNickname().equals(users.getUserNickname())) {

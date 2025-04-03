@@ -118,6 +118,7 @@ public class UsersDao {
         return false;
     }
 
+
     public Users login(String userNickname, String userPassword){
         String query = QueryUtil.getQuery("loginUser");
         Users users = null;
@@ -160,9 +161,6 @@ public class UsersDao {
         return false;
     }
 
-    /**
-     * 📌 사용자 삭제 (DELETE)
-     */
     public boolean changeStatusUser(String userNickname) {
         String query = QueryUtil.getQuery("changeStatusUser");
 

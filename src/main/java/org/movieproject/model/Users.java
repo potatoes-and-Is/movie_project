@@ -3,13 +3,6 @@ package org.movieproject.model;
 import java.time.LocalDateTime;
 
 public class Users {
-    /*
-      userId - int, 회원ID(PK)
-      userNickname - String, 회원 닉네임
-      userPassword - String, 비밀번호
-      userStatus - String, 상태
-      userCreatedAt - localdatetime, 등록일
-      * */
     private int userId;
     private String userNickname;
     private String userPassword;
@@ -23,6 +16,11 @@ public class Users {
         this.userStatus = userStatus;
         this.userCreatedAt = userCreatedAt;
     }
+    public Users(String userNickname, String userPassword) {
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+    }
+
 
     public int getUserId() {
         return userId;

@@ -52,4 +52,8 @@ public class TicketsService {
         }
         return true;
     }
+
+    public int saveTicket(Tickets tickets) {
+        return ticketsDAO.saveTicket(tickets);
+    }
 }

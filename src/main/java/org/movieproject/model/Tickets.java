@@ -7,24 +7,24 @@ public class Tickets {
     private int ticketId; // 예약 ID
     private char cancelStatus; // 티켓 취소 여부
     private int userId; // 회원 ID (외래키)
-    private int cinema_info_id; // 예약 ID
+    private int cinemaInfoId; // 예약 ID
     private String userNickname;
     private String movieTitle;
     private String scheduleStartTime;
     private String seatNumber;
 
-    public Tickets(int ticketId, char cancelStatus, int userId, int cinema_info_id) {
+    public Tickets(int ticketId, char cancelStatus, int userId, int cinemaInfoId) {
         this.ticketId = ticketId;
         this.cancelStatus = cancelStatus;
         this.userId = userId;
-        this.cinema_info_id = cinema_info_id;
+        this.cinemaInfoId = cinemaInfoId;
     }
 
-    public Tickets(int ticketId, char cancelStatus, int userId, int cinema_info_id, String userNickname, String movieTitle, String scheduleStartTime, String seatNumber) {
+    public Tickets(int ticketId, char cancelStatus, int userId, int cinemaInfoId, String userNickname, String movieTitle, String scheduleStartTime, String seatNumber) {
         this.ticketId = ticketId;
         this.cancelStatus = cancelStatus;
         this.userId = userId;
-        this.cinema_info_id = cinema_info_id;
+        this.cinemaInfoId = cinemaInfoId;
         this.userNickname = userNickname;
         this.movieTitle = movieTitle;
         this.scheduleStartTime = scheduleStartTime;
@@ -45,6 +45,11 @@ public class Tickets {
         this.seatNumber = seat_number;
     }
 
+    public Tickets(int cinemaInfoId, int userId) {
+        this.cinemaInfoId = cinemaInfoId;
+        this.userId = userId;
+    }
+
     public int getTicketId() {
         return ticketId;
     }
@@ -57,8 +62,8 @@ public class Tickets {
         return userId;
     }
 
-    public int getCinema_info_id() {
-        return cinema_info_id;
+    public int getcinemaInfoId() {
+        return cinemaInfoId;
     }
 
     public String getUserNickname() {
@@ -70,7 +75,7 @@ public class Tickets {
     }
 
     public String getScheduleStartTime() {
-        return scheduleStartTime;
+        return String.valueOf(scheduleStartTime);
     }
 
     public String getSeatNumber() {

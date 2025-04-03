@@ -160,6 +160,8 @@ public class PaymentView {
             } else {
                 System.out.println("결제에 실패하였습니다.");
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         } catch (SQLException e) {
             System.out.println("결제 진행 중 오류가 발생했습니다.");
         }
@@ -172,7 +174,9 @@ public class PaymentView {
 
         if (isTicketDeleted) {
             // 삭제 완료되면, showMenu() 호출하기
-//            movieView.showMenu(loginUser);
+            movieView.showMenu(loginUser);
+        } else {
+            System.out.println("예매 삭제에 실패했습니다. 다시 시도해주세요.");
         }
     }
 }

@@ -44,6 +44,7 @@ public class PaymentService {
     /* 결제 등록하기 */
     public boolean payMovie(Payment payment) throws SQLException {
         //검증 처리 필요
+        validatePayment(payment);
 
         return paymentDao.payMovie(payment);
     }
@@ -54,10 +55,15 @@ public class PaymentService {
         return paymentDao.isAlreadyPaid(ticketId);
     }
 
-    /*  */
+    /* 결제되지 않은 티켓 삭제하기 */
     public boolean cancelUnpaidTicket(int ticketId) {
-
-        return paymentDao.cancelUnpaidTicket(ticketId);
+        try {
+            return paymentDao.cancelUnpaidTicket(ticketId);
+        } catch (Exception e) {
+            // 사용자 메시지 전달
+            System.out.println("예매 취소 중 문제가 발생했습니다.");
+            return false;
+        }
     }
 
     /* 결제 정보 삭제 */
@@ -79,6 +85,25 @@ public class PaymentService {
         // 비밀번호: 숫자 4자리
         if (!password.matches("\\d{4}")) {
             throw new IllegalArgumentException("비밀번호는 숫자 4자리여야 합니다.");
+        }
+    }
+
+    /* 결제 등록 시 유효성 검사 */
+    private void validatePayment(Payment payment) {
+        if (payment == null) {
+            throw new IllegalArgumentException("결제 정보가 없습니다.");
+        }
+
+        if (payment.getTicketId() <= 0) {
+            throw new IllegalArgumentException("유효하지 않은 티켓 정보입니다.");
+        }
+
+        if (payment.getPayMethodId() <= 0) {
+            throw new IllegalArgumentException("유효하지 않은 결제 수단입니다.");
+        }
+
+        if (payment.getPaymentPrice() <= 0) {
+            throw new IllegalArgumentException("결제 금액은 0보다 커야 합니다.");
         }
     }
 }

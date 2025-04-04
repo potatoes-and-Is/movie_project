@@ -60,8 +60,15 @@ public class PaymentService {
     }
 
     /* 결제 정보 삭제 */
-    public void deletePayment(int ticketId) {
+    public void deletePayment(int ticketId) throws SQLException {
         Payment payment = paymentDao.getPaymentById(ticketId);
-        paymentDao.deletePayment(payment.getPaymentId());
+        if (payment == null) {
+            throw new IllegalArgumentException("티켓의 결제 정보가 없습니다.");
+        }
+
+        boolean result = paymentDao.deletePayment(payment.getPaymentId());
+        if (!result) {
+            throw new SQLException("결제 정보 삭제하는 과정에서 오류가 발생하였습니다.");
+        }
     }
 }

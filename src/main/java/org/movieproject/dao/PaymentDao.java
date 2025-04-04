@@ -115,7 +115,7 @@ public class PaymentDao {
         return false;
     }
 
-
+    /* 결제 취소에 필요한 결제 ID를 티켓 ID를 이용하여 조회  */
     public Payment getPaymentById(int ticketId) {
         String query = QueryUtil.getQuery("getPaymentById");
         Payment payment = null;
@@ -137,16 +137,17 @@ public class PaymentDao {
     }
 
     /* 취소한 티켓 결제 정보 삭제 */
-    public void deletePayment(int paymentId) {
+    public boolean deletePayment(int paymentId) {
         String query = QueryUtil.getQuery("deletePayment");
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, paymentId);
 
             int affectedRows = ps.executeUpdate();
-
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

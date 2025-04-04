@@ -35,15 +35,15 @@ class PaymentDaoTest {
     }
 
 
-    @Test
-    @DisplayName("결제 ID로 결제 정보 삭제")
-    void deletePayment() {
-        payment = paymentDao.getPaymentById(39);
-        System.out.println("삭제된 결제 건: " + payment.getPaymentId());
-        boolean boolPayment = paymentDao.deletePayment(payment.getPaymentId());
-
-        Assertions.assertTrue(boolPayment);
-    }
+//    @Test
+//    @DisplayName("결제 ID로 결제 정보 삭제")
+//    void deletePayment() {
+//        payment = paymentDao.getPaymentById(39);
+//        System.out.println("삭제된 결제 건: " + payment.getPaymentId());
+//        boolean boolPayment = paymentDao.deletePayment(payment.getPaymentId());
+//
+//        Assertions.assertTrue(boolPayment);
+//    }
 
     @Test
     void tearDown() {

@@ -1,8 +1,6 @@
 package org.movieproject.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.movieproject.config.JDBCConnection;
 import org.movieproject.model.Users;
 
@@ -41,24 +39,74 @@ class UsersDaoTest {
     }
 
     @Test
-    void getAllUsers() {
+    @DisplayName("모든 사용자 조회 테스트")
+    void testGetAllUsers() {
+        // Act: DAO를 통해 데이터 조회
+        List<Users> users = usersDao.getAllUsers();
+
+        // Assert: 결과 검증
+        Assertions.assertNotNull(users, "사용자 목록은 null이 아니어야 합니다.");
+        Assertions.assertFalse(users.isEmpty(), "사용자 목록은 비어 있지 않아야 합니다.");
     }
 
     @Test
-    void getUserById() {
+    @DisplayName("특정 사용자 조회 테스트")
+    void testGetUserById() {
+        // Act: 특정 사용자 조회
+        Users retrievedUser = usersDao.getUserById(testUserId);
+
+        // Assert: 조회된 값 검증
+        Assertions.assertNotNull(retrievedUser, "사용자가 존재해야 합니다.");
+        Assertions.assertEquals(TEST_USERNICKNAME, retrievedUser.getUserNickname(), "사용자 이름이 일치해야 합니다.");
+        Assertions.assertEquals(TEST_PASSWORD, retrievedUser.getUserPassword(), "이메일이 일치해야 합니다.");
     }
 
     @Test
-    void addUser() {
+    void getUserByNickname() {
+// Act: 특정 사용자 조회
+        Users retrievedUser = usersDao.getUserByNickname(TEST_USERNICKNAME);
+
+        // Assert: 조회된 값 검증
+        Assertions.assertNotNull(retrievedUser, "사용자가 존재해야 합니다.");
+        Assertions.assertEquals(TEST_USERNICKNAME, retrievedUser.getUserNickname(), "사용자 이름이 일치해야 합니다.");
+        Assertions.assertEquals(TEST_PASSWORD, retrievedUser.getUserPassword(), "이메일이 일치해야 합니다.");
+    }
+
+    @Test
+    @DisplayName("사용자 추가 테스트")
+    void testAddUser() {
+        // Arrange: 새로운 사용자 객체 생성
+        Users newUser = new Users(0, "new_user", "newpassword", "Y", null);
+
+        // Act: 사용자 추가
+        boolean isAdded = usersDao.addUser(newUser);
+
+        // Assert: 추가 확인
+        Assertions.assertTrue(isAdded, "사용자가 성공적으로 추가되어야 합니다.");
     }
 
     @Test
     void login() {
+        Users user = usersDao.login(TEST_USERNICKNAME, TEST_PASSWORD);
+        Assertions.assertNotNull(user, "로그인에 성공해야 합니다.");
+        Assertions.assertEquals(TEST_USERNICKNAME, user.getUserNickname(), "닉네임이 일치해야 합니다.");
+
     }
 
     @Test
-    void deleteUser() {
+    @DisplayName("사용자 삭제 테스트")
+    void testDeleteUser() {
+        // Act: 사용자 삭제
+        boolean isDeleted = usersDao.deleteUser(testUserId);
+
+        // Assert: 삭제 결과 확인
+        Assertions.assertTrue(isDeleted, "사용자가 성공적으로 삭제되어야 합니다.");
+
+        // 삭제 후 다시 조회하면 null이 되어야 함
+        Users retrievedUser = usersDao.getUserById(testUserId);
+        Assertions.assertNull(retrievedUser, "삭제된 사용자는 조회되지 않아야 합니다.");
     }
+
 
     @AfterEach
     void tearDown() {

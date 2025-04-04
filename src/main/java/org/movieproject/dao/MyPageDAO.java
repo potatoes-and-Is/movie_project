@@ -29,7 +29,7 @@ public class MyPageDAO {
 
             while (rs.next()) {
                 Tickets ticket = new Tickets(
-                        rs.getInt("ticket_id"), // --> tickets 배열의 인덱스 불러오기 변경
+                        rs.getInt("ticket_id"),
                         rs.getString("movie_title"),
                         rs.getString("schedule_start_time")
                 );

@@ -42,6 +42,7 @@ public class MovieView {
             System.out.println("===== 사용자 메뉴 =====");
             System.out.println("1. 영화 목록 보기");
             System.out.println("2. 예매정보 확인하기");
+            System.out.println("0. 로그아웃");
             System.out.print("원하시는 메뉴를 선택해주세요 : ");
             try {
                 int choice = scanner.nextInt();
@@ -50,6 +51,10 @@ public class MovieView {
                 switch (choice) {
                     case 1 -> printAllMovies(loginUser); // System.out.println("현재 상영 중인 영화 목록입니다.");
                     case 2 -> showUserTickets(loginUser);
+                    case 0 -> {
+                        System.exit(0);
+
+                    }
                     default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
                 }
             } catch (InputMismatchException e) {
@@ -108,7 +113,7 @@ public class MovieView {
                     System.out.println("뒤로 가기.");
                     return;
                 }
-                default -> System.out.println("다시 입력하세요.");
+                default -> System.out.println("티켓 ID를 다시 입력하세요.");
             }
         }
     }

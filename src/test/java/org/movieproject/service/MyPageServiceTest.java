@@ -2,7 +2,7 @@ package org.movieproject.service;
 
 import org.junit.jupiter.api.*;
 import org.movieproject.config.JDBCConnection;
-import org.movieproject.dao.MyPageDAO;
+import org.movieproject.dao.MyPageDao;
 import org.movieproject.model.Tickets;
 
 import java.sql.Connection;

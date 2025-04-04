@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MyPageDAOTest {
 
     private Connection connection;
-    private MyPageDAO dao;
+    private MyPageDao dao;
     private int testUserId = 1;   // 테스트할 사용자 ID
     private int testTicketId = 5; // 테스트할 티켓 ID
 
@@ -22,7 +22,7 @@ class MyPageDAOTest {
     void setUp() throws SQLException {
         connection = JDBCConnection.getConnection();
         connection.setAutoCommit(false); // 테스트 후 롤백
-        dao = new MyPageDAO(connection);
+        dao = new MyPageDao(connection);
     }
 
     // 사용자 ID로 티켓 목록 조회

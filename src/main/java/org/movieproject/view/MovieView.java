@@ -122,5 +122,4 @@ public class MovieView {
             e.printStackTrace();
         }
     }
-
 }

@@ -219,47 +219,4 @@ public class UsersView {
             break; // 전체 흐름 종료
         }
     }
-
-//    void changeUserPassword() throws SQLException {
-//        System.out.print("닉네임을 입력하세요: ");
-//        String userNickname = scanner.next();
-//        scanner.nextLine(); // 개행 문자 처리
-//
-//        System.out.print("현재 비밀번호를 입력하세요: ");
-//        String currentPassword = scanner.nextLine();
-//
-//        Users user = usersService.getUserByNickname(userNickname);
-//
-//        if (user == null) {
-//            System.out.println("존재하지 않는 사용자입니다.");
-//            return;
-//        }
-//
-//        if (!user.getUserPassword().equals(currentPassword)) {
-//            System.out.println("비밀번호가 일치하지 않습니다.");
-//            return;
-//        }
-//
-//        System.out.print("새 비밀번호를 입력하세요: ");
-//        String newPassword = scanner.nextLine();
-//
-//        System.out.print("새 비밀번호를 한 번 더 입력하세요: ");
-//        String confirmPassword = scanner.nextLine();
-//
-//        if (!newPassword.equals(confirmPassword)) {
-//            System.out.println("입력한 새 비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
-//            return;
-//        }
-//
-//        try {
-//            boolean success = usersService.changeUserPassword(userNickname, newPassword);
-//            if (success) {
-//                System.out.println("비밀번호가 성공적으로 변경되었습니다.");
-//            } else {
-//                System.out.println("비밀번호 변경에 실패하였습니다.");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("비밀번호 변경 중 오류가 발생했습니다.");
-//        }
-//    }
 }

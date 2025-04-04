@@ -1,12 +1,10 @@
 package org.movieproject.view;
 
 import org.movieproject.model.Tickets;
-import org.movieproject.model.Users;
 import org.movieproject.service.TicketsService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLXML;
 
 public class TicketsView {
 
@@ -17,17 +15,15 @@ public class TicketsView {
         this.ticketsService = new TicketsService(connection);
     }
 
-    public void saveTicket(int cinemaInfoId, int userId) throws SQLException {
+    public int saveTicket(int cinemaInfoId, int userId) throws SQLException {
         Tickets ticket = new Tickets(cinemaInfoId, userId);
+        int ticketId = 0;
         try{
-            boolean success = ticketsService.saveTicket(ticket);
-            if (success) {
-                System.out.println("성공적으로 저장되었습니다.");
-            } else{
-                System.out.println("저장에 실패했습니다.");
-            }
+            ticketId = ticketsService.saveTicket(ticket);
+
         } catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
+        return ticketId;
     }
 }

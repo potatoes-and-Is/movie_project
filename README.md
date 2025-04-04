@@ -1,3 +1,4 @@
+### === Commit Convention ====
 ####   feat        : 기능 (새로운 기능)
 ####   fix         : 버그 (버그 수정)
 ####   refactor    : 리팩토링

@@ -29,7 +29,7 @@ public class PaymentView {
     }
 
     /* 결제 과정 시작 */
-    public void showPaymentMenu(int ticketId, Users loginUser) {
+    public void showPaymentMenu(int ticketId, Users loginUser) throws SQLException {
         int userId = loginUser.getUserId();
         while (true) {
             System.out.println("\n===== 결제 관리 메뉴 =====");
@@ -129,6 +129,9 @@ public class PaymentView {
             } else {
                 System.out.println("결제 수단 등록에 실패하였습니다.");
             }
+        } catch (IllegalArgumentException e) {
+            // 유효성 검사 실패 시 메시지 출력
+            System.out.println(e.getMessage());
         } catch (SQLException e) {
             System.out.println("결제 수단 등록 중 오류가 발생했습니다.");
         }
@@ -157,19 +160,27 @@ public class PaymentView {
             } else {
                 System.out.println("결제에 실패하였습니다.");
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         } catch (SQLException e) {
             System.out.println("결제 진행 중 오류가 발생했습니다.");
         }
     }
 
     /* MovieView의 showMenu(Users loginUser) 로 이동하기 */
-    public void goToMovieSelect(int ticketId, Users loginUser) {
-        // 해당 userId의 tickets 와 cinema_info 삭제하기
-        boolean isTicketDeleted = paymentService.cancelUnpaidTicket(ticketId);
+    public void goToMovieSelect(int ticketId, Users loginUser) throws SQLException {
+        try {
+            // 해당 userId의 tickets 와 cinema_info 삭제하기
+            boolean isTicketDeleted = paymentService.cancelUnpaidTicket(ticketId);
 
-        if (isTicketDeleted) {
-            // 삭제 완료되면, showMenu() 호출하기
-//            movieView.showMenu(loginUser);
+            if (isTicketDeleted) {
+                // 삭제 완료되면, showMenu() 호출하기
+                movieView.showMenu(loginUser);
+            } else {
+                System.out.println("예매 삭제에 실패했습니다. 다시 시도해주세요.");
+            }
+        } catch (SQLException e) {
+            System.out.println("예매 삭제 중 오류가 발생했습니다.");
         }
     }
 }

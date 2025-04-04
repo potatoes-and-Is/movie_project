@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketsDAO {
+public class TicketsDao {
 
     private final Connection connection;
 
-    public TicketsDAO(Connection connection) {
+    public TicketsDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -39,29 +39,6 @@ public class TicketsDAO {
         return tickets;
     }
 
-    // 회원 ID별 티켓 리스트 조회
-    public List<Tickets> getTicketsByUserId(int userId) {
-        String query = QueryUtil.getQuery("getTicketsByUserId");
-        List<Tickets> tickets = new ArrayList<Tickets>();
-
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                tickets.add(new Tickets(
-                        rs.getInt("ticket_id"),
-                        rs.getString("cancel_status").charAt(0),
-                        rs.getInt("user_id"),
-                        rs.getInt("cinema_info_id")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tickets;
-    }
-
     // 예매 취소 시 예매 취소 여부 'Y'로 변경
     public boolean cancelTicket(Tickets tickets) {
         String query = QueryUtil.getQuery("cancelTicket");
@@ -78,19 +55,25 @@ public class TicketsDAO {
     }
 
     /* 생성된 티켓 저장 */
-    public boolean saveTicket(Tickets tickets) {
+    public int saveTicket(Tickets tickets) {
         String query = QueryUtil.getQuery("saveTicket");
+        int ticketId = 0;
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, tickets.getcinemaInfoId());
             ps.setInt(2, tickets.getUserId());
 
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
+            int res = ps.executeUpdate();
+            if (res > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    ticketId = rs.getInt(1);
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return ticketId;
     }
 }

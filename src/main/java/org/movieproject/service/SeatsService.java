@@ -43,6 +43,13 @@ public class SeatsService {
         return availSeats;
     }
 
+    // 해당 스케줄에 예약 불가능한 좌석 가져오기
+    public List<Seats> getUnavilSeatsbyScheduleId(int scheduleId) {
+
+        List<Seats> unavilSeats = seatsDao.getUnavailSeats(scheduleId);
+        return unavilSeats;
+    }
+
     // schedule_id로 영화 제목과 상영시간 가져오기
     public String getMoviesbyScheduleId(int scheduleId) {
 

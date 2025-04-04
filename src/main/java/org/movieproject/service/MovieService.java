@@ -1,6 +1,6 @@
 package org.movieproject.service;
 
-import org.movieproject.dao.MyPageDAO;
+import org.movieproject.dao.MyPageDao;
 import org.movieproject.dao.ScheduleDao;
 import org.movieproject.model.Movies;
 import org.movieproject.model.Schedules;
@@ -16,7 +16,7 @@ public class MovieService {
 
     private static final Logger log = LoggerFactory.getLogger(MovieService.class);
     private final ScheduleDao scheduleDao;
-    private final MyPageDAO myPageDao;
+    private final MyPageDao myPageDao;
     private final Connection connection;
 
     /**
@@ -25,7 +25,7 @@ public class MovieService {
     public MovieService(Connection connection) {
         this.connection = connection;
         this.scheduleDao = new ScheduleDao(connection);
-        this.myPageDao = new MyPageDAO(connection);
+        this.myPageDao = new MyPageDao(connection);
     }
 
     // 모든 영화 출력
